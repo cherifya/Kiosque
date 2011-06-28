@@ -1,0 +1,66 @@
+.sc-list-view.i-table-view {
+	background-color: white;
+}
+
+.i-list-item-view {
+	font-family: helvetica;
+	border-bottom: 1px solid #D9D9D9;
+}
+
+.sc-list-item-view label {
+  display: block;
+	height: 20px;
+	top: 45%;
+	left: 4px;
+	line-height: 20px;
+	margin-top: -9px;
+	margin-left: 20px;
+	overflow: hidden;
+	position: absolute;
+	right: 4px;
+	font-size: 20px;
+	font-weight: bold;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+label.has-detail {
+	display: block;
+	height: 20px;
+	left: 4px;
+	line-height: 20px;
+	margin-top: -9px;
+	overflow: hidden;
+	position: absolute;
+	right: 4px;
+	font-size: 20px;
+	font-weight: bold;
+	text-overflow: ellipsis;
+	top: 30%;
+	white-space: nowrap;
+}
+
+label.detail {
+	display: block;
+	//height: 20px;
+	left: 4px;
+	line-height: 20px;
+	margin-top: -9px;
+	overflow: hidden;
+	position: absolute;
+	right: 4px;
+	text-overflow: ellipsis;
+	top: 70%;
+	color: gray;
+	font-size: 14px;
+	font-weight: normal;
+	white-space: nowrap;
+}
+
+.sel label.detail {
+	color: white;
+}
+
+.i-table-view-spinner {
+  z-index: 100;
+}
