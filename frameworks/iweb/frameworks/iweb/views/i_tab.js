@@ -2,7 +2,7 @@
 // Project:   Tab.TabView
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
-/*globals Tab */
+/*globals Iweb */
 sc_require('views/i_scene');
 
 Iweb.ITabBarItem = SC.Object.extend({
@@ -35,9 +35,9 @@ Iweb.ITabView = SC.View.extend(
 
 		//Add the scene view
     view = this.createChildView(
-      Iweb.ISceneView.design({
+      SC.SceneView.design({
 		    layout: { top: 0, right: 0, bottom: 44, left: 0 },
-		    transitionDuration: 0,
+		    transitionDuration: 200,
 				tabControl: this,
 				
 				//override so that it looks for view directly in the object instead of the mainPage
