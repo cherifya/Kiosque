@@ -5,4 +5,6 @@
 
 # Add initial buildfile information here
 config :iweb, :required => [:sproutcore, :"sproutcore/animation"]
-config :demo, :required => [:sproutcore, :iweb]
+config :demo, :required => [:sproutcore, :iweb], :theme => "sproutcore/ace", :css_theme => "ace.demo"
+
+config :carrousel, :required => [:sproutcore, :iweb], :theme => "sproutcore/ace", :css_theme => "ace.carrousel"

@@ -36,7 +36,7 @@ Tab.myController = SC.ObjectController.create(
 				
 				topToolbar: SC.NavigationBarView.design({
 				  childViews: 'labelView'.w(),
-					titntColor: 'black',
+					tintColor: 'black',
 
 					labelView: SC.LabelView.design({
 					  layout: { centerX: 0, centerY: 0, width: 100, height: 24 },
@@ -56,7 +56,7 @@ Tab.myController = SC.ObjectController.create(
 				}),
 				
 				pushButton: SC.ButtonView.design({
-				  layout: { centerX: 0, centerY: 0, width: 100, height: 24 },
+				  layout: { centerX: 0, centerY: 0, width: 100, height: 30 },
 				  title: 'Push Red',
 				  action: 'pushRed',
 				  target: 'Tab.myController',
@@ -77,7 +77,7 @@ Tab.myController = SC.ObjectController.create(
 				title: 'Red',
 				
 				topToolbar: SC.NavigationBarView.design({
-				  childViews: 'leftButton labelView'.w(),
+				  childViews: 'labelView'.w(),
 
 					labelView: SC.LabelView.design({
 					  layout: { centerX: 0, centerY: 0, width: 100, height: 24 },
@@ -97,8 +97,8 @@ Tab.myController = SC.ObjectController.create(
 				}),
 				
 				labelBenin: SC.ButtonView.design({
-				  layout: { centerX: 0, centerY: 0, width: 100, height: 24 },
-				  title: 'BENIN',
+				  layout: { centerX: 0, centerY: 0, width: 100, height: 30 },
+				  title: 'NO-OP',
 					controlSize: SC.HUGE_CONTROL_SIZE
 				})
 			})

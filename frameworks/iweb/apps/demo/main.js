@@ -43,14 +43,14 @@ Tab.main = function main() {
 		}),
 		
 		pushButton: SC.ButtonView.design({
-		  layout: { centerX: 0, centerY: 0, width: 100, height: 24 },
+		  layout: { centerX: 0, centerY: 0, width: 100, height: 30 },
 		  title: 'Push Yellow',
 		  action: 'pushYellow',
 		  target: 'Tab.myController',
-			controlSize: SC.HUGE_CONTROL_SIZE
+		  controlSize: SC.HUGE_CONTROL_SIZE
 		}),
 	});
-	Tab.mainPage.mainPane.tabbedView.sceneView.master1.push(view);
+	Tab.mainPage.mainPane.tabbedView.master1.push(view);
 
 } ;
 
