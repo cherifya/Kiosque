@@ -326,7 +326,6 @@ Iweb.TabControlView = SC.View.extend(
 	  var t = this._touch;
 	  
 	  var deltaX = evt.pageX - t.start.x;
-	  console.log('deltaX: '+ deltaX) ;
     
     this._flick(deltaX);
 	},
@@ -339,15 +338,15 @@ Iweb.TabControlView = SC.View.extend(
 	  
 	  var frame = this.get('frame');
 	  
-	  if (Math.abs(deltaX) >= (frame.width/2)) {
+	  if (Math.abs(deltaX) >= (frame.width/3)) {
 	    //tabs have flicked
 	    if (deltaX > 0) {
-	      //move right
-	      this.navigateToTab(this.currentTabIndex + 1) ;
-	    }
-	    else {
 	      //move left
 	      this.navigateToTab(this.currentTabIndex - 1) ;
+	    }
+	    else {
+	      //move right
+	      this.navigateToTab(this.currentTabIndex + 1) ;
 	    }
 	  }
 	  else {
@@ -357,11 +356,15 @@ Iweb.TabControlView = SC.View.extend(
 	},
 	
 	_flick: function(deltaX) {
-	  for(var i = 0; i < this._tabViews.length; i++) {
+	  var currentTabIndex = this.currentTabIndex ;
+	  var frame = this.get('frame') ;
+	  for(var i = currentTabIndex - 1; i < this._tabViews.length && i <= currentTabIndex + 1; i++) {
+	    if (i < 0) continue ;
 			var view = this._tabViews[i] ;
+			var indexDelta = view.tabIndex - currentTabIndex ;
 			
-			var f = view.get('frame') ;
-			view.adjust({left: (f.x + deltaX) });
+			var defaultX = indexDelta * frame.width ;
+			view.adjust({left: (defaultX + deltaX) });
 			
 		}
 	}

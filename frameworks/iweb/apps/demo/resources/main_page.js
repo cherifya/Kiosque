@@ -15,7 +15,7 @@ Tab.mainPage = SC.Page.design({
     
     tabbedView: Iweb.TabControlView.design({
 			layout: { top: 0, left: 0, bottom: 0, right:0},			
-			tabs: "master1 master2 master3".w(),
+			tabs: "master1 master3 master4 master5".w(),
 			nowShowing: 'master2',
 			isTabBarVisible: YES,
 			
@@ -48,7 +48,27 @@ Tab.mainPage = SC.Page.design({
 			  childViews: ''.w(),
 				backgroundColor: 'brown',
 				tabBarItem: Iweb.ITabBarItem.create({
-					title: "Search",
+					title: "Master 3",
+					image: sc_static('images/music/searchButton') 
+				})
+			}),
+			
+			master4: SC.View.design({
+			  layout: { top: 0, right: 0, bottom: 0, left: 0 },
+			  childViews: ''.w(),
+				backgroundColor: 'yellow',
+				tabBarItem: Iweb.ITabBarItem.create({
+					title: "Master 4",
+					image: sc_static('images/music/searchButton') 
+				})
+			}),
+			
+			master5: SC.View.design({
+			  layout: { top: 0, right: 0, bottom: 0, left: 0 },
+			  childViews: ''.w(),
+				backgroundColor: 'red',
+				tabBarItem: Iweb.ITabBarItem.create({
+					title: "Master 5",
 					image: sc_static('images/music/searchButton') 
 				})
 			})
