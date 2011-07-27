@@ -30,6 +30,9 @@ Iweb.TabControlView = SC.View.extend(
 	isTabBarVisible: YES,
 	transitionDuration: 250,
 	
+	flickToNavigate: YES,
+	flickingThreshold: 0.4, 
+	
 	tabBarHeight: function() {
 	  if (SC.browser.iPhone || SC.browser.iPod) return Iweb.IPHONE_TAB_BAR_SIZE;
 	  else return Iweb.IPAD_TAB_BAR_SIZE;
@@ -176,7 +179,7 @@ Iweb.TabControlView = SC.View.extend(
 		//make the corresponding tab item the current
 		for(i = 0; i < this._tabBarItems.length; i++) {
 			var item = this._tabBarItems[i] ;
-		 	item.$().addClass('current-tab',(item.tabIndex == index)) ;
+		 	item.$().setClass('active',(item.tabIndex == index)) ;
 		}
 		
 		//save current Indexes
@@ -216,7 +219,7 @@ Iweb.TabControlView = SC.View.extend(
 	}.observes('nowShowing'),
 	
 	/** private */
-	classNames: 'sc-tab-control'.w(),
+	classNames: 'sc-tab-control-view'.w(),
 	
 	/** @private */
 	createChildViews: function() {
@@ -318,8 +321,10 @@ Iweb.TabControlView = SC.View.extend(
 	touchStart: function(touch) {
 	  this._touch = {
 	    start: {x: touch.pageX, y: touch.pageY}
-	  };
-	  return YES;
+	  } ;
+	  
+	  if (this.get('flickToNavigate')) return YES ;
+	  else return NO ;
 	},
 	
 	touchesDragged: function(evt, touches) {
@@ -333,12 +338,13 @@ Iweb.TabControlView = SC.View.extend(
 	touchEnd: function(touch) {
 	  var t = this._touch;
 	  
-	  var deltaX = touch.pageX - t.start.x;
-	  var deltaY = touch.pageY - t.start.y;
+	  var deltaX = touch.pageX - t.start.x ;
+	  var deltaY = touch.pageY - t.start.y ;
 	  
-	  var frame = this.get('frame');
+	  var frame = this.get('frame') ;
+	  var threshold = this.get('flickingThreshold') ;
 	  
-	  if (Math.abs(deltaX) >= (frame.width/3)) {
+	  if (Math.abs(deltaX) >= (frame.width * threshold)) {
 	    //tabs have flicked
 	    if (deltaX > 0) {
 	      //move left
