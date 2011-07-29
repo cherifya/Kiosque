@@ -4,6 +4,14 @@
 // ==========================================================================
 /*globals Iweb */
 
+/** @class
+
+  Tab control class. It allows to display a set of views
+	in a tab like fashion with a tab bar at the bottom.
+  
+  @author Cherif Yaya
+  @extends SC.View
+*/
 Iweb.TabBarItem = SC.Object.extend({
 	title: null,
 	view: null,
@@ -319,6 +327,7 @@ Iweb.TabControlView = SC.View.extend(
 	  //reset tabs width and position
 	  var index = this.currentTabIndex ;
 	  var frame = this.get('frame') ;
+	  //SC.Logger.log('frame %@'.fmt(frame.width)) ;
 		for(var i = 0; i < this._tabViews.length; i++) {
 			var view = this._tabViews[i] ;
 			var delta = view.tabIndex - index ;
@@ -405,13 +414,31 @@ Iweb.TabControlView = SC.View.extend(
 	},
 	
 	/** @private */
+	captureTouch: function() {
+	  return YES ;
+	},
+	
+	/** @private */
 	touchStart: function(touch) {
 	  this._touch = {
 	    start: {x: touch.pageX, y: touch.pageY}
 	  } ;
 	  
-	  if (this.get('flickToNavigate')) return YES ;
+	  if (this.get('flickToNavigate')) {
+	    this._hasTouch = touch ;
+	    //in 0.5 sec we'll pass the touch along
+	    this.invokeLater('beginContentTouches', 10, touch) ;
+	    return YES ;
+    }
 	  else return NO ;
+	},
+	
+	/** @private */
+	beginContentTouches: function(touch) {
+	  if (touch === this._hasTouch) {
+	    //pass it along
+	    touch.captureTouch(this, YES) ;
+	  }
 	},
 	
 	/** @private */
@@ -423,6 +450,11 @@ Iweb.TabControlView = SC.View.extend(
     //flick tabs
     this._flick(deltaX);
 	},
+	
+	/** @private */
+	touchCancelled: function(touch) {
+	  this.touchEnd(touch) ;
+  },
 	
 	/** @private */
 	touchEnd: function(touch) {
@@ -451,6 +483,12 @@ Iweb.TabControlView = SC.View.extend(
 	    //no tab moved. snap back
 	    this.navigateToTab(this.currentTabIndex) ;
 	  }
+	  
+	  //clean up
+    delete this._touch ;
+	  this._touch = null ;
+	  delete this._hasTouch ;
+	  this._hasTouch = null ;
 	},
 	
 	/** @private */

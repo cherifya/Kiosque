@@ -2,7 +2,7 @@
 // Project:   Tab - mainPage
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
-/*globals Tab */
+/*globals Tab Iweb */
 
 // This page describes the main user interface for your application.  
 Tab.mainPage = SC.Page.design({
@@ -15,13 +15,13 @@ Tab.mainPage = SC.Page.design({
     
     tabbedView: Iweb.TabControlView.design({
 			layout: { top: 0, left: 0, bottom: 0, right:0},			
-			tabs: "master1 master3 master4 master5".w(),
-			nowShowing: 'master2',
+			tabs: "master1 master3 master2 master4 master5".w(),
+			nowShowing: 'master1',
 			isTabBarVisible: YES,
 			
 			master1: Iweb.NavigationView.design({
-				tabBarItem: Iweb.ITabBarItem.create({
-					title: "Controls",
+				tabBarItem: Iweb.TabBarItem.create({
+					title: "Navigation View",
 					image: sc_static('images/music/controlsButton') 
 				})
 			}),
@@ -37,7 +37,7 @@ Tab.mainPage = SC.Page.design({
 				showAlternatingRows: YES,
 				contentBinding: 'Tab.songsController.arrangedObjects',
 			  selectionBinding: 'Tab.songsController.selection',
-				tabBarItem: Iweb.ITabBarItem.create({
+				tabBarItem: Iweb.TabBarItem.create({
 					title: "Playlists",
 					image: sc_static('images/music/playlistButton') 
 				})
@@ -47,8 +47,8 @@ Tab.mainPage = SC.Page.design({
 			  layout: { top: 0, right: 0, bottom: 0, left: 0 },
 			  childViews: ''.w(),
 				backgroundColor: 'brown',
-				tabBarItem: Iweb.ITabBarItem.create({
-					title: "Master 3",
+				tabBarItem: Iweb.TabBarItem.create({
+					title: "Master Brown",
 					image: sc_static('images/music/searchButton') 
 				})
 			}),
@@ -57,8 +57,8 @@ Tab.mainPage = SC.Page.design({
 			  layout: { top: 0, right: 0, bottom: 0, left: 0 },
 			  childViews: ''.w(),
 				backgroundColor: 'yellow',
-				tabBarItem: Iweb.ITabBarItem.create({
-					title: "Master 4",
+				tabBarItem: Iweb.TabBarItem.create({
+					title: "Master Yellow",
 					image: sc_static('images/music/searchButton') 
 				})
 			}),
@@ -67,52 +67,12 @@ Tab.mainPage = SC.Page.design({
 			  layout: { top: 0, right: 0, bottom: 0, left: 0 },
 			  childViews: ''.w(),
 				backgroundColor: 'red',
-				tabBarItem: Iweb.ITabBarItem.create({
-					title: "Master 5",
+				tabBarItem: Iweb.TabBarItem.create({
+					title: "Master Red",
 					image: sc_static('images/music/searchButton') 
 				})
 			})
-    }),
-    
-    tabbedViewOff: Iweb.ITabView.design({
-			layout: { top: 0, left: 0, bottom: 0, right:0},			
-			tabViews: "master1 master2 master3".w(),
-			nowShowing: 'master1',
-			
-			master1: Iweb.NavigationView.design({
-				tabBarItem: Iweb.ITabBarItem.create({
-					title: "Controls",
-					image: sc_static('images/music/controlsButton') 
-				})
-			}),
-			
-			master2: Iweb.ITableView.design({
-				rowHeight: 44,
-				contentValueKey: 'title',
-				detailValueKey: 'artist',
-				hasContentBranch: YES,
-				contentIsBranchKey: 'isBranch',
-				hasContentIcon: NO,
-				contentIconKey: null,
-				showAlternatingRows: YES,
-				contentBinding: 'Tab.songsController.arrangedObjects',
-			  selectionBinding: 'Tab.songsController.selection',
-				tabBarItem: Iweb.ITabBarItem.create({
-					title: "Playlists",
-					image: sc_static('images/music/playlistButton') 
-				})
-			}),
-			
-			master3: SC.View.design({
-			  layout: { top: 0, right: 0, bottom: 0, left: 0 },
-			  childViews: ''.w(),
-				backgroundColor: 'brown',
-				tabBarItem: Iweb.ITabBarItem.create({
-					title: "Search",
-					image: sc_static('images/music/searchButton') 
-				})
-			})
-    }),
+    })
   })
 
 });
