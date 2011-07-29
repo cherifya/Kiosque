@@ -1,0 +1,39 @@
+$theme.sc-tab-control-view {
+	
+}
+
+$theme.sc-tab-bar-view {
+  
+  &.ipad {
+  	background: #000 sc_static('tabBar') repeat-x;
+  	text-shadow: rgba(0, 0, 0, 0.398438) 0px -1px 0px;
+  	color: white;
+  	
+  	.sc-tab-bar-item-view {
+  	  
+      &.active {
+        background: rgba(255,255,255,0.2);
+      	-webkit-border-radius: 5px;
+      }
+    }
+  }
+
+  &.iphone {
+  	background: #000 sc_static('tabBar') repeat-x;
+  	text-shadow: rgba(0, 0, 0, 0.398438) 0px -1px 0px;
+  	color: white;
+  	
+  	.sc-tab-bar-item-view {
+  	  
+      &.active {
+        background: rgba(255,255,255,0.2);
+      	-webkit-border-radius: 5px;
+      }
+    }
+  }
+
+  .sc-tab-bar-item-view {
+
+  }
+}
+

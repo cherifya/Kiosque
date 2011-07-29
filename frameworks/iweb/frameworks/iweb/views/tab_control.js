@@ -11,7 +11,7 @@ Iweb.TabBarItem = SC.Object.extend({
 });
 
 Iweb.IPHONE_TAB_BAR_SIZE = 44;
-Iweb.IPAD_TAB_BAR_SIZE = 22;
+Iweb.IPAD_TAB_BAR_SIZE = 24;
 
 /** @class
 
@@ -23,26 +23,106 @@ Iweb.IPAD_TAB_BAR_SIZE = 22;
 */
 Iweb.TabControlView = SC.View.extend(
 /** @scope Iweb.TabControlView.prototype */ {
+  
+  /**
+    Array containing path of views to be loaded as tabs at loading time. 
+    The path can be absolute or relative. In the latter case, they should be defined in the tab control view object itself.
+    
+    @type {Array}
+    @default Empty Array
+  */
 	tabs: [],
 	
+	/**
+    Currently showing tab name. Setting this value results in the control navigating
+    to the tab with the new name (if any).
+    
+    @type {String}
+    @default null
+  */
 	nowShowing: null,
 	
+	/**
+    If YES, tab bar is displayed. Else, it is hidden.
+    
+    @type {Boolean}
+    @default YES
+  */
 	isTabBarVisible: YES,
+	
+	/**
+    Duration of tab change animation.
+    
+    @type {Number}
+    @default 250
+  */
 	transitionDuration: 250,
 	
+	/**
+    If YES, user can navigate between tabs by flicking horizontally on the screen.
+    
+    @type {Boolean}
+    @default YES
+  */
 	flickToNavigate: YES,
+	
+	/**
+    Percentage of the width of the control for navigating to next (or previous) tab.
+    By playing with this value, different flicking behaviours can be achieved.
+    
+    @type {Number}
+    @default 0.4
+  */
 	flickingThreshold: 0.4, 
 	
+	/**
+    View to use as container for the tab bar items
+    
+    @type SC.View
+    @default Custom view for iPhone and iPad
+  */
+	tabBarView: function() {
+    var view = null ;
+	  if (SC.browser.iPhone || SC.browser.iPod) {
+	    view = SC.View.design({
+  	    classNames: 'sc-tab-bar-view iphone'.w()
+  	  }) ;
+    }
+	  else {
+	    view = SC.View.design({
+  	    classNames: 'sc-tab-bar-view ipad'.w()
+  	  }) ;
+  	  return view ;
+	  }
+	}.property(),
+	
+	/**
+    Height of the tab bar in pixels
+    
+    @type {Number}
+    @default 44 for iPhone and 24 for iPad
+  */
 	tabBarHeight: function() {
 	  if (SC.browser.iPhone || SC.browser.iPod) return Iweb.IPHONE_TAB_BAR_SIZE;
 	  else return Iweb.IPAD_TAB_BAR_SIZE;
 	}.property().cacheable(),
 	
+	/**
+    Anchor position for the tab bar. Either SC.ANCHOR_TOP or SC.ANCHOR_BOTTOM
+    
+    @type {String}
+    @default SC.ANCHOR_BOTTOM for iPhone sized devices. SC.ANCHOR_TOP otherwise (including iPad)
+  */
 	tabBarAnchor: function() {
 	  if (SC.browser.iPhone || SC.browser.iPod) return SC.ANCHOR_BOTTOM;
 	  else return SC.ANCHOR_TOP;
 	}.property().cacheable(),
 	
+	/**
+	 Add the passed view as a new tab. The tab is added after all existing tabs.
+	 
+	 @param {SC.View} tab View to be added as a new tab 
+	*/
 	addTab: function(tab) {
 	  if (SC.none(tab)) return;
 		var container = this.get('tabContainer') ;
@@ -130,6 +210,12 @@ Iweb.TabControlView = SC.View.extend(
 		this._tabCount++ ;
 	},
 	
+	/**
+	 Make the tab with the passed index the currently showing tab.
+	 The index represents the order in which the tabs have been added to the tab control view.
+	 
+	 @param {Number} index Index of tab to navigate to. 
+	*/
 	navigateToTab: function(index) {
 	  //if name of tab passed, map to tab Index
 	  if (SC.typeOf(index) == SC.T_STRING) index  = this._tabNames[index] ;
@@ -245,6 +331,7 @@ Iweb.TabControlView = SC.View.extend(
 		this._positionTabBarItems() ;
 	}.observes('frame'),
 	
+	/** @private */
 	_createContainers: function() {
 	  var childViews = [], view ;
 		
@@ -257,12 +344,10 @@ Iweb.TabControlView = SC.View.extend(
 		childViews.push(container) ;
 		this.set('tabContainer',container) ;
 		
+		var tabBarView = this.get('tabBarView') ;
+		
 		//create the tab bar
-		var tabBar = this.createChildView(
-		  SC.View.design({
-		    classNames: 'sc-tab-bar-view'.w()
-		  })
-		) ;
+		var tabBar = this.createChildView(tabBarView) ;
 		childViews.push(tabBar) ;
 		this.set('tabBar',tabBar) ;
 		
@@ -271,6 +356,7 @@ Iweb.TabControlView = SC.View.extend(
 		this._positionContainers() ;
 	},
 	
+	/** @private */
 	_positionContainers: function() {
 		var container = this.get('tabContainer') ;
 		var tabBar = this.get('tabBar') ;
@@ -318,6 +404,7 @@ Iweb.TabControlView = SC.View.extend(
 	  
 	},
 	
+	/** @private */
 	touchStart: function(touch) {
 	  this._touch = {
 	    start: {x: touch.pageX, y: touch.pageY}
@@ -327,14 +414,17 @@ Iweb.TabControlView = SC.View.extend(
 	  else return NO ;
 	},
 	
+	/** @private */
 	touchesDragged: function(evt, touches) {
 	  var t = this._touch;
 	  
 	  var deltaX = evt.pageX - t.start.x;
-    
+	  
+    //flick tabs
     this._flick(deltaX);
 	},
 	
+	/** @private */
 	touchEnd: function(touch) {
 	  var t = this._touch;
 	  
@@ -344,6 +434,8 @@ Iweb.TabControlView = SC.View.extend(
 	  var frame = this.get('frame') ;
 	  var threshold = this.get('flickingThreshold') ;
 	  
+	  //depending on the distance of the touch, navigate to previous/next tab
+	  //or do nothing 
 	  if (Math.abs(deltaX) >= (frame.width * threshold)) {
 	    //tabs have flicked
 	    if (deltaX > 0) {
@@ -361,7 +453,9 @@ Iweb.TabControlView = SC.View.extend(
 	  }
 	},
 	
+	/** @private */
 	_flick: function(deltaX) {
+	  //translate all tabs by the given delta
 	  var currentTabIndex = this.currentTabIndex ;
 	  var frame = this.get('frame') ;
 	  for(var i = currentTabIndex - 1; i < this._tabViews.length && i <= currentTabIndex + 1; i++) {
