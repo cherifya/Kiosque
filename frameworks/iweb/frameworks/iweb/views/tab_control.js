@@ -341,6 +341,11 @@ Iweb.TabControlView = SC.View.extend(
 	}.observes('frame'),
 	
 	/** @private */
+	isTabBarVisibleDidChange: function() {
+	  this._positionContainers() ;  
+	}.observes('isTabBarVisible'),
+	
+	/** @private */
 	_createContainers: function() {
 	  var childViews = [], view ;
 		

@@ -25,7 +25,7 @@ Tab.myController = SC.ObjectController.create(
   },
 
 	pushYellow: function() {
-		var navView = Tab.mainPage.mainPane.tabbedView.sceneView.master1;
+		var navView = Tab.mainPage.mainPane.tabbedView.master1;
 		
 		navView.push(
 			SC.View.create({
@@ -67,7 +67,7 @@ Tab.myController = SC.ObjectController.create(
 	},
 	
 	pushRed: function() {
-		var navView = Tab.mainPage.mainPane.tabbedView.sceneView.master1;
+		var navView = Tab.mainPage.mainPane.tabbedView.master1;
 		
 		navView.push(
 			SC.View.create({
@@ -106,7 +106,7 @@ Tab.myController = SC.ObjectController.create(
 	},
 	
 	popView: function() {
-		var navView = Tab.mainPage.mainPane.tabbedView.sceneView.master1;
+		var navView = Tab.mainPage.mainPane.tabbedView.master1;
 		navView.pop();
 	}
 
