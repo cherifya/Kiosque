@@ -4,7 +4,10 @@
 // ==========================================================================
 /*globals Kiosque */
 
-Kiosque = SC.Application.create();
+Kiosque = SC.Application.create({
+  
+  store: SC.Store.create().from(SC.Record.fixtures)
+});
 
 SC.ready(function() {
   Kiosque.mainPane = SC.TemplatePane.append({
@@ -12,3 +15,9 @@ SC.ready(function() {
     templateName: 'kiosque'
   });
 });
+
+Kiosque.main = function main() {
+
+} ;
+
+function main() { Kiosque.main(); }
