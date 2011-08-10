@@ -277,7 +277,7 @@ Iweb.TabControlView = SC.View.extend(
 		}
 		
 		//save current Indexes
-		this.set("currentTabIndex", index) ;
+		this.setIfChanged("currentTabIndex", index) ;
 	},
 	
 	/** @private */
