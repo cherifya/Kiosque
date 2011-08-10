@@ -4,7 +4,19 @@
 *  ==========================================================================
 */
 
-.sc-view {
-  position: relative;
-  overflow: visible;
+
+$theme.carrousel-view {
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#444444), to(#111111));
+  border-radius: 5px;
+  color: #888888;
+  
+  .carrousel-label {
+    border-radius: 5px;
+    padding-left: 5px;
+    padding-top: 5px;
+    
+    &.sel {
+      background: rgba(200, 0, 0, 0.8);
+    }
+  }
 }

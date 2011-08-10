@@ -10,14 +10,27 @@ Kiosque = SC.Application.create({
 });
 
 SC.ready(function() {
-  Kiosque.mainPane = SC.TemplatePane.append({
-    layerId: 'kiosque',
-    templateName: 'kiosque'
-  });
+//  Kiosque.mainPane = SC.TemplatePane.append({
+//    layerId: 'kiosque',
+//    templateName: 'kiosque'
+//  });
 });
 
 Kiosque.main = function main() {
-
+  Kiosque.getPath('mainPage.mainPane').append() ;
+  
+  //create carrousel data
+  var thumbs = [];
+  var thumbsNames = ['green', 'brown', 'yellow', 'red'];
+  for (var i = 0; i < 4; i++){
+    var thumb = SC.Object.create({
+      name: thumbsNames[i],
+      index: i
+    });
+    thumbs.push(thumb);
+  }
+  
+  Kiosque.thumbsController.set('content',thumbs);
 } ;
 
 function main() { Kiosque.main(); }
