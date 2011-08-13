@@ -33,9 +33,9 @@ Iweb.TabControlView = SC.View.extend(
 /** @scope Iweb.TabControlView.prototype */ {
   
   /**
-    Array containing path of views to be loaded as tabs at loading time. 
+    Array containing path of views to be initially loaded as tabs at loading time. 
     The path can be absolute or relative. In the latter case, they should be defined in the tab control view object itself.
-    
+    More tabs can be added at runtime using the TabControlView#addTab method.
     @type {Array}
     @default Empty Array
   */
@@ -218,11 +218,21 @@ Iweb.TabControlView = SC.View.extend(
 		this._tabCount++ ;
 	},
 	
+	
+	/**
+	 Remove the passed view from tabs.
+	 
+	 @param {Number|String} tab View to be added as a new tab 
+	*/
+	removeTab: function(index) {
+	  throw "RemoveTab() not implemented yet" ;
+	},
+	
 	/**
 	 Make the tab with the passed index the currently showing tab.
 	 The index represents the order in which the tabs have been added to the tab control view.
 	 
-	 @param {Number} index Index of tab to navigate to. 
+	 @param {Number|String} index Index of tab to navigate to. 
 	*/
 	navigateToTab: function(index) {
 	  //if name of tab passed, map to tab Index
@@ -273,7 +283,7 @@ Iweb.TabControlView = SC.View.extend(
 		//make the corresponding tab item the current
 		for(i = 0; i < this._tabBarItems.length; i++) {
 			var item = this._tabBarItems[i] ;
-		 	item.$().setClass('active',(item.tabIndex == index)) ;
+		 	item.$().setClass('active',(item.tabIndex === index)) ;
 		}
 		
 		//save current Indexes
