@@ -54,8 +54,7 @@ Kiosque.ArrayPage = SC.Object.extend(SC.Array,
         
     if (pageIndex < 0 || itemsPerPage < 0) throw "pageIndex and itemsPerPage must be a positive integer" ;
     
-    var masterArray = this.get('masterArray'),
-        totalItems = this.getPath('masterArray.length'),
+    var totalItems = this.getPath('masterArray.length'),
         nbPages = Math.max(Math.ceil(totalItems*1.0/itemsPerPage), 1) ;
         
     if (pageIndex < (nbPages - 1)) return itemsPerPage ;
@@ -64,7 +63,7 @@ Kiosque.ArrayPage = SC.Object.extend(SC.Array,
       return (totalItems - _start) ;
     }
     else return 0;
-  }.property('itemsPerPage', 'pageIndex', '*masterArray.length').cacheable(),
+  }.property('itemsPerPage', 'pageIndex', '*masterArray.length'),
   
   /** @private
     @param {Number} idx Index of item to be retrieved
@@ -74,10 +73,13 @@ Kiosque.ArrayPage = SC.Object.extend(SC.Array,
     var itemsPerPage = this.get('itemsPerPage'),
         pageIndex = this.get('pageIndex'),
         masterArray = this.get('masterArray'),
-        indexInMaster = pageIndex * itemsPerPage + idx ;
+        indexInMaster = pageIndex * itemsPerPage + idx,
+        length = this.get('length') ;
         
     if (SC.none(this.masterArray)) throw "ArrayPage : masterArray is null." ;
     if (pageIndex < 0 || itemsPerPage < 0) throw "ArrayPage: pageIndex and itemsPerPage must be a positive integer" ;
+    
+    if (idx >= length) return null ;
         
     return masterArray.objectAt(indexInMaster) ; 
   },
