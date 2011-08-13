@@ -45,8 +45,8 @@ Kiosque.ArrayPage = SC.Object.extend(SC.Array,
   //
 
   /** @private
-    Returned length is a pass-through to the `storeKeys` array.
-		@property
+    Return the amount of items available in this page.
+		@field
   */
   length: function() {
     var itemsPerPage = this.get('itemsPerPage'),
@@ -88,21 +88,24 @@ Kiosque.ArrayPage = SC.Object.extend(SC.Array,
     @param {Array} objects Objects to insert
   */
   replace: function(idx, amt, objects) {
-    //throw "ArrayPage is not yet editable." ;
-    
     if (SC.none(this.masterArray)) throw "ArrayPage : masterArray is null." ;
+    
+    var itemsPerPage = this.get('itemsPerPage'),
+        pageIndex = this.get('pageIndex'),
+        masterArray = this.get('masterArray'),
+        indexInMaster = pageIndex * itemsPerPage + idx ;
 
-    var len = objects ? objects.get('length') : 0;
+    var len = objects ? objects.get('length') : 0 ;
 
     // SC.Array implementations must call arrayContentWillChange
     // before making mutations. This allows observers to perform
     // operations based on the state of the Array before the
     // change, such as reflecting removals.
-    this.arrayContentWillChange(idx, amt, len);
+    this.arrayContentWillChange(idx, amt, len) ;
     this.beginPropertyChanges() ;
 
     // Mutate the underlying Array
-    this.masterArray.replace(idx,amt,objects) ;
+    this.masterArray.replace(indexInMaster,amt,objects) ;
 
     // The length will update itself through binding to masterArray
     //this.set('length', this.content.length) ;
