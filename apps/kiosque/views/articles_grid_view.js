@@ -3,7 +3,7 @@
 // Copyright: @2011 My Company, Inc.
 // ==========================================================================
 /*globals Kiosque Iweb */
-
+require('system/array_page');
 /** @class
 
   (Document Your View Here)
@@ -76,24 +76,50 @@ Kiosque.ArticlesGridView = Iweb.TabControlView.extend(
     var itemsPerPage = this.get('itemsPerPage'),
         totalItems = this.getPath('content.length'),
         nbPagesNeeded = Math.max(Math.ceil(totalItems*1.0/itemsPerPage), 1),
-        nbPagesCreated = this._pages.get('length') ;
-        
+        nbPagesCreated = this._pages.get('length'),
+        content = this.get('content') ;
+    
+    var page, i;
+       
     if (nbPagesNeeded > nbPagesCreated) {
-      for (var i = nbPagesCreated; i < nbPagesNeeded; i++) {
+      //add missing pages
+      for (i = nbPagesCreated; i < nbPagesNeeded; i++) {
         //create page
-        var page = this._pagesPool.pop();
+        page = this._pagesPool.pop();
         if (SC.none(page)) {
-          page = Kiosque.ArticlesPageView.create({
-            articlesGrid: this
-          });
-        }      
+          page = Kiosque.ArticlesPageView.create();
+        }  
+        
+        //update page
+        page.set('pageIndex', i) ;
+        page.set('articlesGrid', this) ;
+        page.set('content', Kiosque.ArrayPage.create({
+          masterArray: content,
+          itemsPerPage: itemsPerPage,
+          pageIndex: i
+        })) ;
         
         this._pages.push(page) ;
+        //add tab
+        this.addTab(page) ;
       }
     }
     else if (nbPagesNeeded < nbPagesCreated) {
-      
+      //removed 
+      for (i = nbPagesNeeded; i< nbPagesCreated; i++) {
+        page = this._pages.pop();
+        this.removeTab(page.get('pageIndex')) ;
+        
+        page.set('content', null) ;
+        page.set('pageIndex', null) ;
+        page.set('articlesGrid', null) ;
+        
+        //return page to pool to be reused later if needed
+        this._pagesPool.push(page) ;
+      }
     }
+    
+    //TODO update all pages with pageIndex
         
     
   }.observes('*content.length', 'itemsPerPage')

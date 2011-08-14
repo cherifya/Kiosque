@@ -44,7 +44,7 @@ Kiosque.ArrayPage = SC.Object.extend(SC.Array,
   // ARRAY PRIMITIVES
   //
 
-  /** @private
+  /**
     Return the amount of items available in this page.
 		@field
   */
