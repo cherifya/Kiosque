@@ -1,12 +1,15 @@
 // ==========================================================================
 // Project:   Kiosque Unit Test
-// Copyright: @2011 My Company, Inc.
+// Copyright: @2011 Strobe, Inc.
 // ==========================================================================
 /*globals Kiosque module test ok equals same stop start */
 
-var globalArray;
+var globalArray,
+    emptyArray;
 module("Kiosque", {
   setup: function() {
+    emptyArray = [];
+    
     var item;
     globalArray = [];
     for (var i=0; i< 105; i++) {
@@ -18,6 +21,42 @@ module("Kiosque", {
   tearDown: function() {
     globalArray = null;
   }
+});
+
+
+var pane = SC.ControlTestPane.design()
+  .add("basic-even", SC.ScrollView.design({
+    layout: { left: 0, right: 0, top: 0, height: 180 },
+    hasHorizontalScroller: NO,
+    contentView: SC.ListView.design({
+      contentValueKey: 'name',
+      contentBinding: 'emptyArray',
+      rowHeight: 20
+    })
+  }));
+pane.show();
+window.pane = pane;
+
+test("ArrayPage creation with empty master array", function() {
+  var arrayPage = Kiosque.ArrayPage.create({
+    masterArray: emptyArray,
+    itemsPerPage: 10,
+    pageIndex: 0 
+  });
+  
+  equals(arrayPage.get('length'), 0, "Array page 0 should have 0 items");
+  
+  var item;
+  item = arrayPage.objectAt(0);
+  equals(item, null, "Array page 0 should not have any item");
+  
+  //pane.get('contentView').set('content', emptyArray);
+  
+  //add an object at end of master array
+  SC.RunLoop.begin();
+  emptyArray.push(SC.Object.create({name: 'item PRIME', index: 1}));
+  SC.RunLoop.end();
+  equals(arrayPage.get('length'), 1, "Array page 0 should now have 1 items");
 });
 
 test("ArrayPage creation with pageIndex 0", function() {
