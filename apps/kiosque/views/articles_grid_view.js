@@ -72,7 +72,10 @@ Kiosque.ArticlesGridView = Iweb.TabControlView.extend(
     else return 9 ;
   }.property('orientation'),
   
-  computePages: function() {
+  /** @private 
+    Create and update pages (tabs) as the content or the orientation change
+  */
+  _computePages: function() {
     var itemsPerPage = this.get('itemsPerPage'),
         totalItems = this.getPath('content.length'),
         nbPagesNeeded = Math.max(Math.ceil(totalItems*1.0/itemsPerPage), 1),
@@ -119,9 +122,37 @@ Kiosque.ArticlesGridView = Iweb.TabControlView.extend(
       }
     }
     
-    //TODO update all pages with pageIndex
-        
+    //update all pages with new pageIndex and itemsPerPage
+    this._updatePagesContent() ;
+  }.observes('*content.length', 'itemsPerPage'),
+  
+  /** @private 
+    Update array pages content as needed
+  */
+  _updatePagesContent: function() {
+    var itemsPerPage = this.get('itemsPerPage'),
+        totalItems = this.getPath('content.length'),
+        nbPagesCreated = this._pages.get('length'),
+        content = this.get('content') ;
+    var i, page, arrayPage;
     
-  }.observes('*content.length', 'itemsPerPage')
+    for (i = 0; i < nbPagesCreated; i++) {
+      page = this._pages[i];
+      arrayPage = page.get('content') ;
+      if (SC.none(arrayPage)) {
+        //create array page
+        arrayPage = Kiosque.ArrayPage.create({
+          masterArray: content,
+          itemsPerPage: itemsPerPage,
+          pageIndex: i
+        }) ;
+        page.set('content',arrayPage) ;
+      }
+      //update array page
+      arrayPage.setIfChanged('masterArray', content) ;
+      arrayPage.setIfChanged('pageIndex', i) ;
+      arrayPage.setIfChanged('itemsPerPage', itemsPerPage) ; 
+    }
+  }
 
 });
