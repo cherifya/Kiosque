@@ -216,6 +216,10 @@ Iweb.TabControlView = SC.View.extend(
 		
 		//increment tab count
 		this._tabCount++ ;
+		
+		//return tab
+		//in case it were instantiated here the caller might need the actual view object
+		return tab ;
 	},
 	
 	

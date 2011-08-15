@@ -117,22 +117,36 @@ Kiosque.ArticlesGridView = Iweb.TabControlView.extend(
         //create page
         page = this._pagesPool.pop();
         if (SC.none(page)) {
-          page = pageExampleView.create();
-        }  
-        //add tab
-        this.addTab(page) ;
+          //create a new page 
+          //note that we do not actually instantiate the view here
+          //the addTab() method will do that
+          page = pageExampleView.design({
+            pageIndex: i,
+            articlesGrid: this,
+            content: Kiosque.ArrayPage.create({
+              masterArray: content,
+              itemsPerPage: itemsPerPage,
+              pageIndex: i
+            })
+          });
+        }
+        else {
+          //page view already instantiated.
+          //just update page with new info
+          page.set('pageIndex', i) ;
+          page.set('articlesGrid', this) ;
+          page.set('content', Kiosque.ArrayPage.create({
+            masterArray: content,
+            itemsPerPage: itemsPerPage,
+            pageIndex: i
+          })) ;
+        }
         
-        //update page
-        page.set('pageIndex', i) ;
-        page.set('articlesGrid', this) ;
-        page.set('content', Kiosque.ArrayPage.create({
-          masterArray: content,
-          itemsPerPage: itemsPerPage,
-          pageIndex: i
-        })) ;
+        //add tab
+        //this is where the view is instantiated in case it were just created
+        page = this.addTab(page) ;
         
         this._pages.push(page) ;
-        
       }
     }
     else if (nbPagesNeeded < nbPagesCreated) {
