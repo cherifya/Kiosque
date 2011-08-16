@@ -26,6 +26,15 @@ Kiosque.ArticlesGridView = Iweb.TabControlView.extend(
   action: null,
   target: null,
   
+  /**
+    Number of pages currently in this grid.
+    This property is observable.
+    
+    @type Number
+    @default 0
+  */
+  numberOfPages: 0,
+  
   /** @private */
   init: function() {
     sc_super() ;
@@ -176,6 +185,9 @@ Kiosque.ArticlesGridView = Iweb.TabControlView.extend(
     
     //update all pages with new pageIndex and itemsPerPage
     this._updatePagesContent() ;
+    
+    //update numberOfPages property
+    this.set('numberOfPages',this._pages.get('length')) ;
   }.observes('*content.length', 'itemsPerPage'),
   
   /** @private 
