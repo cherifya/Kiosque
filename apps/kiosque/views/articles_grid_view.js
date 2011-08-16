@@ -4,6 +4,7 @@
 // ==========================================================================
 /*globals Kiosque Iweb */
 require('system/array_page');
+require('views/articles_page_view');
 
 /** @class
 
@@ -30,6 +31,8 @@ Kiosque.ArticlesGridView = Iweb.TabControlView.extend(
     sc_super() ;
   },
   
+  classNames: 'articles-grid'.w(),
+  
   /** @private */
   _pagesPool: [],
   
@@ -41,6 +44,12 @@ Kiosque.ArticlesGridView = Iweb.TabControlView.extend(
   
   /** @private */
   pageExampleView: Kiosque.ArticlesPageView,
+  
+  /** @private */
+  isTabBarVisible: NO,
+  
+  /** @private */
+  flickingThreshold: 0.3,
   
   /** @private 
       Computes current orientation based on width. 

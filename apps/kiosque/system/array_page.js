@@ -122,6 +122,10 @@ Kiosque.ArrayPage = SC.Object.extend(SC.Array,
     // operations based on the mutation. For instance, a listener
     // might want to reflect additions onto itself.
     this.arrayContentDidChange(idx, amt, len);
-  }
+  },
+  
+  _masterDidChange: function() {
+    this.allPropertiesDidChange() ;
+  }.observes('*masterArray.[]')
 
 });

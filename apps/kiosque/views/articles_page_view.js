@@ -13,7 +13,7 @@ require('views/article_thumbnail_view');
 Kiosque.ArticlesPageView = SC.GridView.extend(
 /** @scope Kiosque.ArticlesPageView.prototype */ {
 
-  classNames: 'sc-carrousel-grid-view'.w(),
+  classNames: 'articles-grid-page'.w(),
   articlesGrid: null,
   layout: {top:0, left:0, right:0, bottom:0},
   content: null,
@@ -24,7 +24,7 @@ Kiosque.ArticlesPageView = SC.GridView.extend(
   targetBinding: '*articlesGrid.target',
   columnWidthBinding: '*articlesGrid.columnWidth',
   rowHeightBinding: '*articlesGrid.rowHeight',
-  exampleViewBinding: Kiosque.ArticleThumbnailView.design(),
+  exampleView: Kiosque.ArticleThumbnailView.design(),
   canEditContent: NO,
   canDeleteContent: NO
 

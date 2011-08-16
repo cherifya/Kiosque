@@ -31,6 +31,9 @@ Kiosque.main = function main() {
   }
   
   Kiosque.thumbsController.set('content',thumbs);
+  
+  var articles = Kiosque.store.find(Kiosque.Article) ;
+  Kiosque.articlesController.set('content', articles) ;
 } ;
 
 function main() { Kiosque.main(); }

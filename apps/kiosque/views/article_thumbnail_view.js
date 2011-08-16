@@ -10,9 +10,9 @@
 
   @extends SC.View
 */
-Kiosque.ArticleThumbnailView = SC.View.extend(
+Kiosque.ArticleThumbnailView = SC.LabelView.extend(
 /** @scope Kiosque.ArticleThumbnailView.prototype */ {
 
-  // TODO: Add your own code here.
+  classNames: 'article-thumb'.w()
 
 });

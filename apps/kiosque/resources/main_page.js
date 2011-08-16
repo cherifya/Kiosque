@@ -3,6 +3,7 @@
 // Copyright: ©2010 My Company, Inc.
 // ==========================================================================
 /*globals Kiosque Iweb */
+require('views/articles_grid_view');
 
 // This page describes the main user interface for your application.  
 Kiosque.mainPage = SC.Page.design({
@@ -11,7 +12,13 @@ Kiosque.mainPage = SC.Page.design({
   // Add childViews to this pane for views to display immediately on page 
   // load.
   mainPane: SC.MainPane.design({
-    childViews: 'tabbedView carrousel'.w(),
+    childViews: 'grid carrousel'.w(),
+    
+    grid: Kiosque.ArticlesGridView.design({
+      layout: {top: 20, centerX: 0, width: 600, height: 400 },
+      contentBinding: 'Kiosque.articlesController.content',
+      contentValueKey: 'title'
+    }),
     
     tabbedView: Iweb.TabControlView.design({
 			layout: { top: 20, centerX: 0, width: 600, height:400},			
