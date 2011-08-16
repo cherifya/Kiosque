@@ -19,19 +19,6 @@ SC.ready(function() {
 Kiosque.main = function main() {
   Kiosque.getPath('mainPage.mainPane').append() ;
   
-  //create carrousel data
-  var thumbs = [];
-  var thumbsNames = ['green', 'brown', 'yellow', 'red'];
-  for (var i = 0; i < 4; i++){
-    var thumb = SC.Object.create({
-      name: thumbsNames[i],
-      index: i
-    });
-    thumbs.push(thumb);
-  }
-  
-  Kiosque.thumbsController.set('content',thumbs);
-  
   var articles = Kiosque.store.find(Kiosque.Article) ;
   Kiosque.articlesController.set('content', articles) ;
 } ;

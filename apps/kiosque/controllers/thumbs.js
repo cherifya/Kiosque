@@ -15,7 +15,7 @@ Kiosque.thumbsController = SC.ArrayController.create(
 /** @scope Kiosque.thumbscontroller.prototype */ {
   
   selection: null,
-  tabIndexBinding: 'Kiosque.mainPage.mainPane.tabbedView.currentTabIndex',
+  nbPagesBinding: 'Kiosque.mainPage.mainPane.grid.numberOfPages',
   
   selectionDidChange: function() {
     var selection = this.get('selection') ;
@@ -24,14 +24,23 @@ Kiosque.thumbsController = SC.ArrayController.create(
       var selected = selection.firstObject() ;
       
       var selectedIndex = selected.get('index') ;
-      var tabControl = Kiosque.getPath('mainPage.mainPane.tabbedView') ;
+      var tabControl = Kiosque.getPath('mainPage.mainPane.grid') ;
       if (tabControl) tabControl.navigateToTab(selectedIndex) ;
     }
   }.observes('selection'),
   
-  tabIndexDidChange: function() {
-    var tabIndex = this.get('tabIndex') ;
-    this.selectObject(this.objectAt(tabIndex)) ;
-  }.observes('tabIndex')
+  content: function() {
+    var pages = [],
+        nbPages = this.get('nbPages'),
+        i, item ;
+    for (i=0; i<nbPages; i++) {
+      item = SC.Object.create({
+        name: ''+i,
+        index: i
+      }) ;
+      pages.push(item) ;
+    }
+    return pages;
+  }.property('nbPages')
 
 }) ;
