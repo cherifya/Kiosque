@@ -267,6 +267,10 @@ Iweb.TabControlView = SC.View.extend(
 			if (SC.none(transitionDuration)) transitionDuration = 250 ;
 			transitionDuration = transitionDuration * 1.0 / 1000;  //convert in seconds for animate()
 			
+			//reset CSS transforms on view
+			var sTranslate = 'translateX(0)' ;
+			//view.$().css({'-webkit-transform': sTranslate, '-moz-transform': sTranslate}) ;
+			
 			view.animate('left', (delta * frame.width), {
 			  duration: transitionDuration
 			});
@@ -521,7 +525,9 @@ Iweb.TabControlView = SC.View.extend(
 			var indexDelta = view.tabIndex - currentTabIndex ;
 			
 			var defaultX = indexDelta * frame.width ;
-			view.adjust({left: (defaultX + deltaX) });
+			//SC.Logger.debug('view %@:%@'.fmt(indexDelta, view.get('layoutStyle')));
+			var sTranslate = 'translateX(%@px)'.fmt(deltaX) ;
+			view.$().css({'-webkit-transform': sTranslate, '-moz-transform': sTranslate}) ;
 			
 		}
 	}
