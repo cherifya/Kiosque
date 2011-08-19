@@ -113,7 +113,7 @@ Kiosque.ArticlesGridView = Iweb.TabControlView.extend(
     
     if (orientation == SC.HORIZONTAL_ORIENTATION) return 10 ;
     else return 9 ;
-  }.property('orientation'),
+  }.property('orientation').cacheable(),
   
   /** @private 
     Create and update pages (tabs) as the content or the orientation change
