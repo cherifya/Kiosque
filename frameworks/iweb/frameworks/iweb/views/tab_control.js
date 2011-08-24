@@ -155,8 +155,19 @@ Iweb.TabControlView = SC.View.extend(
 		
 		// instantiate if needed
 		if (tab.isClass) tab = container.createChildView(tab, {tabIndex: tabCount}) ;
+		
 		//append to parent
     container.appendChild(tab) ;
+		
+		/*
+		var transitionDuration = this.get('transitionDuration') ;
+		if (SC.none(transitionDuration)) transitionDuration = 250 ;
+		transitionDuration = transitionDuration * 1.0 / 1000;  //convert in seconds for animate()
+		//set up css transition on new tab view
+		tab.$().css('-webkit-transition-property', '-webkit-transform')
+		        .css('-webkit-transition-duration', '%@s'.fmt(transitionDuration)) ;
+		        
+		*/      
 		
 		var tabBarItem = tab.get('tabBarItem') || SC.Object.create() ;
 		//tabBarItem = SC.Object.create(tabBarItem) ;
@@ -169,7 +180,7 @@ Iweb.TabControlView = SC.View.extend(
 		
 		//by default push the view totally to the right
 		var leftValue = (frame.width * this._tabCount) ;
-		tab.set('layout',{top: 0, bottom: 0, left: leftValue, width: frame.width });
+		tab.set('layout',{top: 0, bottom: 0, left: 0, right: 0 });//left: leftValue, width: frame.width });
 		
 		this._tabViews.push(tab) ;
 		
@@ -267,13 +278,17 @@ Iweb.TabControlView = SC.View.extend(
 			if (SC.none(transitionDuration)) transitionDuration = 250 ;
 			transitionDuration = transitionDuration * 1.0 / 1000;  //convert in seconds for animate()
 			
-			//reset CSS transforms on view
-			var sTranslate = 'translateX(0)' ;
-			//view.$().css({'-webkit-transform': sTranslate, '-moz-transform': sTranslate}) ;
+			//set up view to animate translateX change
+			view.$().css('-webkit-transition-property', '-webkit-transform')
+			       .css('-webkit-transition-duration', '%@s'.fmt(transitionDuration)) ;
 			
-			view.animate('left', (delta * frame.width), {
-			  duration: transitionDuration
-			});
+			//reset CSS transforms on view
+			var sTranslate = 'translateX(%@px)'.fmt(delta * frame.width) ;
+			view.$().css({'-webkit-transform': sTranslate, '-moz-transform': sTranslate}) ;
+			
+			//view.animate('left', (delta * frame.width), {
+			//  duration: transitionDuration
+			//});
 			
 			
 			//notify view that it's become the front tab
@@ -443,12 +458,15 @@ Iweb.TabControlView = SC.View.extend(
 	
 	/** @private */
 	touchStart: function(touch) {
+	  SC.Logger.debug("touchStarted.") ;
 	  this._touch = {
 	    start: {x: touch.pageX, y: touch.pageY}
 	  } ;
 	  
 	  if (this.get('flickToNavigate')) {
 	    this._hasTouch = touch ;
+	    //remove css transition so that flicking with the finger does not animate
+	    this._deactivateCssTransitionForCurrentTabs() ;
 	    //in 0.5 sec we'll pass the touch along
 	    this.invokeLater('beginContentTouches', 10, touch) ;
 	    return YES ;
@@ -489,6 +507,9 @@ Iweb.TabControlView = SC.View.extend(
 	  var frame = this.get('frame') ;
 	  var threshold = this.get('flickingThreshold') ;
 	  
+	  //restore css transitions animations
+	  this._activateCssTransitionForCurrentTabs() ;
+	  
 	  //depending on the distance of the touch, navigate to previous/next tab
 	  //or do nothing 
 	  if (Math.abs(deltaX) >= (frame.width * threshold)) {
@@ -515,6 +536,26 @@ Iweb.TabControlView = SC.View.extend(
 	},
 	
 	/** @private */
+	_deactivateCssTransitionForCurrentTabs: function() {
+	  var currentTabIndex = this.currentTabIndex ;
+	  for(var i = currentTabIndex - 1; i < this._tabViews.length && i <= currentTabIndex + 1; i++) {
+	    if (i < 0) continue ;
+			var view = this._tabViews[i] ;
+			view.$().css('-webkit-transition-property', 'none') ;
+		}
+	},
+	
+	/** @private */
+	_activateCssTransitionForCurrentTabs: function() {
+	  var currentTabIndex = this.currentTabIndex ;
+	  for(var i = currentTabIndex - 1; i < this._tabViews.length && i <= currentTabIndex + 1; i++) {
+	    if (i < 0) continue ;
+			var view = this._tabViews[i] ;
+			view.$().css('-webkit-transition-property', 'none') ;
+		}
+	},
+	
+	/** @private */
 	_flick: function(deltaX) {
 	  //translate all tabs by the given delta
 	  var currentTabIndex = this.currentTabIndex ;
@@ -526,7 +567,7 @@ Iweb.TabControlView = SC.View.extend(
 			
 			var defaultX = indexDelta * frame.width ;
 			//SC.Logger.debug('view %@:%@'.fmt(indexDelta, view.get('layoutStyle')));
-			var sTranslate = 'translateX(%@px)'.fmt(deltaX) ;
+			var sTranslate = 'translateX(%@px)'.fmt(defaultX + deltaX) ;
 			view.$().css({'-webkit-transform': sTranslate, '-moz-transform': sTranslate}) ;
 			
 		}
