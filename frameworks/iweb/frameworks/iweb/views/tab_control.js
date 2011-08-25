@@ -184,6 +184,7 @@ Iweb.TabControlView = SC.View.extend(
 		
 		this._tabViews.push(tab) ;
 		
+		
 		//create tab bar item
 		var tabBarWidth = frame.width / (tabCount + 1) ;
 		var tabItem = tabBar.createChildView(
@@ -228,6 +229,9 @@ Iweb.TabControlView = SC.View.extend(
 		//increment tab count
 		this._tabCount++ ;
 		
+		//position tab views to set translate offsets
+		this.invokeLater('_positionTabViews') ;
+		
 		//return tab
 		//in case it were instantiated here the caller might need the actual view object
 		return tab ;
@@ -254,8 +258,10 @@ Iweb.TabControlView = SC.View.extend(
 	  if (SC.typeOf(index) == SC.T_STRING) index  = this._tabNames[index] ;
 	  if (SC.none(index)) return ;
 	  
-	  var nbTabs = this._tabViews.length ;
-	  
+	  var nbTabs = this._tabViews.get('length') ;
+	  //if no tab existing, nowhere to navigate to
+	  if (nbTabs === 0) return ;
+    
 	  //normalize index
 	  if (index < 0) index = 0 ;
 	  else if (index >= nbTabs) index = nbTabs - 1 ;
@@ -324,6 +330,9 @@ Iweb.TabControlView = SC.View.extend(
 	
 	/** @private */
 	_tabNames: {},
+	
+	/** @private */
+	currentTabIndex: 0,
 
   /** @private */
   init: function() {
@@ -336,7 +345,8 @@ Iweb.TabControlView = SC.View.extend(
 		}
 		
 		var nowShowing = this.get('nowShowing') ;
-		if (!SC.empty(nowShowing)) this.navigateToTab(nowShowing) ;		
+		if (!SC.empty(nowShowing)) this.navigateToTab(nowShowing) ;
+		else this.navigateToTab(0) ;		
 	},
 	
 	/** @private */
@@ -452,13 +462,38 @@ Iweb.TabControlView = SC.View.extend(
 	},
 	
 	/** @private */
+	_positionTabViews: function() {
+	  var currentTabIndex = this.get('currentTabIndex') ;
+	  var frame = this.get('frame') ;
+	  for(var i = 0; i < this._tabViews.length; i++) {
+	    var view = this._tabViews[i] ;
+			var delta = view.tabIndex - currentTabIndex ;
+			
+			//hide invisible tabs
+			if(delta !== 0) view.$().addClass('tab-hidden') ;
+			else view.$().removeClass('tab-hidden') ;
+			
+			var transitionDuration = this.get('transitionDuration') ;
+			if (SC.none(transitionDuration)) transitionDuration = 250 ;
+			transitionDuration = transitionDuration * 1.0 / 1000;  //convert in seconds for animate()
+			
+			//set up view to animate translateX change
+			view.$().css('-webkit-transition-property', '-webkit-transform')
+			       .css('-webkit-transition-duration', '%@s'.fmt(transitionDuration)) ;
+			
+			//reset CSS transforms on view
+			var sTranslate = 'translateX(%@px)'.fmt(delta * frame.width) ;
+			view.$().css({'-webkit-transform': sTranslate, '-moz-transform': sTranslate}) ;
+		}
+	},
+	
+	/** @private */
 	captureTouch: function() {
 	  return YES ;
 	},
 	
 	/** @private */
 	touchStart: function(touch) {
-	  SC.Logger.debug("touchStarted.") ;
 	  this._touch = {
 	    start: {x: touch.pageX, y: touch.pageY}
 	  } ;
@@ -537,7 +572,7 @@ Iweb.TabControlView = SC.View.extend(
 	
 	/** @private */
 	_deactivateCssTransitionForCurrentTabs: function() {
-	  var currentTabIndex = this.currentTabIndex ;
+	  var currentTabIndex = this.get('currentTabIndex') ;
 	  for(var i = currentTabIndex - 1; i < this._tabViews.length && i <= currentTabIndex + 1; i++) {
 	    if (i < 0) continue ;
 			var view = this._tabViews[i] ;
@@ -547,7 +582,7 @@ Iweb.TabControlView = SC.View.extend(
 	
 	/** @private */
 	_activateCssTransitionForCurrentTabs: function() {
-	  var currentTabIndex = this.currentTabIndex ;
+	  var currentTabIndex = this.get('currentTabIndex') ;
 	  for(var i = currentTabIndex - 1; i < this._tabViews.length && i <= currentTabIndex + 1; i++) {
 	    if (i < 0) continue ;
 			var view = this._tabViews[i] ;
