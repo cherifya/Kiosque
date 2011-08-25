@@ -267,6 +267,7 @@ Iweb.TabControlView = SC.View.extend(
 	  else if (index >= nbTabs) index = nbTabs - 1 ;
 	  
 		var frame = this.get('frame') ;
+		var transitionDuration = this.get('transitionDuration') ;
 		
 		//navigate to tab view
 		for(var i = 0; i < nbTabs; i++) {
@@ -279,14 +280,6 @@ Iweb.TabControlView = SC.View.extend(
 			
 			//notify view that it's about to become the front tab
 			if(delta === 0 && view.willBecomeFrontTab)	view.willBecomeFrontTab() ;
-			
-			var transitionDuration = this.get('transitionDuration') ;
-			if (SC.none(transitionDuration)) transitionDuration = 250 ;
-			transitionDuration = transitionDuration * 1.0 / 1000;  //convert in seconds for animate()
-			
-			//set up view to animate translateX change
-			view.$().css('-webkit-transition-property', '-webkit-transform')
-			       .css('-webkit-transition-duration', '%@s'.fmt(transitionDuration)) ;
 			
 			//reset CSS transforms on view
 			var sTranslate = 'translateX(%@px)'.fmt(delta * frame.width) ;
@@ -302,7 +295,7 @@ Iweb.TabControlView = SC.View.extend(
 				var timer = SC.Timer.schedule({
 	          target:   view,
 	          action:   'didBecomeFrontTab',
-	          interval: 350,
+	          interval: transitionDuration,
 	          repeats:  NO
 	      });
 			}
@@ -583,10 +576,16 @@ Iweb.TabControlView = SC.View.extend(
 	/** @private */
 	_activateCssTransitionForCurrentTabs: function() {
 	  var currentTabIndex = this.get('currentTabIndex') ;
+	  
+	  var transitionDuration = this.get('transitionDuration') ;
+		if (SC.none(transitionDuration)) transitionDuration = 350 ;
+		transitionDuration = transitionDuration * 1.0 / 1000;  //convert in seconds for animate()
+		
 	  for(var i = currentTabIndex - 1; i < this._tabViews.length && i <= currentTabIndex + 1; i++) {
 	    if (i < 0) continue ;
 			var view = this._tabViews[i] ;
-			view.$().css('-webkit-transition-property', 'none') ;
+			view.$().css('-webkit-transition-property', '-webkit-transform')
+			       .css('-webkit-transition-duration', '%@s'.fmt(transitionDuration)) ;
 		}
 	},
 	
