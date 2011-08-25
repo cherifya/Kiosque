@@ -81,7 +81,15 @@ Iweb.TabControlView = SC.View.extend(
     @type {Number}
     @default 0.4
   */
-	flickingThreshold: 0.4, 
+	flickingThreshold: 0.4,
+	
+	/**
+    Spacing used to separate tabs when flicking else they would be stashed together.
+    
+    @type {Number}
+    @default 10
+  */
+	flickingSpacing: 10,
 	
 	/**
     View to use as container for the tab bar items
@@ -594,14 +602,16 @@ Iweb.TabControlView = SC.View.extend(
 	  //translate all tabs by the given delta
 	  var currentTabIndex = this.currentTabIndex ;
 	  var frame = this.get('frame') ;
+	  var spacing = this.get('flickingSpacing') ;
 	  for(var i = currentTabIndex - 1; i < this._tabViews.length && i <= currentTabIndex + 1; i++) {
 	    if (i < 0) continue ;
 			var view = this._tabViews[i] ;
 			var indexDelta = view.tabIndex - currentTabIndex ;
 			
 			var defaultX = indexDelta * frame.width ;
+			var translateOffset = indexDelta === 0 ? defaultX + deltaX : defaultX + deltaX + (spacing * indexDelta) ;
 			//SC.Logger.debug('view %@:%@'.fmt(indexDelta, view.get('layoutStyle')));
-			var sTranslate = 'translateX(%@px)'.fmt(defaultX + deltaX) ;
+			var sTranslate = 'translateX(%@px)'.fmt(translateOffset) ;
 			view.$().css({'-webkit-transform': sTranslate, '-moz-transform': sTranslate}) ;
 			
 		}
