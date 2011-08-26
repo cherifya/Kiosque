@@ -15,66 +15,19 @@ Kiosque.mainPage = SC.Page.design({
     childViews: 'grid carrousel'.w(),
     
     grid: Kiosque.ArticlesGridView.design({
-      layout: {top: 20, centerX: 0, width: 600, height: 400 },
+      layout: {top: 120, bottom: 100, left: 48, right: 48 },
       contentBinding: 'Kiosque.articlesController.content',
       contentValueKey: 'title'
     }),
     
-    tabbedView: Iweb.TabControlView.design({
-			layout: { top: 20, centerX: 0, width: 600, height:400},			
-			tabs: "master1 master3 master4 master5".w(),
-			nowShowing: 'master3',
-			isTabBarVisible: NO,
-			
-			master1: SC.View.design({
-			  layout: { top: 0, right: 0, bottom: 0, left: 0 },
-			  childViews: ''.w(),
-				backgroundColor: 'green',
-				tabBarItem: Iweb.TabBarItem.create({
-					title: "Master Green",
-					image: null 
-				})
-			}),
-			
-			master3: SC.View.design({
-			  layout: { top: 0, right: 0, bottom: 0, left: 0 },
-			  childViews: ''.w(),
-				backgroundColor: 'brown',
-				tabBarItem: Iweb.TabBarItem.create({
-					title: "Master Brown",
-					image: null 
-				})
-			}),
-			
-			master4: SC.View.design({
-			  layout: { top: 0, right: 0, bottom: 0, left: 0 },
-			  childViews: ''.w(),
-				backgroundColor: 'yellow',
-				tabBarItem: Iweb.TabBarItem.create({
-					title: "Master Yellow",
-					image: null 
-				})
-			}),
-			
-			master5: SC.View.design({
-			  layout: { top: 0, right: 0, bottom: 0, left: 0 },
-			  childViews: ''.w(),
-				backgroundColor: 'red',
-				tabBarItem: Iweb.TabBarItem.create({
-					title: "Master Red",
-					image: null 
-				})
-			})
-    }),
-    
     carrousel: Iweb.CarrouselView.design({
       classNames: 'carrousel-view'.w(),
-      layout: {top:500, centerX:0, width:300, height:40},
+      layout: {bottom: 32, centerX: 0, width: 180, height: 35},
       contentValueKey: 'name',
       contentBinding: 'Kiosque.thumbsController.arrangedObjects',
       selectionBinding: 'Kiosque.thumbsController.selection',
-      columnWidth: 75,
-      rowHeight: 40,
+      columnWidth: 45,
+      rowHeight: 30,
       exampleView: SC.LabelView.design({
         classNames: 'carrousel-label'.w()
       })

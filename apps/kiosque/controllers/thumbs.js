@@ -16,16 +16,23 @@ Kiosque.thumbsController = SC.ArrayController.create(
   
   selection: null,
   nbPagesBinding: 'Kiosque.mainPage.mainPane.grid.numberOfPages',
+  gridSelectedPageBinding: 'Kiosque.mainPage.mainPane.grid.currentTabIndex',
+  
+  gridSelectedPageDidChange: function() {
+    var gridSelectedPage = this.get('gridSelectedPage') ;
+    this.selectObject(this.objectAt(gridSelectedPage)) ;
+  }.observes('gridSelectedPage'),
   
   selectionDidChange: function() {
     var selection = this.get('selection') ;
+    var gridSelectedPage = this.get('gridSelectedPage') ;
     
     if (selection && selection.get('length') > 0) {
       var selected = selection.firstObject() ;
       
       var selectedIndex = selected.get('index') ;
       var tabControl = Kiosque.getPath('mainPage.mainPane.grid') ;
-      if (tabControl) tabControl.navigateToTab(selectedIndex) ;
+      if (tabControl && (selectedIndex != gridSelectedPage)) tabControl.navigateToTab(selectedIndex) ;
     }
   }.observes('selection'),
   

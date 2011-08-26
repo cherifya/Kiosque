@@ -268,7 +268,10 @@ Iweb.TabControlView = SC.View.extend(
 	  
 	  var nbTabs = this._tabViews.get('length') ;
 	  //if no tab existing, nowhere to navigate to
-	  if (nbTabs === 0) return ;
+	  if (nbTabs === 0) {
+	    this.notifyPropertyChange('currentTabIndex') ;
+	    return ;
+	  }
     
 	  //normalize index
 	  if (index < 0) index = 0 ;
