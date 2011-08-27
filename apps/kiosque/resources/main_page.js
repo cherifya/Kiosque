@@ -22,7 +22,8 @@ Kiosque.mainPage = SC.Page.design({
     
     carrousel: Iweb.CarrouselView.design({
       classNames: 'carrousel-view'.w(),
-      layout: {bottom: 32, centerX: 0, width: 180, height: 35},
+      layout: {bottom: 32, centerX: 0, width: 250, height: 35},
+      maxWidth: 600,
       contentValueKey: 'name',
       contentBinding: 'Kiosque.thumbsController.arrangedObjects',
       selectionBinding: 'Kiosque.thumbsController.selection',

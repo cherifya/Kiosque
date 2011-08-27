@@ -64,6 +64,16 @@ Iweb.CarrouselView = SC.View.extend(
   rowHeight: 48,
   
   /**
+    Max width that this carrousel view can grow to.
+    By default the view resizes itself to fit its children items.
+    Depending on the columWidth and the amount of items.
+    
+    @type Number
+    @default 1024
+  */
+  maxWidth: 1024,
+  
+  /**
     Action called when an item is clicked
     
     @type String
@@ -117,6 +127,17 @@ Iweb.CarrouselView = SC.View.extend(
 	  return this.getPath('scrollView.contentView');
 	}.property(),
 	
+	contentLengthDidChange: function() {
+	  var maxWidth = this.get('maxWidth') || 1024,
+	      length = this.getPath('content.length'),
+	      columnWidth = this.get('columnWidth') || 48;
+	  
+	  //set width to fit exactly the current amount of items
+	  //unless it crosses above the max width
+	  var computedWidth = Math.min(length * columnWidth, maxWidth) ;
+	  this.adjust({width: computedWidth}) ;
+	}.observes('*content.length'),
+	
 	/** @private */
 	scrollView: SC.ScrollView.design({
 	  layout: {left:0, right:0, top:0, bottom:0},
@@ -128,7 +149,7 @@ Iweb.CarrouselView = SC.View.extend(
 	  contentView: SC.GridView.design({
 	    classNames: 'sc-carrousel-grid-view'.w(),
 	    carrouselView: null,
-	    layout: {top:0, left:0, right:0, bottom:0},
+	    layout: {top:0, bottom: 0, left:0},
 	    contentValueKeyBinding: '*carrouselView.contentValueKey',
       contentIconKey: '*carrouselView.contentIconKey',
       contentBinding: '*carrouselView.content',
@@ -138,6 +159,7 @@ Iweb.CarrouselView = SC.View.extend(
       columnWidthBinding: '*carrouselView.columnWidth',
       rowHeightBinding: '*carrouselView.rowHeight',
       exampleViewBinding: '*carrouselView.exampleView',
+      maxWidthBinding: '*carrouselView.maxWidth',
       canEditContent: NO,
       canDeleteContent: NO,
 
@@ -164,7 +186,7 @@ Iweb.CarrouselView = SC.View.extend(
             count = (content) ? content.get('length') : 0,
             rowHeight = this.get('rowHeight') || 48,
             columnWidth = this.get('columnWidth') || 48,
-            itemsPerRow = (count) ? count : 0,
+            itemsPerRow = (count) ? count : 1,
             rows = Math.ceil(count / itemsPerRow) ;
 
         // use this cached layout hash to avoid allocatining memory...
@@ -172,7 +194,7 @@ Iweb.CarrouselView = SC.View.extend(
         if (!ret) ret = this._cachedLayoutHash = {};
 
         // set minHeight
-        ret.minHeight = rows * rowHeight ;
+        ret.minHeight = Math.max(rows * rowHeight, rowHeight) ;
         this.calculatedHeight = ret.minHeight;
         
         //set minWidth
