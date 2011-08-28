@@ -148,7 +148,7 @@ Iweb.TabControlView = SC.View.extend(
 		
 		var frame = this.get('frame') ;
 		
-		var tabCount = this._tabCount;
+		var tabCount = this._tabViews.get('length') ;
 		var tabName = null;
 		
 		//if passed the tab name, read the view in the current object
@@ -184,10 +184,9 @@ Iweb.TabControlView = SC.View.extend(
 		var customName = tabBarItem.get('tag') || tabName;
 		this.set(customName, tab);
 		//map tab name to tab index
-		this._tabNames[customName] = this._tabCount;
+		this._tabNames[customName] = tabCount;
 		
 		//by default push the view totally to the right
-		var leftValue = (frame.width * this._tabCount) ;
 		tab.set('layout',{top: 0, bottom: 0, left: 0, right: 0 });//left: leftValue, width: frame.width });
 		
 		this._tabViews.push(tab) ;
@@ -197,10 +196,10 @@ Iweb.TabControlView = SC.View.extend(
 		var tabBarWidth = frame.width / (tabCount + 1) ;
 		var tabItem = tabBar.createChildView(
 		  SC.View.design({
-		    layout: {top:0, bottom:0, left: tabBarWidth * this._tabCount, width: tabBarWidth},
+		    layout: {top:0, bottom:0, left: tabBarWidth * tabCount, width: tabBarWidth},
   			title: tabBarItem.title,
   			targetView: tab,
-  			tabIndex: this._tabCount,
+  			tabIndex: tabCount,
   			tabControl: this,
   			
   			click: function() {
@@ -234,9 +233,6 @@ Iweb.TabControlView = SC.View.extend(
 		
 		this._positionTabBarItems();
 		
-		//increment tab count
-		this._tabCount++ ;
-		
 		//position tab views to set translate offsets
 		this.invokeLater('_positionTabViews') ;
 		
@@ -249,10 +245,45 @@ Iweb.TabControlView = SC.View.extend(
 	/**
 	 Remove the passed view from tabs.
 	 
-	 @param {Number|String} tab View to be added as a new tab 
+	 @param {Number|String|SC.View} tab View to be added as a new tab
+	 @returns The view removed from this TabControlView
 	*/
-	removeTab: function(index) {
-	  throw "RemoveTab() not implemented yet" ;
+	removeTab: function(view) {
+	  if (SC.none(view)) return ;
+	  
+	  //if name of tab passed, map to tab Index
+	  if (SC.typeOf(view) == SC.T_STRING) view  = this._tabNames[view] ;
+	  //if index of tab passed, retrieve corresponding view from views array
+	  else if (SC.typeOf(view) == SC.T_NUMBER) view = this._tabViews[view] ;
+	  //if none of the above and still not a view object, give up 
+	  else if (SC.typeOf(view) != SC.T_OBJECT || !view.kindOf(SC.View)) return ;
+	  
+	  
+	  var nbTabs = this._tabViews.get('length') ;
+	  var index = Math.max(this._tabViews.indexOf(view), 0) ;
+	  
+	  var tab = view ;
+	  
+	  //remove from DOM parent
+	  tab.removeFromParent() ;
+	  
+	  //remove from tabViews array
+	  this._tabViews.removeObject(tab) ;
+	  this._positionTabViews() ;
+	  
+	  //book keeping
+	  var customName = tab.getPath('tabBarItem.tag') ;
+	  if (!SC.none(customName)) {
+	    if (this[customName]) delete this[customName] ;
+	    this._tabNames.removeObject(customName) ;
+	  }
+	  
+	  //navigate to the view that is now at position <index>
+	  //make sure that if the last item was removed, we don't overflow
+	  var newIndex = Math.min(index, this._tabViews.length - 1) ;
+	  this.navigateToTab(newIndex) ;
+	  
+	  return tab ;
 	},
 	
 	/**
@@ -330,9 +361,6 @@ Iweb.TabControlView = SC.View.extend(
 	_tabBarItems: [],
 	
 	/** @private */
-	_tabCount: 0,
-	
-	/** @private */
 	_tabNames: {},
 	
 	/** @private */
@@ -379,7 +407,7 @@ Iweb.TabControlView = SC.View.extend(
 			var view = this._tabViews[i] ;
 			var delta = view.tabIndex - index ;
 			
-			view.adjust({left: (delta * frame.width), width: frame.width}) ;
+			view.adjust({width: frame.width}) ;
 			
 		}
 		

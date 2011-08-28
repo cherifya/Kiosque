@@ -32,6 +32,13 @@ $theme.article-thumb {
   font-size: 16px;
   font-family: Oswald;
   line-height: 20px;
+  
+  &.sel {
+    -moz-box-shadow: 0px 0px 4px #777;
+    -webkit-box-shadow: 0px 0px 4px 4px #777;
+    background: #603;
+    color: white;
+  }
 }
 
 $theme.articles-grid {

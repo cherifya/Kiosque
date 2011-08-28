@@ -171,8 +171,8 @@ Kiosque.ArticlesGridView = Iweb.TabControlView.extend(
       //too many pages created. we don't need them all
       //remove the extra
       for (i = nbPagesNeeded; i< nbPagesCreated; i++) {
-        page = this._pages.pop();
-        this.removeTab(page.get('pageIndex')) ;
+        page = this._pages.pop() ;
+        this.removeTab(page) ;
         
         page.set('content', null) ;
         page.set('pageIndex', null) ;

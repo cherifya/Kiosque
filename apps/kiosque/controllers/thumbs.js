@@ -42,7 +42,7 @@ Kiosque.thumbsController = SC.ArrayController.create(
         i, item ;
     for (i=0; i<nbPages; i++) {
       item = SC.Object.create({
-        name: ''+i,
+        name: ''+(i+1),
         index: i
       }) ;
       pages.push(item) ;
