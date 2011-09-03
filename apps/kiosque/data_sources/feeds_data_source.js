@@ -22,7 +22,7 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
   fetch: function(store, query) {
     
     if (query.recordType == Kiosque.Feed) {
-      var url = 'http://www.tuaw.com/rss.xml' ;
+      var url = query.get('feedUrl') ;
       SC.Request.getUrl('http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=10&q=%@'.fmt(url)).json()
                 .notify(this, 'didFetchFeeds', store, query)
                 .send() ;

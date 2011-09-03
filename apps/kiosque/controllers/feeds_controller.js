@@ -14,7 +14,8 @@
 Kiosque.feedsController = SC.ArrayController.create(
 /** @scope Kiosque.feedsController.prototype */ {
   
-  loadingData: NO, 
+  loadingData: NO,
+  url: 'http://www.tuaw.com/rss.xml',
   
   loadFeeds: function() {
     this.set('loadingData', YES) ;
@@ -23,7 +24,7 @@ Kiosque.feedsController = SC.ArrayController.create(
         
     if (SC.none(feeds)) {
       var query = SC.Query.local(Kiosque.Feed, {
-        
+        feedUrl: this.get('url')
       }) ;
       feeds = Kiosque.store.find(query) ;
       this.set('content', feeds) ;
