@@ -17,9 +17,10 @@ Kiosque.Article = SC.Record.extend(
 
   title: SC.Record.attr(String),
   author: SC.Record.attr(String),
-  summary: SC.Record.attr(String),
-  updated: SC.Record.attr(SC.DateTime),
-  url: SC.Record.attr(String),
+  snippet: SC.Record.attr(String, { key: 'contentSnippet' }),
+  content: SC.Record.attr(String, { key: 'content' }),
+  updated: SC.Record.attr(SC.DateTime, { key: 'publishedDate' }),
+  url: SC.Record.attr(String, { key: 'link' }),
   cover: SC.Record.attr(String),
   feeds: SC.Record.toMany('Kiosque', {isMaster: NO, inverse:'articles'})
 

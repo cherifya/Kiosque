@@ -18,6 +18,8 @@ Kiosque.Feed = SC.Record.extend(
   title: SC.Record.attr(String),
   description: SC.Record.attr(String),
   updated: SC.Record.attr(SC.Datetime),
-  articles: SC.Record.toMany('Kiosque.Article', { isMaster:YES, inverse: 'feeds'})
+  articles: SC.Record.toMany('Kiosque.Article', { isMaster:YES, inverse: 'feeds'}),
+  feedUrl: SC.Record.attr(SC.String),
+  link: SC.Record.attr(SC.String)
 
 }) ;

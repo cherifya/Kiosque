@@ -6,7 +6,7 @@
 
 Kiosque = SC.Application.create({
   
-  store: SC.Store.create().from('Kiosque.FixturesDataSource')
+  store: SC.Store.create().from('Kiosque.FeedsDataSource')
 });
 
 SC.ready(function() {

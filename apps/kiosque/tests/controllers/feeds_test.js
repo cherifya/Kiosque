@@ -4,7 +4,14 @@
 // ==========================================================================
 /*globals Kiosque module test ok equals same stop start */
 
-module("Kiosque.feedsController");
+module("Kiosque.feedsController",{
+  setup: function() {
+    
+  },
+  
+  tearDown: function() {
+  }
+});
 
 // TODO: Replace with real unit test for Kiosque.feedsController
 test("test description", function() {

@@ -6,7 +6,7 @@
 
 var globalArray,
     emptyArray;
-module("Kiosque", {
+module("Kiosque.ArrayPage", {
   setup: function() {
     emptyArray = [];
     

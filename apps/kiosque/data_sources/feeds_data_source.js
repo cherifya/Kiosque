@@ -22,11 +22,38 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
   fetch: function(store, query) {
     
     if (query.recordType == Kiosque.Feed) {
+      var url = 'http://www.tuaw.com/rss.xml' ;
+      SC.Request.getUrl('http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=10&q=%@'.fmt(url)).json()
+                .notify(this, 'didFetchFeeds', store, query)
+                .send() ;
       
-      return NO ;
+      return YES ;
     }
     
     return NO ; // return YES if you handled the query
+  },
+  
+  didFetchFeeds: function(response, store, query) {
+    if (SC.ok(response)) {
+      var feed = response.responsedata.feed ;
+      var entries = feed.entries ;
+      feed.guid = feed.feedUrl ;
+      delete feed.entries ;
+      
+      var articlesIds = entries.getEach('link') ;
+      entries.forEach(function(x) {
+        x.guid = x.link ;
+        x.feeds = feed.guid ;
+      }) ;
+      
+      feed.articles = articlesIds ;
+      
+      store.loadRecords(Kiosque.Feed, [feed]) ;
+      store.loadRecords(Kiosque.Article, entries) ;
+      
+      store.dataSourceDidFetchQuery(query) ;
+    }
+    else store.dataSourceDidErrorQuery(query, response) ;
   },
 
   // ..........................................................
