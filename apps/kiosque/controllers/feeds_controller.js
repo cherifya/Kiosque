@@ -24,7 +24,12 @@ Kiosque.feedsController = SC.ArrayController.create(
         
     if (SC.none(feeds)) {
       var query = SC.Query.local(Kiosque.Feed, {
-        feedUrl: this.get('url')
+        feedUrl: this.get('url'),
+        queryLoaded: NO,
+        queryLoadedDidChange: function() {
+          var queryLoaded = this.get('queryLoaded') ;
+          if (queryLoaded) controller.set('loadingData', NO) ;
+        }.observes('queryLoaded')
       }) ;
       feeds = Kiosque.store.find(query) ;
       this.set('content', feeds) ;

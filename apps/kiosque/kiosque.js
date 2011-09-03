@@ -10,14 +10,17 @@ Kiosque = SC.Application.create({
 });
 
 SC.ready(function() {
-//  Kiosque.mainPane = SC.TemplatePane.append({
-//    layerId: 'kiosque',
-//    templateName: 'kiosque'
-//  });
+
+  Kiosque.initData() ;
 });
 
 Kiosque.main = function main() {
   Kiosque.getPath('mainPage.mainPane').append() ;
+  
+} ;
+
+Kiosque.initData = function() {
+  Kiosque.feedsController.loadFeeds() ;
   
   var articles = Kiosque.store.find(Kiosque.Article) ;
   Kiosque.articlesController.set('content', articles) ;

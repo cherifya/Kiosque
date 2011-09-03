@@ -2,7 +2,7 @@
 // Project:   Kiosque.Feeds
 // Copyright: @2011 Strobe, Inc.
 // ==========================================================================
-/*globals Kiosque */
+/*globals Kiosque jQuery*/
 
 /** @class
 
@@ -23,9 +23,26 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
     
     if (query.recordType == Kiosque.Feed) {
       var url = query.get('feedUrl') ;
-      SC.Request.getUrl('http://ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=10&q=%@'.fmt(url)).json()
-                .notify(this, 'didFetchFeeds', store, query)
-                .send() ;
+      var dataSource = this ;
+      var max = 45 ;
+      
+      //We use jQuery because we need JSONP support
+      jQuery.ajax({
+        url: document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=%@&q=%@'.fmt(max, encodeURIComponent(url)),
+        dataType: 'jsonp',
+        context: dataSource,
+        success: function(response) {
+          SC.RunLoop.begin();
+          dataSource.didFetchFeeds(response, store, query);
+          SC.RunLoop.end();
+        },
+        error: function(jqXHR) {
+          SC.RunLoop.begin();
+          store.dataSourceDidErrorQuery(query, null) ;
+          query.set('queryLoaded', YES) ;
+          SC.RunLoop.end();
+        }
+      });
       
       return YES ;
     }
@@ -34,26 +51,25 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
   },
   
   didFetchFeeds: function(response, store, query) {
-    if (SC.ok(response)) {
-      var feed = response.responsedata.feed ;
-      var entries = feed.entries ;
-      feed.guid = feed.feedUrl ;
-      delete feed.entries ;
-      
-      var articlesIds = entries.getEach('link') ;
-      entries.forEach(function(x) {
-        x.guid = x.link ;
-        x.feeds = feed.guid ;
-      }) ;
-      
-      feed.articles = articlesIds ;
-      
-      store.loadRecords(Kiosque.Feed, [feed]) ;
-      store.loadRecords(Kiosque.Article, entries) ;
-      
-      store.dataSourceDidFetchQuery(query) ;
-    }
-    else store.dataSourceDidErrorQuery(query, response) ;
+    SC.Logger.debug('didFetchFeeds') ;
+    var feed = response.responseData.feed ;
+    var entries = feed.entries ;
+    feed.guid = feed.feedUrl ;
+    delete feed.entries ;
+    
+    var articlesIds = entries.getEach('link') ;
+    entries.forEach(function(x) {
+      x.guid = x.link ;
+      x.feeds = feed.guid ;
+    }) ;
+    
+    feed.articles = articlesIds ;
+    
+    store.loadRecords(Kiosque.Feed, [feed]) ;
+    store.loadRecords(Kiosque.Article, entries) ;
+    
+    store.dataSourceDidFetchQuery(query) ;
+    query.set('queryLoaded', YES) ;
   },
 
   // ..........................................................
