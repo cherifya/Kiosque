@@ -15,7 +15,8 @@ Kiosque.feedsController = SC.ArrayController.create(
 /** @scope Kiosque.feedsController.prototype */ {
   
   loadingData: NO,
-  url: 'http://www.tuaw.com/rss.xml',
+  feedUrls: 'http://www.tuaw.com/rss.xml http://daringfireball.net/index.xml'.w(),
+  maxEntriesPerFeed: 45,
   
   loadFeeds: function() {
     this.set('loadingData', YES) ;
@@ -24,7 +25,8 @@ Kiosque.feedsController = SC.ArrayController.create(
         
     if (SC.none(feeds)) {
       var query = SC.Query.local(Kiosque.Feed, {
-        feedUrl: this.get('url'),
+        feedUrls: this.get('feedUrls'),
+        maxEntriesPerFeed: this.get('maxEntriesPerFeed'),
         queryLoaded: NO,
         queryLoadedDidChange: function() {
           var queryLoaded = this.get('queryLoaded') ;

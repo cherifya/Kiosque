@@ -22,27 +22,23 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
   fetch: function(store, query) {
     
     if (query.recordType == Kiosque.Feed) {
-      var url = query.get('feedUrl') ;
+      var urls = query.get('feedUrls') ;
       var dataSource = this ;
-      var max = 45 ;
+      var max = query.get('maxEntriesPerFeed') ;
       
-      //We use jQuery because we need JSONP support
-      jQuery.ajax({
-        url: document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=%@&q=%@'.fmt(max, encodeURIComponent(url)),
-        dataType: 'jsonp',
-        context: dataSource,
-        success: function(response) {
-          SC.RunLoop.begin();
-          dataSource.didFetchFeeds(response, store, query);
-          SC.RunLoop.end();
-        },
-        error: function(jqXHR) {
-          SC.RunLoop.begin();
-          store.dataSourceDidErrorQuery(query, null) ;
-          query.set('queryLoaded', YES) ;
-          SC.RunLoop.end();
-        }
-      });
+      urls.forEach(function(url) {
+        //We use jQuery because we need JSONP support
+        jQuery.ajax({
+          url: document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=%@&q=%@'.fmt(max, encodeURIComponent(url)),
+          dataType: 'jsonp',
+          context: dataSource,
+          success: function(response) {
+            SC.RunLoop.begin(); 
+            dataSource.didFetchFeed(response, url, store, query);
+            SC.RunLoop.end();
+          }
+        });
+      }) ;
       
       return YES ;
     }
@@ -50,26 +46,55 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
     return NO ; // return YES if you handled the query
   },
   
-  didFetchFeeds: function(response, store, query) {
-    SC.Logger.debug('didFetchFeeds') ;
-    var feed = response.responseData.feed ;
-    var entries = feed.entries ;
-    feed.guid = feed.feedUrl ;
-    delete feed.entries ;
+  didFetchFeed: function(response, feedUrl, store, query) {
+    SC.Logger.debug('didFetchFeed %@'.fmt(feedUrl)) ;
     
-    var articlesIds = entries.getEach('link') ;
-    entries.forEach(function(x) {
-      x.guid = x.link ;
-      x.feeds = feed.guid ;
-    }) ;
+    //If request OK, load feed and entries
+    if (response.responseStatus == 200) {
+      var feed = response.responseData.feed ;
+      var entries = feed.entries ;
+      feed.guid = feed.feedUrl ;
+      delete feed.entries ;
+
+      var articlesIds = entries.getEach('link') ;
+      feed.articles = articlesIds ;
+      entries.forEach(function(x) {
+        x.guid = x.link ;
+        x.feeds = [feed.guid] ;
+      }) ;
+      
+      store.loadRecords(Kiosque.Feed, [feed]) ;
+      store.loadRecords(Kiosque.Article, entries) ;
+      
+      /*
+      //now store this feed and its entries in the global arrays.
+      //these global arrays are loaded in the store once all requests have returned
+      var allFeeds = query._allFeeds ;
+      if (SC.none(allFeeds)) allFeeds = query._allFeeds = [] ;
+      allFeeds.push(feed) ;
+      
+      var allArticles = query._allArticles ;
+      if (SC.none(allArticles)) allArticles = query._allArticles = [] ;
+      allArticles.pushObjects(entries) ;
+      
+      */
+    }
     
-    feed.articles = articlesIds ;
+    var fetchedFeeds = query._fetchedFeeds ;
+    if (SC.none(fetchedFeeds)) fetchedFeeds = query._fetchedFeeds = [] ;
+    fetchedFeeds.push(feedUrl) ;
     
-    store.loadRecords(Kiosque.Feed, [feed]) ;
-    store.loadRecords(Kiosque.Article, entries) ;
-    
-    store.dataSourceDidFetchQuery(query) ;
-    query.set('queryLoaded', YES) ;
+    if (fetchedFeeds.get('length') == query.getPath('feedUrls.length')) {
+      //all feeds have been retrieved. Wrap up
+      SC.Logger.debug('All feeds fetched') ;
+      
+      //if (!SC.none(query._allFeeds)) store.loadRecords(Kiosque.Feed, query._allFeeds) ;
+      //if (!SC.none(query._allArticles)) store.loadRecords(Kiosque.Article, query._allArticles) ;
+      
+      store.dataSourceDidFetchQuery(query) ;
+      query.set('queryLoaded', YES) ;
+      
+    }
   },
 
   // ..........................................................
