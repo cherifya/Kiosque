@@ -21,7 +21,19 @@ Kiosque.Article = SC.Record.extend(
   content: SC.Record.attr(String, { key: 'content' }),
   updated: SC.Record.attr(SC.DateTime, { key: 'publishedDate', format: '%a, %d %b %Y %H:%M:%S %Z' }),
   url: SC.Record.attr(String, { key: 'link' }),
-  cover: SC.Record.attr(String),
-  feeds: SC.Record.toMany('Kiosque', {isMaster: NO, inverse:'articles'})
+  feeds: SC.Record.toMany('Kiosque', {isMaster: NO, inverse:'articles'}),
+  
+  cover: function() {
+    var content = this.get('content') ;
+    var cover = null ;
+    
+    var matches = content.match(/src="(.*?)"/) ;
+    if (matches && matches.get('length') >= 2) {
+      //use first image of article as cover image
+      cover = matches[1] ;
+    }
+    
+    return cover ;
+  }.property('content').cacheable()
 
 }) ;

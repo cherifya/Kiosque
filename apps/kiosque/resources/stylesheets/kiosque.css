@@ -26,18 +26,29 @@ $theme.carrousel-view {
 
 $theme.article-thumb {
   border: 1px solid #603;
-  background-color: #603;
   -webkit-box-sizing: border-box;
   color: white;
   font-size: 16px;
-  font-family: Oswald;
+  font-family: Oswald Verdana sans-serif;
   line-height: 20px;
   
   &.sel {
     -moz-box-shadow: 0px 0px 4px #777;
     -webkit-box-shadow: 0px 0px 4px 4px #777;
-    background: #603;
     color: white;
+  }
+  
+  .article-thumb-title {
+    background-color: rgba(102, 0, 51, 0.8);
+    z-index: 10;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 20px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  
+  .article-thumb-cover {
   }
 }
 
