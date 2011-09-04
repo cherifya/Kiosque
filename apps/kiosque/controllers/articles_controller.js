@@ -13,6 +13,20 @@
 Kiosque.articlesController = SC.ArrayController.create(
 /** @scope Kiosque.articlesController.prototype */ {
 
-  content: null
+  content: null,
+  
+  loadArticles: function() {
+    var query,
+        articles = this.get('content') ;
+    
+    if (SC.none(articles)) {
+      query = SC.Query.local(Kiosque.Article, {
+        orderBy: 'updated DESC'
+      }) ;
+      articles = Kiosque.store.find(query) ;
+      Kiosque.articlesController.set('content', articles) ;
+    }
+    else articles.refresh() ;
+  }
 
 }) ;

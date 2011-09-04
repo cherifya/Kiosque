@@ -22,8 +22,7 @@ Kiosque.main = function main() {
 Kiosque.initData = function() {
   Kiosque.feedsController.loadFeeds() ;
   
-  var articles = Kiosque.store.find(Kiosque.Article) ;
-  Kiosque.articlesController.set('content', articles) ;
+  Kiosque.articlesController.loadArticles() ;
 } ;
 
 function main() { Kiosque.main(); }
