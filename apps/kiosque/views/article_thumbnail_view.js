@@ -26,6 +26,9 @@ Kiosque.ArticleThumbnailView = SC.View.extend(
   cover: SC.ImageView.design({
     classNames: 'article-thumb-cover'.w(),
     layout: { top: 0, right: 0, bottom: 0, left: 0 },
+    useCanvas: YES,
+    valueIsUrl: YES,
+    renderDelegateName: 'customCanvasImageRenderDelegate',
     valueBinding: '*parentView.content.cover'
   })
 
