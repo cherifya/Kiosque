@@ -29,7 +29,7 @@ $theme.article-thumb {
   -webkit-box-sizing: border-box;
   color: white;
   font-size: 16px;
-  font-family: Oswald Verdana sans-serif;
+  font-family: Verdana, sans-serif;
   line-height: 20px;
   
   &.sel {
@@ -43,6 +43,7 @@ $theme.article-thumb {
     z-index: 10;
     padding: 10px;
     font-size: 16px;
+    font-family: Verdana, sans-serif;
     line-height: 20px;
     text-overflow: ellipsis;
     overflow: hidden;
