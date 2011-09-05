@@ -8,6 +8,8 @@
   @class
   Renders and updates DOM representations of an image using a canvas element.
   Using canvas to render image greatly improves performance.
+  This renders needs to prevent the canvas from streching the image. Aspect ratio 
+  has to be preserved.
 
   @author Cherif Yaya
 */
