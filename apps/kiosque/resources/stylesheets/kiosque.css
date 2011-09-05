@@ -3,7 +3,11 @@
 *  Copyright: @2011 Strobe, Inc.
 *  ==========================================================================
 */
+@import url(http://fonts.googleapis.com/css?family=Oswald);
 
+body {
+  background-color: rgb(234,234,234);
+}
 
 $theme.carrousel-view {
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#3b3b3b), to(#3e3e3e));
@@ -43,7 +47,7 @@ $theme.article-thumb {
     z-index: 10;
     padding: 10px;
     font-size: 16px;
-    font-family: Verdana, sans-serif;
+    font-family: 'Oswald', Verdana, sans-serif;
     line-height: 20px;
     text-overflow: ellipsis;
     overflow: hidden;
