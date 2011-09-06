@@ -66,6 +66,8 @@ $theme.articles-grid {
 $theme.article-container {
   background-color: rgb(255,255,255) ;
   z-index: 100;
+  -webkit-transition: -webkit-transform .5s ease;
+  -webkit-transform: translateZ(0);
   
   .article-content {
     font: 15px Georgia;

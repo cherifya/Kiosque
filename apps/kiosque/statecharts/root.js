@@ -43,14 +43,31 @@ Kiosque.statechart = SC.Statechart.create({
 		enterState: function() {
 		  var view = Kiosque.getPath('mainPage.mainPane.article') ;
 		  view.set('content', Kiosque.articleController.get('content')) ;
-		  view.set('isVisible',YES) ;
+		  
+		  var jquery = view.$() ;
+		  if (view.get('isVisible') === NO) {
+		    jquery.css({
+		      '-webkit-transform': 'scale3d(0,0,1)'
+		    }) ;
+		    view.set('isVisible',YES) ;
+		  }
+ 		  
+ 		  //show view
+ 		  jquery.css({
+	      '-webkit-transform': 'scale3d(1,1,1)'
+	    }) ;
 		  
 		  this.set('view', view) ;
 		},
 		
 		exitState: function() {
 			var view = this.get('view');
-			view.set('isVisible', NO) ;
+			var jquery = view.$() ;
+			//hide view
+ 		  jquery.css({
+	      '-webkit-transform': 'scale3d(0,0,1)'
+	    }) ;
+			//view.set('isVisible', NO) ;
 		},
 		
 		close: function() {
