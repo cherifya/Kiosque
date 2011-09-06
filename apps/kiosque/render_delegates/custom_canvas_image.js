@@ -59,9 +59,33 @@ SC.BaseTheme.customCanvasImageRenderDelegate = SC.RenderDelegate.create({
           context.fillStyle = backgroundColor;
           context.fillRect(0, 0, frameWidth, frameHeight);
         }
-
+        
+        //determine cropping size
+        var sx = 0, sy = 0,
+            sw = image.width, sh = image.height,
+            dx = Math.floor(innerFrame.x), dy = Math.floor(innerFrame.y),
+            dw = Math.floor(innerFrame.width), dh = Math.floor(innerFrame.height) ;
+        
+        //make sure source is smaller than canvas
+        //the area of the source we use will have the same ration as the destination 
+        //canvas so that no distortion occurs. The end result will in most cases be 
+        //a stretched image
+        if (sw > dw) {
+          sw = dw ;
+          sh = Math.floor(dw*sh*1.0/sw) ;
+        }
+        if (sh > dh) {
+          sh = dh ;
+          sw = Math.floor(dh*sw*1.0/sh) ;
+        }
+           
+        //now center source area on source image
+        sx = Math.floor((image.width - sw) / 2.0) ;
+        sy = Math.floor((image.height - sh) / 2.0) ;
+        
+        //apply cropping
         if (image && image.complete) {
-          context.drawImage(image, Math.floor(innerFrame.x), Math.floor(innerFrame.y), Math.floor(innerFrame.width), Math.floor(innerFrame.height));
+          context.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);
         }
       }
 
