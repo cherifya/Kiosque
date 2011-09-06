@@ -63,8 +63,19 @@ $theme.articles-grid {
   line-height: 20px;
 }
 
-$theme.article-view {
-  background-color: rgb(234,234,234) ;
+$theme.article-container {
+  background-color: rgb(255,255,255) ;
   z-index: 100;
+  
+  .article-content {
+    font: 15px Georgia;
+    -moz-column-count: 2;
+  	-moz-column-gap:  20px;
+  	-webkit-column-count: 2;
+  	-webkit-column-gap: 40px;
+  	column-count: 2;
+  	column-gap: 20px;
+  	overflow: visible;
+  }
   
 }

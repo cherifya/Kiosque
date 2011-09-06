@@ -4,6 +4,7 @@
 // ==========================================================================
 /*globals Kiosque Iweb */
 require('views/articles_grid_view');
+require('views/article_view');
 
 // This page describes the main user interface for your application.  
 Kiosque.mainPage = SC.Page.design({
@@ -12,7 +13,7 @@ Kiosque.mainPage = SC.Page.design({
   // Add childViews to this pane for views to display immediately on page 
   // load.
   mainPane: SC.MainPane.design({
-    childViews: 'grid carrousel'.w(),
+    childViews: 'grid carrousel article'.w(),
     
     grid: Kiosque.ArticlesGridView.design({
       layout: {top: 120, bottom: 100, left: 48, right: 48 },
@@ -33,6 +34,10 @@ Kiosque.mainPage = SC.Page.design({
       exampleView: SC.LabelView.design({
         classNames: 'carrousel-label'.w()
       })
+    }),
+    
+    article: Kiosque.ArticleView.design({
+      isVisible: NO
     })
   })
 

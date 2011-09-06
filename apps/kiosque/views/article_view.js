@@ -14,20 +14,20 @@
 Kiosque.ArticleView = SC.View.extend(
 /** @scope Kiosque.ArticleView.prototype */ {
 
-  classNames: 'article-view'.w(),
+  classNames: 'article-container'.w(),
   childViews: 'label closeButton'.w(),
   content: null,
   
   label: SC.LabelView.design({
     classNames: 'article-content'.w(),
-    layout: {centerX:0, top:50, width: 600, height: 400},
+    layout: {top:96, left:21, right: 21, bottom: 96},
     valueBinding: '*parentView.content.content',
     textAlign: SC.ALIGN_CENTER,
     escapeHTML: NO
   }),
   
   closeButton: SC.ButtonView.design({
-    layout: {centerX:0, top: 480, height:40,width:100},
+    layout: {left:0, top: 0, height:40,width:100},
     title: 'Close',
     action: function() {
       Kiosque.statechart.sendEvent('close');

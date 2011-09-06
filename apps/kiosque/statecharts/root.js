@@ -38,16 +38,16 @@ Kiosque.statechart = SC.Statechart.create({
 	
 	articles: SC.State.extend({
 		enterState: function() {
-		  var pane = Kiosque.getPath('mainPage.mainPane');
-		  var view = pane.createChildView(Kiosque.ArticleView, {content: Kiosque.articleController.get('content')}) ;
-			pane.appendChild(view) ;
-		  //pane.append();
-		  this.set('view',view);
+		  var view = Kiosque.getPath('mainPage.mainPane.article') ;
+		  view.set('content', Kiosque.articleController.get('content')) ;
+		  view.set('isVisible',YES) ;
+		  
+		  this.set('view', view) ;
 		},
 		
 		exitState: function() {
 			var view = this.get('view');
-			view.removeFromParent();
+			view.set('isVisible', NO) ;
 		},
 		
 		close: function() {

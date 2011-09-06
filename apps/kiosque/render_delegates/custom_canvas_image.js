@@ -15,7 +15,7 @@
 */
 
 SC.BaseTheme.customCanvasImageRenderDelegate = SC.RenderDelegate.create({
-  name: 'canvasImage',
+  //name: 'canvasImage',
 
   /** @private
     We don't have an element yet, so we do the minimal necessary setup
