@@ -16,7 +16,10 @@ Kiosque.statechart = SC.Statechart.create({
 	
 	feeds: SC.State.extend({
 		enterState: function() {
-		  this.initData() ;
+		  if (!this._dataLoaded) {
+		    this.initData() ;
+		    this._dataLoaded = YES ;
+		  }
 		},
 		
 		initData: function() {

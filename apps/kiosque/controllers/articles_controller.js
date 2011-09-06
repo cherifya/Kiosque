@@ -34,7 +34,7 @@ Kiosque.articlesController = SC.ArrayController.create(
     var selection = this.get('selection') ;
     if (selection && selection.get('length') > 0) {
       var article = selection.firstObject() ;
-      SC.Logger.debug('selection : %@'.fmt(article.get('title'))) ;
+      
       Kiosque.statechart.sendEvent('openArticle', article) ;
     }
   }.observes('selection')
