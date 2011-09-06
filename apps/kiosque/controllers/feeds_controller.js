@@ -17,6 +17,7 @@ Kiosque.feedsController = SC.ArrayController.create(
   loadingData: NO,
   feedUrls: 'http://www.tuaw.com/rss.xml'.w(),
   maxEntriesPerFeed: 45,
+  selection: null,
   
   loadFeeds: function() {
     this.set('loadingData', YES) ;

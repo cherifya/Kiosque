@@ -11,11 +11,12 @@ Kiosque = SC.Application.create({
 
 SC.ready(function() {
 
-  Kiosque.initData() ;
 });
 
 Kiosque.main = function main() {
   Kiosque.getPath('mainPage.mainPane').append() ;
+  
+  Kiosque.statechart.initStatechart() ;
   
 } ;
 

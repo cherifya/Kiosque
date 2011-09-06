@@ -14,6 +14,7 @@ Kiosque.articlesController = SC.ArrayController.create(
 /** @scope Kiosque.articlesController.prototype */ {
 
   content: null,
+  selection: null,
   
   loadArticles: function() {
     var query,
@@ -27,6 +28,15 @@ Kiosque.articlesController = SC.ArrayController.create(
       Kiosque.articlesController.set('content', articles) ;
     }
     else articles.refresh() ;
-  }
+  },
+  
+  selectionDidChange: function() {
+    var selection = this.get('selection') ;
+    if (selection && selection.get('length') > 0) {
+      var article = selection.firstObject() ;
+      SC.Logger.debug('selection : %@'.fmt(article.get('title'))) ;
+      Kiosque.statechart.sendEvent('openArticle', article) ;
+    }
+  }.observes('selection')
 
 }) ;
