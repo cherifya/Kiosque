@@ -67,7 +67,7 @@ $theme.article-container {
   background-color: rgb(255,255,255) ;
   z-index: 100;
   -webkit-transition: -webkit-transform .5s ease;
-  -webkit-transform: translateZ(0);
+  -webkit-transform: scale3d(0,0,1);
   
   .article-content {
     font: 15px Georgia;
@@ -77,7 +77,7 @@ $theme.article-container {
   	-webkit-column-gap: 40px;
   	column-count: 2;
   	column-gap: 20px;
-  	overflow: visible;
+  	overflow: auto;
   }
   
 }

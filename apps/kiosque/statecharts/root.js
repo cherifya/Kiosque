@@ -46,9 +46,6 @@ Kiosque.statechart = SC.Statechart.create({
 		  
 		  var jquery = view.$() ;
 		  if (view.get('isVisible') === NO) {
-		    jquery.css({
-		      '-webkit-transform': 'scale3d(0,0,1)'
-		    }) ;
 		    view.set('isVisible',YES) ;
 		  }
  		  
