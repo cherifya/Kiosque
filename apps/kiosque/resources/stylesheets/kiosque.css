@@ -85,3 +85,11 @@ $theme.article-container {
 $theme.collection {
   background: transparent;
 }
+
+$theme.article-hidden {
+  -webkit-transform: scale3d(0,0,1);
+}
+
+$theme.article-visible {
+  -webkit-transform: scale3d(1,1,1);
+}

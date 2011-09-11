@@ -50,9 +50,7 @@ Kiosque.statechart = SC.Statechart.create({
 		  }
  		  
  		  //show view
- 		  jquery.css({
-	      '-webkit-transform': 'scale3d(1,1,1)'
-	    }) ;
+ 		  jquery.addClass('article-visible') ;
 		  
 		  this.set('view', view) ;
 		},
@@ -61,9 +59,7 @@ Kiosque.statechart = SC.Statechart.create({
 			var view = this.get('view');
 			var jquery = view.$() ;
 			//hide view
- 		  jquery.css({
-	      '-webkit-transform': 'scale3d(0,0,1)'
-	    }) ;
+ 		  jquery.removeClass('article-visible') ;
 			//view.set('isVisible', NO) ;
 		},
 		

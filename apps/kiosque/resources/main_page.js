@@ -37,7 +37,7 @@ Kiosque.mainPage = SC.Page.design({
     }),
     
     article: Kiosque.ArticleView.design({
-      isVisible: NO
+      isVisible: YES
     })
   })
 
