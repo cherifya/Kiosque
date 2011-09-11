@@ -22,7 +22,7 @@ Kiosque.articlesController = SC.ArrayController.create(
     
     if (SC.none(articles)) {
       query = SC.Query.local(Kiosque.Article, {
-        orderBy: 'updated DESC'
+        orderBy: 'publishedDate DESC'
       }) ;
       articles = Kiosque.store.find(query) ;
       Kiosque.articlesController.set('content', articles) ;

@@ -79,6 +79,36 @@ $theme.article-container {
   	column-gap: 20px;
   	overflow: auto;
   	line-height: 23px;
+  	
+  	.article-header {
+  	  text-align: left;
+  	  margin-bottom: 20px;
+  	  
+  	  .title {
+  	    font: 40px Helvetica;
+  	    display: block;
+  	    
+  	  }
+  	  
+  	  .byline {
+  	    font-size: 13px;
+  	    color: gray;
+  	    padding-top: 5px;
+  	    padding-bottom: 5px;
+  	    
+  	    .author {
+    	    
+    	  }
+
+    	  .author::before {
+          content: "By ";
+        }
+        
+        .date::before {
+          content: " on ";
+        }
+  	  }
+  	}
   }
 }
 

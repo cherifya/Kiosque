@@ -23,7 +23,13 @@ Kiosque.ArticleView = SC.View.extend(
     layout: {top:96, left:21, right: 21, bottom: 96},
     valueBinding: '*parentView.content.content',
     textAlign: SC.ALIGN_CENTER,
-    escapeHTML: NO
+    escapeHTML: NO,
+    
+    articleTitleBinding: '*parentView.content.title',
+    articleAuthorBinding: '*parentView.content.author',
+    articleDateBinding: '*parentView.content.publishedDate',
+    displayProperties: ['articleTitle', 'articleAuthor', 'articleDate'],
+    renderDelegateName: 'articleLabelRenderDelegate'
   }),
   
   closeButton: SC.ButtonView.design({
