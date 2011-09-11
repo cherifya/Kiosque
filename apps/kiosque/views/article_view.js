@@ -45,7 +45,6 @@ Kiosque.ArticleView = SC.View.extend(
       classNames: 'article-content'.w(),
       //layout: {top:0,bottom:0,left:0},
       valueBinding: '*parentView.parentView.content.content',
-      textAlign: SC.ALIGN_CENTER,
       escapeHTML: NO,
 
       articleTitleBinding: '*parentView.parentView.content.title',
