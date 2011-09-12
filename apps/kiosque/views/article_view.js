@@ -3,7 +3,7 @@
 // Copyright: @2011 Strobe, Inc.
 // ==========================================================================
 /*globals Kiosque */
-
+require('views/image_button');
 /** @class
 
   Represents the view used to display articles full screen.
@@ -61,9 +61,9 @@ Kiosque.ArticleView = SC.View.extend(
     })
   }),
   
-  closeButton: SC.ButtonView.design({
-    layout: {left:0, top: 0, height:40,width:100},
-    title: 'Close',
+  closeButton: Kiosque.ImageButtonView.design({
+    layout: {left:0, top: 0, height:75,width:75},
+    value: sc_static('images/back'),
     action: function() {
       Kiosque.statechart.sendEvent('close');
     }
