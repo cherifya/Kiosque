@@ -5,6 +5,7 @@
 /*globals Kiosque Iweb */
 require('views/articles_grid_view');
 require('views/article_view');
+require('views/image_button');
 
 // This page describes the main user interface for your application.  
 Kiosque.mainPage = SC.Page.design({
@@ -52,12 +53,12 @@ Kiosque.mainPage = SC.Page.design({
     footer: SC.View.design({
       layout: {bottom:0, right: 0, left: 0, height: 75},
       classNames: 'article-footer'.w(),
-      childViews: 'feeds carrousel'.w(),
+      childViews: 'feedsButton carrousel'.w(),
       
-      feeds: SC.ButtonView.design({
-        layout: {centerY:0,left:48, height:24,width:50},
-        title: 'Feeds',
-        action: 'myMethod',
+      feedsButton: Kiosque.ImageButtonView.design({
+        layout: {bottom: 37,left:48, height:24,width:24},
+        value: sc_static('images/settings'),
+        action: 'showPickerPane',
         target: 'Kiosque.sourcesController'
       }),
       

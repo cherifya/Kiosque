@@ -32,6 +32,16 @@ Kiosque.sourcesController = SC.ArrayController.create(
       this.set('content', feeds) ;
     }
     else feeds.refresh() ;
+  },
+  
+  showPickerPane: function(sender) {
+    var pane = SC.PickerPane.create({
+      layout: { width: 400, height: 300 },
+      contentView: Kiosque.SettingsView.extend({
+        layout: { top: 0, left: 0, bottom: 0, right: 0 }
+      })
+    });
+    pane.popup(sender);
   }
 
 }) ;
