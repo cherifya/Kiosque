@@ -8,6 +8,7 @@
 $hicolor: #603;
 $hicolorTransparent: rgba(102, 0, 51, 0.8);
 $carrouselColor: #999;
+$feedColor: #333; 
 
 body {
   background-color: rgb(234,234,234);
@@ -69,12 +70,33 @@ $theme.articles-grid {
 
 $theme.header {
   h1 {
-    font-size: 40px;
-    line-height: 40px;
+    font-size: 50px;
+    line-height: 50px;
     font-family: 'Paytone one', Arial;
     font-weight: bold;
     text-align: left;
     color: $hicolor;
+  }
+  
+  .feeds-view {
+    
+    
+    .feed-title {
+      color: $feedColor;
+      padding-top: 5px;
+      font-family: 'Kenia', Arial;
+      font-size: 30px;
+      line-height: 30px;
+      font-weight: bold;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      &.sel {
+        color: $hicolor;
+        background: none;
+      }
+    }
   }
 }
 

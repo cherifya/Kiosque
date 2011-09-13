@@ -17,7 +17,11 @@ Kiosque.statechart = SC.Statechart.create({
 	feeds: SC.State.extend({
 		enterState: function() {
 		  if (!this._dataLoaded) {
-		    this.initData() ;
+		    Kiosque.sourcesController.loadSources() ;
+		    //Since loading feeds from cookies is pretty much synchronous
+		    //we can do this. but needs to be fixed with true async behavior 
+		    //TODO add async loading of data in case feeds list is read across the pipes
+		    this.invokeLast('initData') ;
 		    this._dataLoaded = YES ;
 		  }
 		},

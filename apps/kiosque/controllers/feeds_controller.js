@@ -17,6 +17,7 @@ Kiosque.feedsController = SC.ArrayController.create(
   loadingData: NO,
   feedUrls: 'http://feeds.arstechnica.com/arstechnica/index'.w(),
   //feedUrls: 'http://daringfireball.net/index.xml'.w(),
+  sourcesBinding: 'Kiosque.sourcesController.content',
   maxEntriesPerFeed: 45,
   selection: null,
   
@@ -25,9 +26,12 @@ Kiosque.feedsController = SC.ArrayController.create(
     var controller = this,
         feeds = this.get('content') ;
         
+    var sources = this.get('sources') ;
+    if (SC.none(sources)) return ;
+        
     if (SC.none(feeds)) {
       var query = SC.Query.local(Kiosque.Feed, {
-        feedUrls: this.get('feedUrls'),
+        feedUrls: sources.getEach('url'),
         maxEntriesPerFeed: this.get('maxEntriesPerFeed'),
         queryLoaded: NO,
         queryLoadedDidChange: function() {

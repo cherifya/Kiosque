@@ -43,9 +43,13 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
       return YES ;
     }
     else if (query.recordType == Kiosque.RssSource) {
-      //load feeds from cookie
+      //load feeds lists from cookies
+      var feeds = Kiosque.preferencesController.get('feeds') ;
+      store.loadRecords(Kiosque.RssSource, feeds) ;
+      store.dataSourceDidFetchQuery(query) ;
+      query.set('queryLoaded', YES) ;
       
-      return NO ;
+      return YES ;
     }
     
     return NO ; // return YES if you handled the query

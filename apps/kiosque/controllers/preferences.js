@@ -30,7 +30,7 @@ Kiosque.preferencesController = SC.ObjectController.create(
 	  
 	  _feeds.push(feed) ;
 	  
-	  this.set('feeds', _feeds) ;
+	  this.setPreference('feeds', _feeds) ;
 	},
 	
 	removeFeed: function(feed) {
@@ -50,7 +50,7 @@ Kiosque.preferencesController = SC.ObjectController.create(
 	  
 	  if(!SC.none(found)) _feeds.removeObject(found) ;
 	  
-	  this.set('feeds', _feeds) ;
+	  this.setPreference('feeds', _feeds) ;
 	},
 	
 	resetFeeds: function() {

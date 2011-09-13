@@ -14,6 +14,8 @@
 Kiosque.RssSource = SC.Record.extend(
 /** @scope Kiosque.RssSource.prototype */ {
 
-  // TODO: Add your own code here.
+  primaryKey: 'url',
+  name: SC.Record.attr(String),
+  url: SC.Record.attr(String)
 
 }) ;

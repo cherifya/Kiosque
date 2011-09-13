@@ -16,14 +16,28 @@ Kiosque.mainPage = SC.Page.design({
     childViews: 'header grid footer article'.w(),
     
     header: SC.View.design({
-      layout: {top:0,right: 10,left: 10, height: 120},
+      layout: {top:0,right: 0,left: 0, height: 120},
       classNames: 'header'.w(),
-      childViews: 'title'.w(),
+      childViews: 'title feeds'.w(),
 
       title: SC.LabelView.design({
-        layout: {left: 48,centerY:0,height:50,width:300},
+        layout: {left: 48,centerY:0,height:75,width:250},
         value: 'Kiosque',
         tagName: 'h1'
+      }),
+      
+      feeds: Iweb.CarrouselView.design({
+        classNames: 'feeds-view'.w(),
+        layout: {left: 300, centerY: 0, right: 48, height: 50},
+        maxWidth: 1024,
+        contentValueKey: 'name',
+        contentBinding: 'Kiosque.sourcesController.arrangedObjects',
+        selectionBinding: 'Kiosque.sourcesController.selection',
+        columnWidth: 200,
+        rowHeight: 50,
+        exampleView: SC.LabelView.design({
+          classNames: 'feed-title'.w()
+        })
       })
 
     }),
