@@ -119,9 +119,15 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
   },
   
   createRecord: function(store, storeKey) {
-    
-    // TODO: Add handlers to submit new records to the data source.
-    // call store.dataSourceDidComplete(storeKey) when done.
+    //create new source
+    if(SC.kindOf(store.recordTypeFor(storeKey), Kiosque.RssSource)) {
+      var feed = store.readDataHash(storeKey) ;
+      Kiosque.preferencesController.addFeed(feed) ;
+      
+      store.dataSourceDidComplete(storeKey) ;
+      
+      return YES ;
+    }
     
     return NO ; // return YES if you handled the storeKey
   },

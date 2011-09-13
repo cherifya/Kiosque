@@ -161,6 +161,13 @@ $theme.article-container {
   }
 }
 
+$theme.settings-panel {
+  
+  .feeds {
+    border-bottom: 1px solid gray;
+  }
+}
+
 $theme.collection {
   background: transparent;
 }

@@ -36,12 +36,28 @@ Kiosque.sourcesController = SC.ArrayController.create(
   
   showPickerPane: function(sender) {
     var pane = SC.PickerPane.create({
-      layout: { width: 400, height: 300 },
+      layout: { width: 500, height: 300 },
       contentView: Kiosque.SettingsView.extend({
         layout: { top: 0, left: 0, bottom: 0, right: 0 }
       })
     });
     pane.popup(sender);
+  },
+  
+  addNewFeed: function(sender) {
+    var panel = sender.parentView ;
+    var name = panel.getPath('nameField.value') ;
+    var url = panel.getPath('urlField.value') ;
+    
+    if (!SC.empty(name) && !SC.empty(url)) {
+      SC.Logger.debug('add new feed %@, %@'.fmt(name, url)) ;
+      var feed = Kiosque.store.createRecord(Kiosque.RssSource, {
+        name: name,
+        url: url
+      }) ;
+      
+      feed.commitRecord() ;
+    }   
   }
 
 }) ;
