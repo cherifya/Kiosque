@@ -314,7 +314,7 @@ Iweb.TabControlView = SC.View.extend(
 		//navigate to tab view
 		for(var i = 0; i < nbTabs; i++) {
 			var view = this._tabViews[i] ;
-			var delta = view.tabIndex - index ;
+			var delta = i - index ;
 			
 			//hide invisible tabs
 			if(delta !== 0) view.$().addClass('tab-hidden') ;
