@@ -13,7 +13,20 @@ Kiosque.mainPage = SC.Page.design({
   // Add childViews to this pane for views to display immediately on page 
   // load.
   mainPane: SC.MainPane.design({
-    childViews: 'grid carrousel article'.w(),
+    childViews: 'header grid carrousel article'.w(),
+    
+    header: SC.View.design({
+      layout: {top:0,right: 10,left: 10, height: 120},
+      classNames: 'header'.w(),
+      childViews: 'title'.w(),
+
+      title: SC.LabelView.design({
+        layout: {left: 48,centerY:0,height:50,width:300},
+        value: 'Kiosque',
+        tagName: 'h1'
+      })
+
+    }),
     
     grid: Kiosque.ArticlesGridView.design({
       layout: {top: 120, bottom: 100, left: 48, right: 48 },
