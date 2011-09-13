@@ -15,29 +15,61 @@ Kiosque.preferencesController = SC.ObjectController.create(
 /** @scope ZicTube.preferencesController.prototype */ {
 	
 	feeds: function(key, value) {
-		if (value !== undefined) {
-			
-			//set value
-			this.setPreference('feeds', value);
-		}
+    
 		//read value
-		return this.readPreference('feeds');
+		var _feeds = this.readPreference('feeds') ;
+	
+		return _feeds ;
 	}.property(),
 	
+	addFeed: function(feed) {
+	  if(SC.none(feed)) return ;
+	  
+	  var _feeds = this.readPreference('feeds') ;
+	  if (SC.none(_feeds)) _feeds = [] ;
+	  
+	  _feeds.push(feed) ;
+	  
+	  this.set('feeds', _feeds) ;
+	},
+	
+	removeFeed: function(feed) {
+	  if(SC.none(feed)) return ;
+	  
+	  var _feeds = this.readPreference('feeds') ;
+	  if (SC.none(_feeds)) return ; //nothing to do
+	  
+	  var i, _feed, found ;
+	  for (i = 0; i<_feeds.length; i++) {
+	    _feed = _feeds[i] ;
+	    if (_feed.name === feed.name && _feed.url === feed.url) {
+	      found = _feed ;
+	      break ;
+	    }
+	  }
+	  
+	  if(!SC.none(found)) _feeds.removeObject(found) ;
+	  
+	  this.set('feeds', _feeds) ;
+	},
+	
+	resetFeeds: function() {
+	  eraseCookie('feeds') ;
+	},
+	
 	setPreference: function(prefName, prefValue) {
-		createCookie(prefName, serializeJSObject(prefValue), 31);
+		createCookie(prefName, serializeJSObject(prefValue), 31) ;
 	},
 	
 	readPreference: function(prefName) {
-		var prefValue = readCookie(prefName);
-		prefValue = eval(prefValue);
-		return prefValue;
+		var prefValue = readCookie(prefName) ;
+		prefValue = eval(prefValue) ;
+		return prefValue ;
 	}
 
 }) ;
 
 /* COOKIES  */
-
 
 function createCookie(name,value,days) {
 	if (days) {
