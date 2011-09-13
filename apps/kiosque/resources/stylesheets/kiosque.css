@@ -80,7 +80,6 @@ $theme.header {
   
   .feeds-view {
     
-    
     .feed-title {
       color: $feedColor;
       padding-top: 5px;
@@ -88,7 +87,6 @@ $theme.header {
       font-size: 30px;
       line-height: 30px;
       font-weight: bold;
-      text-align: center;
       text-overflow: ellipsis;
       white-space: nowrap;
 
@@ -164,7 +162,7 @@ $theme.article-container {
 $theme.settings-panel {
   
   .feeds {
-    border-bottom: 1px solid gray;
+    border-bottom: 1px dashed gray;
   }
 }
 
