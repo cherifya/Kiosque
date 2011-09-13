@@ -15,21 +15,27 @@ Kiosque.ArticleView = SC.View.extend(
 /** @scope Kiosque.ArticleView.prototype */ {
 
   classNames: 'article-container'.w(),
-  childViews: 'scroll closeButton'.w(),
+  childViews: 'header scroll closeButton'.w(),
   content: null,
   
-  label: SC.LabelView.design({
-    classNames: 'article-content'.w(),
-    layout: {top:96, left:21, right: 21, bottom: 96},
-    valueBinding: '*parentView.content.content',
-    textAlign: SC.ALIGN_CENTER,
-    escapeHTML: NO,
+  header: SC.View.design({
+    layout: {top:0,right: 10,left: 10,height: 75},
+    classNames: 'article-top'.w(),
+    childViews: 'title'.w(),
     
-    articleTitleBinding: '*parentView.content.title',
-    articleAuthorBinding: '*parentView.content.author',
-    articleDateBinding: '*parentView.content.publishedDate',
-    displayProperties: ['articleTitle', 'articleAuthor', 'articleDate'],
-    renderDelegateName: 'articleLabelRenderDelegate'
+    title: SC.LabelView.design({
+      layout: {centerX:0,centerY:0,height:50,width:300},
+      value: 'Kiosque',
+      tagName: 'h1'
+    })
+    
+  }),
+  
+  footer: SC.View.design({
+    layout: {bottom:0, right: 0, left: 0, height: 75},
+    classNames: 'article-footer'.w(),
+    childViews: ''.w()
+    
   }),
   
   scroll: SC.ScrollView.design({

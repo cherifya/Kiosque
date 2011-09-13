@@ -3,7 +3,9 @@
 *  Copyright: @2011 Strobe, Inc.
 *  ==========================================================================
 */
-@import url(http://fonts.googleapis.com/css?family=Oswald);
+@import url(http://fonts.googleapis.com/css?family=Oswald|Paytone+One|Kenia);
+
+$hicolor: #603;
 
 body {
   background-color: rgb(234,234,234);
@@ -22,14 +24,14 @@ $theme.carrousel-view {
     text-align: center;
     
     &.sel {
-      background: #603;
+      background: $hicolor;
       color: white;
     }
   }
 }
 
 $theme.article-thumb {
-  border: 1px solid #603;
+  border: 1px solid $hicolor;
   -webkit-box-sizing: border-box;
   color: white;
   font-size: 16px;
@@ -68,6 +70,18 @@ $theme.article-container {
   z-index: 100;
   -webkit-transition: -webkit-transform .5s ease;
   -webkit-transform: scale3d(0,0,1);
+  
+  .article-top {
+    border-bottom: 1px solid black;
+    h1 {
+      font-size: 40px;
+      line-height: 40px;
+      font-family: 'Paytone one', Arial;
+      font-weight: bold;
+      text-align: center;
+      color: $hicolor;
+    }
+  }
   
   .article-content {
     font: 15px Georgia;
