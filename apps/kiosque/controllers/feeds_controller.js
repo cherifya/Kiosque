@@ -15,7 +15,7 @@ Kiosque.feedsController = SC.ArrayController.create(
 /** @scope Kiosque.feedsController.prototype */ {
   
   loadingData: NO,
-  feedUrls: 'http://www.tuaw.com/rss.xml'.w(),
+  feedUrls: 'http://feeds.arstechnica.com/arstechnica/index'.w(),
   //feedUrls: 'http://daringfireball.net/index.xml'.w(),
   maxEntriesPerFeed: 45,
   selection: null,
