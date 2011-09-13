@@ -42,6 +42,11 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
       
       return YES ;
     }
+    else if (query.recordType == Kiosque.RssSource) {
+      //load feeds from cookie
+      
+      return NO ;
+    }
     
     return NO ; // return YES if you handled the query
   },
