@@ -23,43 +23,51 @@ Kiosque.SettingsView = SC.View.extend(
   
   scroll: SC.ScrollView.design({
     classNames: 'feeds'.w(),
-    layout: {top:50,right:10,left:10,height:150},
+    layout: {top:35,right:10,left:10,height:150},
     
-    contentView: SC.ListView.design({
+    contentView: SC.GridView.design({
       layout: {top:0,right:0,bottom:0,left:0},
       contentBinding: 'Kiosque.sourcesController.arrangedObjects',
       //selectionBinding: 'Kiosque.sourcesController.selection'
-      contentValueKey: 'name'
+      contentValueKey: 'name',
+      columnWidth: 240,
+      rowHeight: 30,
+      canEditContent: YES,
+      canDeleteContent: YES,
+      exampleView: SC.LabelView.design({
+        classNames: 'feed-label'.w(),
+        textAlign: SC.ALIGN_CENTER
+      })
     })
   }),
   
   nameLabel: SC.LabelView.design({
-    layout: {top:210,left:10,height:20,width:180},
+    layout: {top:200,left:10,height:20,width:180},
     value: 'Name:'
   }),
   
   urlLabel: SC.LabelView.design({
-    layout: {top:210,left:200,height:20,width:200},
+    layout: {top:200,left:200,height:20,width:200},
     value: 'Url:'
   }),
   
   nameField: SC.TextFieldView.design({
-    layout: {top:235,left: 10, height: 30,width:180},
+    layout: {top:220,left: 10, height: 25,width:180},
     hint: 'Name...',
     isPassword: NO,
     isTextArea: NO
   }),
   
   urlField: SC.TextFieldView.design({
-    layout: {top:235,left: 200, height: 30, right:10},
+    layout: {top:220,left: 200, height: 25, right:10},
     hint: 'Url...',
     isPassword: NO,
     isTextArea: NO
   }),
   
   addButton: SC.ButtonView.design({
-    layout: {bottom:10,left: 10,height:24,width:100},
-    title: 'New Feed',
+    layout: {bottom:10,right: 10, height:34,width:100},
+    title: 'Add Feed',
     action: 'addNewFeed',
     target: 'Kiosque.sourcesController'
   })

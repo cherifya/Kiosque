@@ -159,10 +159,39 @@ $theme.article-container {
   }
 }
 
+.picker .panel-background {
+  display: none;
+}
+
 $theme.settings-panel {
   
+  background-color: rgba(30,30,30, 0.9);
+  border-radius: 5px;
+  color: white;
+  -webkit-box-shadow: 0px 0px 10px #222;
+  
+  label {
+    border-radius: 5px;
+    
+    span.border {
+      -webkit-appearance: none;
+    }
+  }
+  
   .feeds {
-    border-bottom: 1px dashed gray;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    
+    .feed-label {
+      text-align: center;
+      padding-top: 5px;
+      font-size: 14px;
+      
+      &.sel {
+        font-weight: bold;
+        background: $hicolor;
+      }
+    }
   }
 }
 
