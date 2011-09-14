@@ -40,6 +40,12 @@ Kiosque.statechart = SC.Statechart.create({
 		  if (SC.none(article)) return ;
 		  Kiosque.articleController.set('content', article) ;
 			this.gotoState('articles');
+		},
+		
+		filterSource: function(source) {
+		  if (!SC.none(source)) {
+		    Kiosque.articlesController.loadArticlesFromSource(source) ;
+		  }
 		}
 	}),
 	

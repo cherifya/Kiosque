@@ -14,6 +14,7 @@ Kiosque.sourcesController = SC.ArrayController.create(
 /** @scope Kiosque.sourcesController.prototype */ {
   
   loadingData: NO,
+  selection: null,
 
   loadSources: function() {
     this.set('loadingData', YES) ;
@@ -34,6 +35,16 @@ Kiosque.sourcesController = SC.ArrayController.create(
     }
     else feeds.refresh() ;
   },
+  
+  selectionDidChange: function() {
+    var selection = this.get('selection') ;
+    if (selection && selection.get('length') > 0) {
+      var source = selection.firstObject() ;
+      
+      SC.Logger.debug('source: %@'.fmt(source.get('name'))) ;
+      Kiosque.statechart.sendEvent('filterSource', source) ;
+    }
+  }.observes('selection'),
   
   showPickerPane: function(sender) {
     var pane = SC.PickerPane.create({

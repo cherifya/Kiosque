@@ -30,6 +30,30 @@ Kiosque.articlesController = SC.ArrayController.create(
     else articles.refresh() ;
   },
   
+  loadArticlesFromSource: function(source) {
+    var query, feed,
+        articles = this.get('content') ;
+    
+    feed = Kiosque.store.find(Kiosque.Feed, source.get('url')) ;
+    
+    this.set('content', feed.get('articles')) ;
+    /*
+    if (!SC.none(feed)) {
+      query = SC.Query.local(Kiosque.Article, {
+        orderBy: 'publishedDate DESC',
+        conditions: 'feeds = {selected}',
+        parameters: {
+          selected: feed
+        }
+      }) ;
+      articles = Kiosque.store.find(query) ;
+      Kiosque.articlesController.set('content', articles) ;
+    }
+    
+    */
+    
+  },
+  
   selectionDidChange: function() {
     var selection = this.get('selection') ;
     if (selection && selection.get('length') > 0) {
