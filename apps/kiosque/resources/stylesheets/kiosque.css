@@ -83,12 +83,13 @@ $theme.header {
     .feed-title {
       color: $feedColor;
       padding-top: 5px;
-      font-family: 'Kenia', Arial;
+      font-family: 'Oswald', Arial;
       font-size: 30px;
       line-height: 30px;
       font-weight: bold;
       text-overflow: ellipsis;
       white-space: nowrap;
+      text-align: center;
 
       &.sel {
         color: $hicolor;
@@ -165,10 +166,13 @@ $theme.article-container {
 
 $theme.settings-panel {
   
-  background-color: rgba(30,30,30, 0.9);
-  border-radius: 5px;
+  background-color: #4a4a4a;
+  border-radius: 10px;
   color: white;
+  text-shadow: 0px -1px 0px #555;
   -webkit-box-shadow: 0px 0px 10px #222;
+  border: 5px solid lightgray;
+  
   
   label {
     border-radius: 5px;
@@ -179,12 +183,14 @@ $theme.settings-panel {
   }
   
   .feeds {
-    border: 2px solid #ddd;
-    border-radius: 5px;
+    border: 1px solid #ddd;
+    //border-radius: 5px;
+    text-shadow: none;
     
     .feed-label {
-      text-align: center;
+      text-align: left;
       padding-top: 5px;
+      padding-left: 5px;
       font-size: 14px;
       
       &.sel {

@@ -31,12 +31,11 @@ Kiosque.SettingsView = SC.View.extend(
       //selectionBinding: 'Kiosque.sourcesController.selection'
       contentValueKey: 'name',
       columnWidth: 240,
-      rowHeight: 30,
+      rowHeight: 25,
       canEditContent: YES,
       canDeleteContent: YES,
       exampleView: SC.LabelView.design({
-        classNames: 'feed-label'.w(),
-        textAlign: SC.ALIGN_CENTER
+        classNames: 'feed-label'.w()
       })
     })
   }),
@@ -66,7 +65,7 @@ Kiosque.SettingsView = SC.View.extend(
   }),
   
   addButton: SC.ButtonView.design({
-    layout: {bottom:10,right: 10, height:34,width:100},
+    layout: {bottom:10,right: 10, height:24,width:100},
     title: 'Add Feed',
     action: 'addNewFeed',
     target: 'Kiosque.sourcesController'

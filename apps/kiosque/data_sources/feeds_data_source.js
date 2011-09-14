@@ -14,6 +14,16 @@
 */
 Kiosque.FeedsDataSource = SC.DataSource.extend(
 /** @scope Kiosque.Feeds.prototype */ {
+  
+  fetchFeed: function(url, max, successCallback) {
+    //We use jQuery because we need JSONP support
+    jQuery.ajax({
+      url: document.location.protocol + '//ajax.googleapis.com/ajax/services/feed/load?v=1.0&num=%@&q=%@'.fmt(max, encodeURIComponent(url)),
+      dataType: 'jsonp',
+      context: this,
+      success: successCallback
+    });
+  },
 
   // ..........................................................
   // QUERY SUPPORT
@@ -74,35 +84,20 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
       
       store.loadRecords(Kiosque.Feed, [feed]) ;
       store.loadRecords(Kiosque.Article, entries) ;
-      
-      /*
-      //now store this feed and its entries in the global arrays.
-      //these global arrays are loaded in the store once all requests have returned
-      var allFeeds = query._allFeeds ;
-      if (SC.none(allFeeds)) allFeeds = query._allFeeds = [] ;
-      allFeeds.push(feed) ;
-      
-      var allArticles = query._allArticles ;
-      if (SC.none(allArticles)) allArticles = query._allArticles = [] ;
-      allArticles.pushObjects(entries) ;
-      
-      */
     }
     
-    var fetchedFeeds = query._fetchedFeeds ;
-    if (SC.none(fetchedFeeds)) fetchedFeeds = query._fetchedFeeds = [] ;
-    fetchedFeeds.push(feedUrl) ;
-    
-    if (fetchedFeeds.get('length') == query.getPath('feedUrls.length')) {
-      //all feeds have been retrieved. Wrap up
-      SC.Logger.debug('All feeds fetched') ;
-      
-      //if (!SC.none(query._allFeeds)) store.loadRecords(Kiosque.Feed, query._allFeeds) ;
-      //if (!SC.none(query._allArticles)) store.loadRecords(Kiosque.Article, query._allArticles) ;
-      
-      store.dataSourceDidFetchQuery(query) ;
-      query.set('queryLoaded', YES) ;
-      
+    if (!SC.none(query)) {
+      var fetchedFeeds = query._fetchedFeeds ;
+      if (SC.none(fetchedFeeds)) fetchedFeeds = query._fetchedFeeds = [] ;
+      fetchedFeeds.push(feedUrl) ;
+
+      if (fetchedFeeds.get('length') == query.getPath('feedUrls.length')) {
+        //all feeds have been retrieved. Wrap up
+        SC.Logger.debug('All feeds fetched') ;
+
+        store.dataSourceDidFetchQuery(query) ;
+        query.set('queryLoaded', YES) ;
+      }
     }
   },
 
@@ -125,6 +120,12 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
       Kiosque.preferencesController.addFeed(feed) ;
       
       store.dataSourceDidComplete(storeKey) ;
+      
+      this.fetchFeed(feed.url, 45, function(response) {
+        SC.RunLoop.begin(); 
+        this.didFetchFeed(response, feed.url, store );
+        SC.RunLoop.end();
+      }) ;
       
       return YES ;
     }

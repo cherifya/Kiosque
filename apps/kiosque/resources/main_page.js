@@ -27,15 +27,17 @@ Kiosque.mainPage = SC.Page.design({
         tagName: 'h1'
       }),
       
-      feeds: Iweb.CarrouselView.design({
+      feeds: SC.GridView.design({
         classNames: 'feeds-view'.w(),
-        layout: {left: 300, centerY: 0, right: 48, height: 50},
+        layout: {left: 300, centerY: 0, right: 48, height: 100},
         maxWidth: 1024,
         contentValueKey: 'name',
         contentBinding: 'Kiosque.sourcesController.arrangedObjects',
         selectionBinding: 'Kiosque.sourcesController.selection',
-        columnWidth: 200,
+        columnWidth: 150,
         rowHeight: 50,
+        canEditContent: NO,
+        canDeleteContent: NO,
         exampleView: SC.LabelView.design({
           classNames: 'feed-title'.w()
         })
