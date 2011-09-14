@@ -123,7 +123,7 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
       
       this.fetchFeed(feed.url, 45, function(response) {
         SC.RunLoop.begin(); 
-        this.didFetchFeed(response, feed.url, store );
+        this.didFetchFeed(response, feed.url, store);
         SC.RunLoop.end();
       }) ;
       

@@ -17,6 +17,12 @@ Kiosque.ArticleThumbnailView = SC.View.extend(
   
   childViews: 'titleLabel cover'.w(),
   
+  feedLabel: SC.LabelView.design({
+    classNames: 'article-thumb-feed'.w(),
+    layout: {left:10,top:10, height:25, width: 60},
+    valueBinding: '*parentView.content.feeds'
+  }),
+  
   titleLabel: SC.LabelView.design({
     classNames: 'article-thumb-title'.w(),
     layout: {right:0,bottom:0, left:0, minHeight:40, maxHeight: 115},
