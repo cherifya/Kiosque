@@ -19,7 +19,7 @@ Kiosque.preferencesController = SC.ObjectController.create(
 		//read value
 		var _feeds = this.readPreference('feeds') ;
 	  if (SC.empty(_feeds)) {
-	    this.addFeed({name: 'Tuaw', url: 'http://www.tuaw.com/rss.xml'}) ;
+	    this.addFeed({name: 'Tuaw', url: 'http://www.tuaw.com/rss.xml'},{name:'Ars Technica', url:'http://feeds.arstechnica.com/arstechnica/index'}) ;
 	    _feeds = this.readPreference('feeds') ;
 	  }
 		return _feeds ;
