@@ -80,6 +80,7 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
       entries.forEach(function(x) {
         x.guid = x.link ;
         x.feeds = [feed.guid] ;
+        x.source = feedUrl ;
       }) ;
       
       store.loadRecords(Kiosque.Feed, [feed]) ;

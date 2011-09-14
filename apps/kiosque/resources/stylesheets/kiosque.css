@@ -60,6 +60,19 @@ $theme.article-thumb {
   
   .article-thumb-cover {
   }
+  
+  .article-thumb-feed {
+    background-color: $hicolorTransparent;
+    z-index: 10;
+    padding: 2px;
+    font-size: 14px;
+    font-family: 'Oswald', Helvetica, Verdana, sans-serif;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: auto;
+    text-transform: uppercase;
+    text-align: center;
+  }
 }
 
 $theme.articles-grid {

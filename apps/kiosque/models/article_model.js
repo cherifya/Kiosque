@@ -21,7 +21,8 @@ Kiosque.Article = SC.Record.extend(
   content: SC.Record.attr(String, { key: 'content' }),
   publishedDate: SC.Record.attr(SC.DateTime, { format: '%a, %d %b %Y %H:%M:%S %Z' }),
   url: SC.Record.attr(String, { key: 'link' }),
-  feeds: SC.Record.toMany('Kiosque', {isMaster: NO, inverse:'articles'}),
+  feeds: SC.Record.toMany('Kiosque.Feed', {isMaster: NO, inverse:'articles'}),
+  source: SC.Record.toOne('Kiosque.RssSource'),
   
   cover: function() {
     var content = this.get('content') ;
