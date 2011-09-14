@@ -198,24 +198,19 @@ Kiosque.ArticlesGridView = Iweb.TabControlView.extend(
         totalItems = this.getPath('content.length'),
         nbPagesCreated = this._pages.get('length'),
         content = this.get('content') ;
-    var i, page, arrayPage;
+    var i, page, arrayPage ;
     
     for (i = 0; i < nbPagesCreated; i++) {
-      page = this._pages[i];
-      arrayPage = page.get('content') ;
-      if (SC.none(arrayPage)) {
-        //create array page
-        arrayPage = Kiosque.ArrayPage.create({
-          masterArray: content,
-          itemsPerPage: itemsPerPage,
-          pageIndex: i
-        }) ;
-        page.set('content',arrayPage) ;
-      }
-      //update array page
-      arrayPage.setIfChanged('masterArray', content) ;
-      arrayPage.setIfChanged('pageIndex', i) ;
-      arrayPage.setIfChanged('itemsPerPage', itemsPerPage) ; 
+      page = this._pages[i] ;
+      
+      //create array page
+      arrayPage = Kiosque.ArrayPage.create({
+        masterArray: content,
+        itemsPerPage: itemsPerPage,
+        pageIndex: i
+      }) ;
+      page.set('content',arrayPage) ;
+      
     }
   }
 });
