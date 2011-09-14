@@ -22,6 +22,7 @@ Kiosque.sourcesController = SC.ArrayController.create(
         
     if (SC.none(feeds)) {
       var query = SC.Query.local(Kiosque.RssSource, {
+        orderBy: 'name',
         queryLoaded: NO,
         queryLoadedDidChange: function() {
           var queryLoaded = this.get('queryLoaded') ;
