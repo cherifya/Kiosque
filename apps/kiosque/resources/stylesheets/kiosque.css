@@ -220,6 +220,10 @@ $theme.collection {
   background: transparent;
 }
 
+$theme.tab-hidden {
+  opacity: 0;
+}
+
 $theme.article-hidden {
   -webkit-transform: scale3d(0,0,1);
 }
