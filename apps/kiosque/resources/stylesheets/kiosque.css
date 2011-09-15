@@ -3,7 +3,21 @@
 *  Copyright: @2011 Strobe, Inc.
 *  ==========================================================================
 */
-@import url(http://fonts.googleapis.com/css?family=Oswald|Paytone+One|Kenia);
+
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Oswald '), local('Oswald'), sc_static('Oswald.ttf') format('woff');
+  
+}
+
+@font-face {
+  font-family: 'Paytone One';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Paytone One'), local('PaytoneOne'), sc_static('PaytoneOne.ttf') format('woff');
+}
 
 $hicolor: #603;
 $hicolorTransparent: rgba(102, 0, 51, 0.8);

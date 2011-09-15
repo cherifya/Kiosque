@@ -10,7 +10,7 @@ Kiosque = SC.Application.create({
 });
 
 SC.ready(function() {
-
+  
 });
 
 Kiosque.main = function main() {
