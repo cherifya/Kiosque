@@ -86,7 +86,7 @@ SC.BaseTheme.articleLabelRenderDelegate = SC.RenderDelegate.create({
     if (!SC.none(articleDate)) {
       //to local timezone
       articleDate = articleDate.toTimezone(SC.DateTime.timezone) ;
-      articleDate = articleDate.toFormattedString('%A, %b %d, %Y %i:%M:%S %p') ;
+      articleDate = articleDate.toFormattedString('%A, %b %d, %Y %i:%M %p') ;
     }
     
     var header = '<div class="article-header"><a href="%@" target="_blank"><span class="title">%@</span></a><div class="byline"><span class="author">%@</span><span class="date">%@</span></div></div>'.fmt(articleLink, articleTitle, articleAuthor, articleDate) ;

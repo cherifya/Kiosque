@@ -47,7 +47,7 @@ Kiosque.ArticleView = SC.View.extend(
     alwaysBounceVertical: NO,
     contentBinding: '*parentView.content',
     
-    contentView: SC.LabelView.design(SC.AutoResize, {
+    contentView: SC.LabelView.design({
       classNames: 'article-content'.w(),
       //layout: {top:0,bottom:0,left:0},
       valueBinding: '*parentView.parentView.content.content',
