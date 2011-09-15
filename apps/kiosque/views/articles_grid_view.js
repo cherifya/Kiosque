@@ -186,6 +186,8 @@ Kiosque.ArticlesGridView = Iweb.TabControlView.extend(
     //update all pages with new pageIndex and itemsPerPage
     this._updatePagesContent() ;
     
+    this.navigateToTab(0) ;
+    
     //update numberOfPages property
     this.set('numberOfPages',this._pages.get('length')) ;
   }.observes('*content.length', 'itemsPerPage'),
