@@ -19,19 +19,26 @@ Kiosque.preferencesController = SC.ObjectController.create(
 		//read value
 		var _feeds = this.readPreference('feeds') ;
 	  if (SC.empty(_feeds)) {
-	    this.addFeed({name: 'Tuaw', url: 'http://www.tuaw.com/rss.xml'},{name:'Ars Technica', url:'http://feeds.arstechnica.com/arstechnica/index'}) ;
+	    this.addFeed([
+	      {name:'Ars Technica', url:'http://feeds.arstechnica.com/arstechnica/index'},
+	      {name:'Macworld', url:'http://rss.macworld.com/macworld/feeds/main'}
+	      ]) ;
 	    _feeds = this.readPreference('feeds') ;
 	  }
 		return _feeds ;
 	}.property(),
 	
-	addFeed: function(feed) {
-	  if(SC.none(feed)) return ;
+	addFeed: function(feeds) {
+	  if(SC.none(feeds)) return ;
+	  if (SC.typeOf(feeds) !== SC.T_ARRAY) feeds = [feeds] ;
 	  
 	  var _feeds = this.readPreference('feeds') ;
 	  if (SC.none(_feeds)) _feeds = [] ;
 	  
-	  _feeds.push(feed) ;
+	  for (var i = 0; i<feeds.get('length'); i++) {
+	    var feed = feeds[i] ;
+	    _feeds.push(feed) ;
+	  }
 	  
 	  this.setPreference('feeds', _feeds) ;
 	},
@@ -57,11 +64,11 @@ Kiosque.preferencesController = SC.ObjectController.create(
 	},
 	
 	resetFeeds: function() {
-	  eraseCookie('feeds') ;
+	  resetCookie('feeds') ;
 	},
 	
 	setPreference: function(prefName, prefValue) {
-		createCookie(prefName, serializeJSObject(prefValue), 31) ;
+		createCookie(prefName, serializeJSObject(prefValue), 60) ;
 	},
 	
 	readPreference: function(prefName) {
@@ -99,7 +106,7 @@ function readCookie(name) {
 	return null;
 }
 
-function eraseCookie(name) {
+function resetCookie(name) {
 	createCookie(name,"",-1);
 }
 
