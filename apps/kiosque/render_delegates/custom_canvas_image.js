@@ -36,7 +36,7 @@ SC.BaseTheme.customCanvasImageRenderDelegate = SC.RenderDelegate.create({
         frameWidth = frame.width,
         frameHeight = frame.height,
         innerFrame = dataSource.get('innerFrame'),
-        backgroundColor = dataSource.get('backgroundColor'),
+        backgroundColor = dataSource.get('fillWithWhite') || YES,
         renderState = dataSource.get('renderState'),
         context;
 
@@ -54,38 +54,43 @@ SC.BaseTheme.customCanvasImageRenderDelegate = SC.RenderDelegate.create({
         context = elem.getContext('2d');
 
         context.clearRect(0, 0, frameWidth, frameHeight);
-
-        if (backgroundColor) {
-          context.fillStyle = backgroundColor;
-          context.fillRect(0, 0, frameWidth, frameHeight);
-        }
         
         //determine cropping size
         var sx = 0, sy = 0,
             sw = image.width, sh = image.height,
             dx = Math.floor(innerFrame.x), dy = Math.floor(innerFrame.y),
-            dw = Math.floor(innerFrame.width), dh = Math.floor(innerFrame.height) ;
+            dw = Math.floor(innerFrame.width), dh = Math.floor(innerFrame.height),
+            cw, ch ;
         
-        //make sure source is smaller than canvas
-        //the area of the source we use will have the same ration as the destination 
-        //canvas so that no distortion occurs. The end result will in most cases be 
-        //a stretched image
-        if (sw > dw) {
-          sw = dw ;
-          sh = Math.floor(dw*sh*1.0/sw) ;
-        }
-        if (sh > dh) {
-          sh = dh ;
-          sw = Math.floor(dh*sw*1.0/sh) ;
+        //if BLANK_IMAGE, do nothin
+        if (sw == 1 && sh ==1) return ;
+        
+        //the area of the source we use will have the same ratio as the source image 
+        //canvas so that no distortion occurs. 
+        //It has an important feature. It's smaller than both source image and destination canvas
+        cw = Math.min(sw, dw) ;
+        ch = cw*sh/(sw*1.0) ;
+        
+        if (ch > dh) {
+          ch = dh ;
+          cw = cw*dh/(sh*1.0) ;
         }
            
         //now center source area on source image
-        sx = Math.floor((image.width - sw) / 2.0) ;
-        sy = Math.floor((image.height - sh) / 2.0) ;
+        sx = Math.floor((sw - cw) / 2.0) ;
+        sy = Math.floor((sh - ch) / 2.0) ;
         
-        //apply cropping
+        //and on canvas
+        dx = Math.floor((dw - cw) / 2.0) ;
+        dy = Math.floor((dh - ch) / 2.0) ;
+        
+        //apply pixels
         if (image && image.complete) {
-          context.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);
+          if (backgroundColor) {
+            context.fillStyle = 'white';
+            context.fillRect(0, 0, frameWidth, frameHeight);
+          }
+          context.drawImage(image, 0, 0, sw, sh, dx, dy, cw, ch);
         }
       }
 
