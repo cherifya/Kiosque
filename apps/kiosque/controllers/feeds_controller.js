@@ -43,6 +43,20 @@ Kiosque.feedsController = SC.ArrayController.create(
       this.set('content', feeds) ;
     }
     else feeds.refresh() ;
+  },
+  
+  loadingDataDidChange: function() {
+    var loadingData = this.get('loadingData') ;
+    if (!loadingData) {
+      this.invokeLater('hideSpinner', 3000) ;
+    }
+    else {
+      Kiosque.statechart.sendEvent('showSpinner') ;
+    }
+  }.observes('loadingData'),
+  
+  hideSpinner: function() {
+    Kiosque.statechart.sendEvent('hideSpinner') ;
   }
 
 }) ;

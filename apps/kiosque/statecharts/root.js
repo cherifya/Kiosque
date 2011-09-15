@@ -27,6 +27,8 @@ Kiosque.statechart = SC.Statechart.create({
 		},
 		
 		initData: function() {
+		  this.showSpinner() ;
+		  
       Kiosque.feedsController.loadFeeds() ;
 
       Kiosque.articlesController.loadArticles() ;
@@ -45,6 +47,39 @@ Kiosque.statechart = SC.Statechart.create({
 		filterSource: function(source) {
 		  if (!SC.none(source)) {
 		    Kiosque.articlesController.loadArticlesFromSource(source) ;
+		  }
+		},
+		
+		showSpinner: function() {
+		  var pane = this.get('loadingPane') ;
+		  
+		  if (pane && pane.get('isPaneAttached')) return;
+      
+      if (SC.none(pane)) {
+        pane = SC.PalettePane.create({
+          classNames: 'spinner-panel'.w(),
+          layout: { width: 70, height: 70, centerX: 0, centerY: 0 },
+          contentView: SC.View.extend({
+            layout: { top: 0, left: 0, bottom: 0, right: 0 },
+            childViews: 'imageView'.w(),
+
+            imageView: SC.ImageView.design({
+              layout: { centerX: 0, centerY: 0, width: 24, height: 24 },
+              value: sc_static('images/spinner-black'),
+              useCanvas: NO
+            })
+          })
+        });
+      }
+      
+      pane.append();
+      this.setIfChanged('loadingPane', pane);
+		},
+		
+		hideSpinner: function() {
+		  var pane = this.get('loadingPane') ;
+		  if (pane && pane.get('isPaneAttached')) {
+		    pane.remove() ;
 		  }
 		}
 	}),
