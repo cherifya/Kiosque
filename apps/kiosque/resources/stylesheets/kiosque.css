@@ -150,8 +150,11 @@ $theme.article-container {
   	  margin-bottom: 20px;
   	  
   	  a {
-  	    text-decoration: underline;
   	    color: $textColor;
+  	    
+  	    &:hover {
+  	      text-decoration: underline;
+  	    }
   	    
   	    &:visited {
   	      color: $textColor;
