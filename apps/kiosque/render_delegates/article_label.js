@@ -79,7 +79,8 @@ SC.BaseTheme.articleLabelRenderDelegate = SC.RenderDelegate.create({
         icon = dataSource.get('icon') || '',
         articleTitle = dataSource.get('articleTitle'),
         articleAuthor = dataSource.get('articleAuthor'),
-        articleDate = dataSource.get('articleDate');
+        articleDate = dataSource.get('articleDate'),
+        articleLink = dataSource.get('articleLink');
         
     
     if (!SC.none(articleDate)) {
@@ -88,7 +89,7 @@ SC.BaseTheme.articleLabelRenderDelegate = SC.RenderDelegate.create({
       articleDate = articleDate.toFormattedString('%A, %b %d, %Y %i:%M:%S %p') ;
     }
     
-    var header = '<div class="article-header"><span class="title">%@</span><div class="byline"><span class="author">%@</span><span class="date">%@</span></div></div>'.fmt(articleTitle, articleAuthor, articleDate) ;
+    var header = '<div class="article-header"><a href="%@" target="_blank"><span class="title">%@</span></a><div class="byline"><span class="author">%@</span><span class="date">%@</span></div></div>'.fmt(articleLink, articleTitle, articleAuthor, articleDate) ;
 
     // Escape the title of the button if needed. This prevents potential
     // XSS attacks.

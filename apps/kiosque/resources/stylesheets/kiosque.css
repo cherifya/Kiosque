@@ -8,7 +8,8 @@
 $hicolor: #603;
 $hicolorTransparent: rgba(102, 0, 51, 0.8);
 $carrouselColor: #999;
-$feedColor: #333; 
+$feedColor: #333;
+$textColor: #000;
 
 body {
   background-color: rgb(234,234,234);
@@ -142,10 +143,25 @@ $theme.article-container {
   	column-gap: 20px;
   	//overflow: scroll;
   	line-height: 23px;
+  	color: $textColor;
   	
   	.article-header {
   	  text-align: left;
   	  margin-bottom: 20px;
+  	  
+  	  a {
+  	    text-decoration: underline;
+  	    color: $textColor;
+  	    
+  	    &:visited {
+  	      color: $textColor;
+  	    }
+  	    
+  	     &:active {
+    	    color: $textColor;
+    	  }
+  	    
+  	  }
   	  
   	  .title {
   	    font: 40px Helvetica;

@@ -56,7 +56,8 @@ Kiosque.ArticleView = SC.View.extend(
       articleTitleBinding: '*parentView.parentView.content.title',
       articleAuthorBinding: '*parentView.parentView.content.author',
       articleDateBinding: '*parentView.parentView.content.publishedDate',
-      displayProperties: ['articleTitle', 'articleAuthor', 'articleDate'],
+      articleLinkBinding: '*parentView.parentView.content.url',
+      displayProperties: ['articleTitle', 'articleAuthor', 'articleDate', 'articleLink'],
       renderDelegateName: 'articleLabelRenderDelegate',
       
       shouldAutoResize: NO,
