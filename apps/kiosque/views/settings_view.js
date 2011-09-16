@@ -83,17 +83,19 @@ Kiosque.SettingsView = SC.View.extend(
     childViews: 'newFeedButton deleteButton'.w(),
     
     newFeedButton: SC.ButtonView.design({
-      layout: {top:10,left: 145, height:24,width:100},
+      layout: {top:10,left: 145, height:30,width:100},
       title: 'New Feed',
       action: 'showNewFeedSection',
-      target: 'Kiosque.settingsViewController'
+      target: 'Kiosque.settingsViewController',
+      controlSize: SC.HUGE_CONTROL_SIZE
     }),
     
     deleteButton: SC.ButtonView.design({
-      layout: {top:10,left: 255, height:24,width:100},
+      layout: {top:10,left: 255, height:30,width:100},
       title: 'Delete Feed',
       action: 'deleteFeed',
-      target: 'Kiosque.settingsViewController'
+      target: 'Kiosque.settingsViewController',
+      controlSize: SC.HUGE_CONTROL_SIZE
     })
     
   })

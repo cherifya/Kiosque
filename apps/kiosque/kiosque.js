@@ -27,3 +27,9 @@ Kiosque.initData = function() {
 } ;
 
 function main() { Kiosque.main(); }
+
+SC.ExceptionHandler.handleException = function(e) {
+	SC.Logger.debug('Exception: %@'.fmt(e.message)) ;
+	
+	return YES; //Exception handled
+};
