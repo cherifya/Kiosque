@@ -10,7 +10,7 @@
 
   @extends ArrayController
 */
-Kiosque.sourcesController = SC.ArrayController.create(
+Kiosque.sourcesController = SC.ArrayController.create(SC.CollectionViewDelegate,
 /** @scope Kiosque.sourcesController.prototype */ {
   
   loadingData: NO,
@@ -24,6 +24,7 @@ Kiosque.sourcesController = SC.ArrayController.create(
     if (SC.none(feeds)) {
       var query = SC.Query.local(Kiosque.RssSource, {
         orderBy: 'name',
+        isEditable: YES,
         queryLoaded: NO,
         queryLoadedDidChange: function() {
           var queryLoaded = this.get('queryLoaded') ;
@@ -57,9 +58,9 @@ Kiosque.sourcesController = SC.ArrayController.create(
   },
   
   addNewFeed: function(sender) {
-    var panel = sender.parentView ;
-    var name = panel.getPath('nameField.value') ;
-    var url = panel.getPath('urlField.value') ;
+    var panel = sender.parentView.parentView ;
+    var name = panel.getPath('newFeedSection.nameField.value') ;
+    var url = panel.getPath('newFeedSection.urlField.value') ;
     
     if (!SC.empty(name) && !SC.empty(url)) {
       SC.Logger.debug('add new feed %@, %@'.fmt(name, url)) ;
@@ -69,7 +70,65 @@ Kiosque.sourcesController = SC.ArrayController.create(
       }) ;
       
       feed.commitRecord() ;
-    }   
+    } 
+    
+    //hide new feed section
+    Kiosque.settingsViewController.hideNewFeedSection(panel) ;
+  },
+  
+  collectionViewDeleteContent: function(view, content, indexes) {
+		//display warning message
+		SC.AlertPane.warn({
+		  message: "The RSS source will be permanently removed.",
+		  description: "Do you wanna proceed?",
+		  caption: null,
+		  delegate: this,
+		  buttons: [
+		    { title: "Delete" },
+		    { title: "Cancel" },
+		    { title: null }
+		  ],
+			indexes: indexes
+		});
+    
+	},
+	
+	deleteRecords: function(indexes) {
+		// destroy the records
+    var records = indexes.map(function(idx) {
+      var ret = this.objectAt(idx);
+      
+			return ret;
+    }, this);
+    records.invoke('destroy').invoke('commitRecord');
+
+    var selIndex = indexes.get('min')-1;
+    if (selIndex<0) selIndex = 0;
+    SC.Logger.debug('selIndex: %@'.fmt(selIndex)) ;
+    var controller = this ;
+    this.invokeLater(function() {
+      controller.selectObject(this.objectAt(selIndex));
+    }) ;
+    
+	},
+	
+	alertPaneDidDismiss: function(pane, status) {
+		
+    switch(status) {
+      case SC.BUTTON1_STATUS:
+				//OK Button
+        var indexes = pane.get('indexes');
+				this.deleteRecords(indexes);
+        break;
+
+      case SC.BUTTON2_STATUS:
+        // CANCEL BUTTON
+        break;
+
+      case SC.BUTTON3_STATUS:
+        //MORE INFO BUTTON
+        break;
+    }
   }
 
 }) ;

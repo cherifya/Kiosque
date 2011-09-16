@@ -144,8 +144,14 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
   
   destroyRecord: function(store, storeKey) {
     
-    // TODO: Add handlers to destroy records on the data source.
-    // call store.dataSourceDidDestroy(storeKey) when done
+    if(SC.kindOf(store.recordTypeFor(storeKey), Kiosque.RssSource)) {
+      var feed = store.readDataHash(storeKey) ;
+      Kiosque.preferencesController.removeFeed(feed) ;
+      
+      store.dataSourceDidDestroy(storeKey) ;
+      
+      return YES ;
+    }
     
     return NO ; // return YES if you handled the storeKey
   }

@@ -26,7 +26,8 @@ Kiosque.ArticleThumbnailView = SC.View.extend(
   titleLabel: SC.LabelView.design({
     classNames: 'article-thumb-title'.w(),
     layout: {right:0,bottom:0, left:0, minHeight:40, maxHeight: 115},
-    valueBinding: '*parentView.content.title'
+    valueBinding: '*parentView.content.title',
+    escapeHTML: NO
   }),
   
   cover: SC.ImageView.design({

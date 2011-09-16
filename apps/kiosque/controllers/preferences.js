@@ -18,7 +18,7 @@ Kiosque.preferencesController = SC.ObjectController.create(
     
 		//read value
 		var _feeds = this.readPreference('feeds') ;
-	  if (SC.empty(_feeds)) {
+	  if (SC.none(_feeds) || (_feeds.get('length') === 0)) {
 	    this.addFeed([
 	      {name:'Ars Technica', url:'http://feeds.arstechnica.com/arstechnica/index'},
 	      {name:'Macworld', url:'http://rss.macworld.com/macworld/feeds/main'}
@@ -107,7 +107,7 @@ function readCookie(name) {
 }
 
 function resetCookie(name) {
-	createCookie(name,"",-1);
+	createCookie(name,"",-1) ;
 }
 
 //This function returns a JSON formatted representation ot the passed argument
@@ -135,6 +135,7 @@ function serializeJSObject(_obj)
          {
             str = '[';
             var i, len = _obj.length;
+            if (len === 0) return '[]' ;
             for (i = 0; i < len-1; i++) { str += serializeJSObject(_obj[i]) + ','; }
             str += serializeJSObject(_obj[i]) + ']';
          }
