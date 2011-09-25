@@ -317,8 +317,8 @@ Iweb.TabControlView = SC.View.extend(
 			var delta = i - index ;
 			
 			//hide invisible tabs
-			if(delta !== 0) view.$().addClass('tab-hidden') ;
-			else view.$().removeClass('tab-hidden') ;
+			//if(delta !== 0) view.$().addClass('tab-hidden') ;
+			//else view.$().removeClass('tab-hidden') ;
 			
 			//notify view that it's about to become the front tab
 			if(delta === 0 && view.willBecomeFrontTab)	view.willBecomeFrontTab() ;
@@ -502,8 +502,8 @@ Iweb.TabControlView = SC.View.extend(
 			var delta = view.tabIndex - currentTabIndex ;
 			
 			//hide invisible tabs
-			if(delta !== 0) view.$().addClass('tab-hidden') ;
-			else view.$().removeClass('tab-hidden') ;
+			//if(delta !== 0) view.$().addClass('tab-hidden') ;
+			//else view.$().removeClass('tab-hidden') ;
 			
 			var transitionDuration = this.get('transitionDuration') ;
 			if (SC.none(transitionDuration)) transitionDuration = 250 ;
