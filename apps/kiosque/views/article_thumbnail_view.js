@@ -10,40 +10,13 @@
 
   @extends SC.View
 */
-Kiosque.ArticleThumbnailView = SC.View.extend(
+Kiosque.ArticleThumbnailView = SC.ImageView.extend(
 /** @scope Kiosque.ArticleThumbnailView.prototype */ {
 
   classNames: 'article-thumb'.w(),
   
-  childViews: 'cover'.w(),
-  
   displayProperties: ['content'],
-  renderDelegateName: 'articleThumbnailRenderDelegate',
-  
-  /*
-  
-  feedLabel: SC.LabelView.design({
-    classNames: 'article-thumb-feed'.w(),
-    layout: {left:10,top:10, height:20, minWidth: 40, maxWidth: 100},
-    valueBinding: '*parentView.content.source.name'
-  }),
-  
-  titleLabel: SC.LabelView.design({
-    classNames: 'article-thumb-title'.w(),
-    layout: {right:0,bottom:0, left:0, minHeight:40, maxHeight: 115},
-    valueBinding: '*parentView.content.title',
-    escapeHTML: NO
-  }),
-  
-  */
-  
-  cover: SC.ImageView.design({
-    classNames: 'article-thumb-cover'.w(),
-    layout: { top: 0, right: 0, bottom: 0, left: 0 },
-    useCanvas: YES,
-    valueIsUrl: YES,
-    renderDelegateName: 'customCanvasImageRenderDelegate',
-    valueBinding: '*parentView.content.cover'
-  })
+  renderDelegateName: 'customCanvasImageRenderDelegate',
+  tagName: 'div'
 
 });

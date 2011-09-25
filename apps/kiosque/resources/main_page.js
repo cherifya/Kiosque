@@ -48,7 +48,7 @@ Kiosque.mainPage = SC.Page.design({
     grid: Kiosque.ArticlesGridView.design({
       layout: {top: 120, bottom: 100, left: 48, right: 48 },
       contentBinding: 'Kiosque.articlesController.content',
-      contentValueKey: 'title',
+      contentValueKey: 'cover',
       selectionBinding: 'Kiosque.articlesController.selection'
     }),
     

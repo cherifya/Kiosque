@@ -22,15 +22,24 @@ SC.BaseTheme.customCanvasImageRenderDelegate = SC.RenderDelegate.create({
     here.
   */
   render: function(dataSource, context) {
-    var width = dataSource.get('width') || 0,
-        height = dataSource.get('height') || 0;
+    var html = this._htmlForContent(dataSource);
+    context.push(html);
 
-    context.attr('width', width);
-    context.attr('height', height);
+    // we could use didChangeFor, but in this case, checking the generated
+    // HTML will probably be faster (and definitely be simpler)
+    // because several properties are used.
+    dataSource.get('renderState')._lastHTML = html;
   },
 
   update: function(dataSource, jquery) {
-    var elem = jquery[0],
+    
+    var html = this._htmlForContent(dataSource);
+    if (dataSource.get('renderState')._lastHTML !== html) {
+      jquery.html(html);
+      dataSource.get('renderState')._lastHTML = html;
+    }
+    
+    var elem = jquery.find('canvas')[0],
         image = dataSource.get('image'),
         frame = dataSource.get('frame'),
         frameWidth = frame.width,
@@ -98,6 +107,23 @@ SC.BaseTheme.customCanvasImageRenderDelegate = SC.RenderDelegate.create({
       renderState._lastInnerFrameValues = [innerFrame.x, innerFrame.y, innerFrame.width, innerFrame.height];
       renderState._lastImageComplete = image && image.complete;
     }
+    
+    
+  },
+  
+  _htmlForContent: function(dataSource) {
+    var content = dataSource.get('content'),
+        title = content.get('title'),
+        feed = content.getPath('source.name');
+        
+    
+    var feedHtml, titleHtml, coverHtml ; 
+    
+    feedHtml = '<div class="article-thumb-feed">%@</div>'.fmt(SC.RenderContext.escapeHTML(feed)) ;
+    titleHtml = '<div class="article-thumb-title">%@</div>'.fmt(SC.RenderContext.escapeHTML(title)) ;
+    coverHtml = '<canvas class="article-thumb-cover"></canvas>';
+    
+    return feedHtml + titleHtml + coverHtml;
   }
 
 });
