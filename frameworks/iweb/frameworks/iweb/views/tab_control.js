@@ -568,6 +568,8 @@ Iweb.TabControlView = SC.View.extend(
 	touchEnd: function(touch) {
 	  var t = this._touch;
 	  
+	  if (SC.none(t)) return ;
+	  
 	  var deltaX = touch.pageX - t.start.x ;
 	  var deltaY = touch.pageY - t.start.y ;
 	  
