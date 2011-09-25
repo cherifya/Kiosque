@@ -2,7 +2,7 @@
 // Project:   Kiosque.preferencesController
 // Copyright: ©2011 Strobe, Inc.
 // ==========================================================================
-/*globals Kiosque cocoaPreferences trace createCookie readCookie serializeJSObject*/
+/*globals Kiosque cocoaPreferences trace createCookie readCookie resetCookie serializeJSObject*/
 
 /** @class
 
@@ -20,8 +20,7 @@ Kiosque.preferencesController = SC.ObjectController.create(
 		var _feeds = this.readPreference('feeds') ;
 	  if (SC.none(_feeds) || (_feeds.get('length') === 0)) {
 	    this.addFeed([
-	      {name:'Ars Technica', url:'http://feeds.arstechnica.com/arstechnica/index'},
-	      {name:'Macworld', url:'http://rss.macworld.com/macworld/feeds/main'}
+	      {name:'Tuaw', url:'http://www.tuaw.com/rss.xml'}
 	      ]) ;
 	    _feeds = this.readPreference('feeds') ;
 	  }
