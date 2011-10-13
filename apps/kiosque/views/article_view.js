@@ -38,6 +38,7 @@ Kiosque.ArticleView = SC.View.extend(
     
   }),
   
+  /*
   scroll: SC.ScrollView.design({
     layout: {top:96, left:21, right: 21, bottom: 96},
     canScrollVertical: NO,
@@ -66,6 +67,29 @@ Kiosque.ArticleView = SC.View.extend(
         SC.Logger.debug('width: %@'.fmt(innerFrame.width)) ;
       }.observes('measuredSize')
     })
+  }),
+  */
+  
+  scroll: SC.LabelView.design({
+    classNames: 'article-content'.w(),
+    layout: {top:96, left:21, right: 21, bottom: 96},
+    valueBinding: '*content.content',
+    escapeHTML: NO,
+    
+    contentBinding: '*parentView.content',
+
+    articleTitleBinding: '*content.title',
+    articleAuthorBinding: '*content.author',
+    articleDateBinding: '*content.publishedDate',
+    articleLinkBinding: '*content.url',
+    displayProperties: ['articleTitle', 'articleAuthor', 'articleDate', 'articleLink'],
+    renderDelegateName: 'articleLabelRenderDelegate',
+    
+    shouldAutoResize: NO,
+    widthDidChange: function() {
+      var innerFrame = this.get('measuredSize') ;
+      SC.Logger.debug('width: %@'.fmt(innerFrame.width)) ;
+    }.observes('measuredSize')
   }),
   
   closeButton: Kiosque.ImageButtonView.design({

@@ -37,3 +37,7 @@ $theme.sc-tab-bar-view {
   }
 }
 
+$theme.tab-hidden {
+  opacity: 0;
+}
+

@@ -18,6 +18,7 @@ Kiosque.main = function main() {
   
   Kiosque.statechart.initStatechart() ;
   
+  SC.LOG_TOUCH_EVENTS = NO ;
 } ;
 
 Kiosque.initData = function() {

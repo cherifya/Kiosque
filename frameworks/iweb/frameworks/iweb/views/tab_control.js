@@ -162,7 +162,37 @@ Iweb.TabControlView = SC.View.extend(
 		}
 		
 		// instantiate if needed
-		if (tab.isClass) tab = container.createChildView(tab, {tabIndex: tabCount}) ;
+		if (tab.isClass) {
+		  tab = container.createChildView(tab, {
+  		  tabIndex: tabCount,
+  		  isActive: NO,
+
+  		  render: function(context, firstTime) {
+      		sc_super();
+      		if (this.get('isActive')) {
+      		  context.addClass('tab-active') ;
+      		  context.removeClass('tab-hidden') ;
+    		  }
+      		else {
+      		  context.addClass('tab-hidden') ;
+      		  context.removeClass('tab-active') ;
+    		  }
+      	},
+
+      	isActiveChange: function() {
+      		//update layer rendering
+      		this.set('layerNeedsUpdate',YES);
+      	}.observes('isActive'),
+      	
+      	touchStart: function() {
+      	  
+      	  SC.Logger.debug('touchStart %@'.fmt(this.toString())) ;
+      	  var ret = sc_super() ;
+      	  if (this.get('isActive')) return ret;
+      	  else return NO;
+      	}
+  		}) ;
+		}
 		
 		//append to parent
     container.appendChild(tab) ;
@@ -293,6 +323,7 @@ Iweb.TabControlView = SC.View.extend(
 	 @param {Number|String} index Index of tab to navigate to. 
 	*/
 	navigateToTab: function(index) {
+	  SC.Logger.info('navigateToTab(%@)'.fmt(index));
 	  //if name of tab passed, map to tab Index
 	  if (SC.typeOf(index) == SC.T_STRING) index  = this._tabNames[index] ;
 	  if (SC.none(index)) return ;
@@ -317,15 +348,15 @@ Iweb.TabControlView = SC.View.extend(
 			var delta = i - index ;
 			
 			//hide invisible tabs
-			//if(delta !== 0) view.$().addClass('tab-hidden') ;
-			//else view.$().removeClass('tab-hidden') ;
+			if(delta !== 0) view.set('isActive', NO) ;
+			else view.set('isActive', YES) ;
 			
 			//notify view that it's about to become the front tab
 			if(delta === 0 && view.willBecomeFrontTab)	view.willBecomeFrontTab() ;
 			
 			//reset CSS transforms on view
 			var sTranslate = 'translateX(%@px)'.fmt(delta * frame.width) ;
-			view.$().css({'-webkit-transform': sTranslate, '-moz-transform': sTranslate}) ;
+			view.$().css({'-webkit-transform': sTranslate}) ;
 			
 			//view.animate('left', (delta * frame.width), {
 			//  duration: transitionDuration
@@ -526,6 +557,7 @@ Iweb.TabControlView = SC.View.extend(
 	
 	/** @private */
 	touchStart: function(touch) {
+	  SC.Logger.info('TabControl touchStart()');
 	  this._touch = {
 	    start: {x: touch.pageX, y: touch.pageY}
 	  } ;
@@ -557,6 +589,7 @@ Iweb.TabControlView = SC.View.extend(
 	  
     //flick tabs
     this._flick(deltaX);
+    //SC.Logger.info('TabControl touchesDragged(%@)'.fmt(deltaX));
 	},
 	
 	/** @private */
@@ -566,6 +599,7 @@ Iweb.TabControlView = SC.View.extend(
 	
 	/** @private */
 	touchEnd: function(touch) {
+	  SC.Logger.info('TabControl touchEnd()');
 	  var t = this._touch;
 	  
 	  if (SC.none(t)) return ;
@@ -578,6 +612,8 @@ Iweb.TabControlView = SC.View.extend(
 	  
 	  //restore css transitions animations
 	  this._activateCssTransitionForCurrentTabs() ;
+	  
+	  //this._positionTabViews() ;
 	  
 	  //depending on the distance of the touch, navigate to previous/next tab
 	  //or do nothing 
@@ -607,9 +643,11 @@ Iweb.TabControlView = SC.View.extend(
 	/** @private */
 	_deactivateCssTransitionForCurrentTabs: function() {
 	  var currentTabIndex = this.get('currentTabIndex') ;
+	  
 	  for(var i = currentTabIndex - 1; i < this._tabViews.length && i <= currentTabIndex + 1; i++) {
 	    if (i < 0) continue ;
 			var view = this._tabViews[i] ;
+			//view.set('isActive', YES) ;
 			view.$().css('-webkit-transition-property', 'none') ;
 		}
 	},
@@ -625,6 +663,7 @@ Iweb.TabControlView = SC.View.extend(
 	  for(var i = currentTabIndex - 1; i < this._tabViews.length && i <= currentTabIndex + 1; i++) {
 	    if (i < 0) continue ;
 			var view = this._tabViews[i] ;
+      
 			view.$().css('-webkit-transition-property', '-webkit-transform')
 			       .css('-webkit-transition-duration', '%@s'.fmt(transitionDuration)) ;
 		}
@@ -645,7 +684,7 @@ Iweb.TabControlView = SC.View.extend(
 			var translateOffset = indexDelta === 0 ? defaultX + deltaX : defaultX + deltaX + (spacing * indexDelta) ;
 			//SC.Logger.debug('view %@:%@'.fmt(indexDelta, view.get('layoutStyle')));
 			var sTranslate = 'translateX(%@px)'.fmt(translateOffset) ;
-			view.$().css({'-webkit-transform': sTranslate, '-moz-transform': sTranslate}) ;
+			view.$().css({'-webkit-transform': sTranslate}) ;
 			
 		}
 	}
