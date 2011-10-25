@@ -110,6 +110,27 @@ Kiosque.statechart = SC.Statechart.create({
 		
 		close: function() {
 			this.gotoState('feeds');
+		},
+		
+		tweets: function() {
+		  SC.Logger.debug('tweets') ;
+			var view = this.get('view') ;
+			var tweetsView = view.get('tweetsView') ;
+			
+			if (tweetsView.get('isVisible') === NO) {
+		    tweetsView.set('isVisible',YES) ;
+		  }
+		  
+		  var jquery = tweetsView.$() ;
+		  jquery.addClass('tweets-visible') ;
+		},
+		
+		closeTweets: function() {
+			var view = this.get('view') ;
+			var tweetsView = view.get('tweetsView') ;
+		  
+		  var jquery = tweetsView.$() ;
+		  jquery.removeClass('tweets-visible') ;
 		}
 	})
 });

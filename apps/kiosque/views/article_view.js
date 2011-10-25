@@ -15,7 +15,7 @@ Kiosque.ArticleView = SC.View.extend(
 /** @scope Kiosque.ArticleView.prototype */ {
 
   classNames: 'article-container'.w(),
-  childViews: 'header scroll closeButton'.w(),
+  childViews: 'header scroll closeButton footer tweetsView'.w(),
   content: null,
   
   header: SC.View.design({
@@ -34,7 +34,15 @@ Kiosque.ArticleView = SC.View.extend(
   footer: SC.View.design({
     layout: {bottom:0, right: 0, left: 0, height: 75},
     classNames: 'article-footer'.w(),
-    childViews: ''.w()
+    childViews: 'tweetsButton'.w(),
+    
+    tweetsButton: Kiosque.ImageButtonView.design({
+      layout: {right:21, centerY: 0, height:40,width:40},
+      value: sc_static('images/settings'),
+      action: function() {
+        Kiosque.statechart.sendEvent('tweets');
+      }
+    })
     
   }),
   
@@ -98,6 +106,59 @@ Kiosque.ArticleView = SC.View.extend(
     action: function() {
       Kiosque.statechart.sendEvent('close');
     }
+  }),
+  
+  tweetsView: SC.View.design({
+    layout: {right:0,bottom:0,left:0, top:0},
+    isVisible: NO,
+    classNames: 'article-tweets'.w(),
+    childViews: 'wrapper'.w(),
+    
+    wrapper: SC.View.design({
+      layout: {left:0, right: 0, height: 400, bottom: 0},
+      classNames: 'article-tweets-wrapper'.w(),
+      childViews: 'headerView tweetsContainer'.w(),
+      
+      headerView: SC.View.design({
+        layout: {top:0, right:0,left:0,height:65},
+        classNames: 'article-tweets-header'.w(),
+        childViews: 'titleView closeButton'.w(),
+
+        titleView: SC.LabelView.design({
+          layout: {left: 21, centerY: 0, height:21, right:60},
+          classNames: 'article-tweets-title'.w(),
+          value: 'Tweets'
+        }),
+
+        closeButton: Kiosque.ImageButtonView.design({
+          layout: {right: 21, centerY: 0, height:40,width:40},
+          value: sc_static('images/settings'),
+          action: function() {
+            SC.Logger.debug('close tweets') ;
+            Kiosque.statechart.sendEvent('closeTweets');
+          }
+        })
+      }),
+
+      tweetsContainer: SC.ScrollView.design({
+        layout: {left:0, right: 0, top: 65, bottom: 0},
+        canScrollVertical: NO,
+    	  hasVerticalScroller: NO,
+    	  hasHorizontalScroller: NO,
+    	  alwaysBounceHorizontal: NO,
+        alwaysBounceVertical: NO,
+        contentBinding: '*parentView.content',
+
+        contentView: SC.ListView.design({
+          layout: {top:0,right:0,bottom:0,left:0},
+          classNames: 'article-tweets-list'.w(),
+          contentBinding: 'Kiosque.tweetsController.arrangedObjects',
+          selectionBinding: 'Kiosque.tweetsController.selection'
+        })
+      })
+      
+    })
+    
   })
 
 });

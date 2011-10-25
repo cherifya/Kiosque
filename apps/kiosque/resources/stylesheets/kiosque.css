@@ -167,6 +167,43 @@ $theme.article-container {
     }
   }
   
+  .article-tweets {
+    background-color: rgba(0, 0, 0, 0.75);
+    height: 0px;
+    -webkit-transition: height .35s ease-in-out;
+    -webkit-transform: translateX(0);
+    
+    &.tweets-visible {
+      height: 100%;
+      //-webkit-transform: translate3d(0, 0, 0);
+      
+      .article-tweets-wrapper {
+        
+      }
+    }
+    
+    .article-tweets-wrapper {
+      
+      
+    }
+    
+    .article-tweets-header {
+      border-bottom: 5px solid white;
+      background: -webkit-gradient(linear, center top, center bottom, from(#666D79), to(#1D2839));
+      color: white;
+      text-shadow: 1px 1px 1px black;
+      
+      .article-tweets-title {
+        font-size: 18px;
+      }
+    }
+    
+    .article-tweets-list {
+      border-top: 1px solid #CCC;
+      background: -webkit-gradient(linear, center top, center 20%, from(rgba(0, 0, 0, .15)), to(transparent)), -webkit-gradient(linear, center bottom, center 80%, from(rgba(0, 0, 0, .15)), to(transparent)), white;
+    }
+  }
+  
   .article-content {
     font: 15px Georgia;
     -moz-column-count: 2;
