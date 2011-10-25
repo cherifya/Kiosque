@@ -121,6 +121,9 @@ Kiosque.statechart = SC.Statechart.create({
 		    tweetsView.set('isVisible',YES) ;
 		  }
 		  
+		  var articleUrl = Kiosque.articleController.getPath('content.url') ;
+		  Kiosque.tweetsController.set('selectedUrl', articleUrl) ;
+		  
 		  var jquery = tweetsView.$() ;
 		  jquery.addClass('tweets-visible') ;
 		},

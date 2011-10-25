@@ -30,10 +30,10 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
   // 
 
   fetch: function(store, query) {
+    var dataSource = this ;
     
     if (query.recordType == Kiosque.Feed) {
       var urls = query.get('feedUrls') ;
-      var dataSource = this ;
       var max = query.get('maxEntriesPerFeed') ;
       
       urls.forEach(function(url) {
@@ -60,6 +60,21 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
       query.set('queryLoaded', YES) ;
       
       return YES ;
+    }
+    else if (query.recordType == Kiosque.Tweet) {
+      var articleUrl = query.get('articleUrl') ;
+      var maxTweets = query.get('maxTweets') ;
+      //We use jQuery because we need JSONP support
+      jQuery.ajax({
+        url: document.location.protocol + '//search.twitter.com/search.json?rpp=%@&q=%@'.fmt(maxTweets, encodeURIComponent(articleUrl)),
+        dataType: 'jsonp',
+        context: dataSource,
+        success: function(response) {
+          SC.RunLoop.begin(); 
+          dataSource.didFetchTweets(response, articleUrl, store, query);
+          SC.RunLoop.end();
+        }
+      });     
     }
     
     return NO ; // return YES if you handled the query
@@ -99,6 +114,23 @@ Kiosque.FeedsDataSource = SC.DataSource.extend(
         store.dataSourceDidFetchQuery(query) ;
         query.set('queryLoaded', YES) ;
       }
+    }
+  },
+  
+  didFetchTweets: function(response, articleUrl, store, query) {
+    SC.Logger.debug('didFetchTweets for %@'.fmt(articleUrl)) ;
+    
+    //If request OK, load feed and entries
+    if ('results' in response) {
+      var results = response.results ;
+      
+      results.forEach(function(x) {
+        x.queryUrl = articleUrl ;
+      }) ;
+      
+      store.loadRecords(Kiosque.Tweet, results) ;
+      store.dataSourceDidFetchQuery(query) ;
+      query.set('queryLoaded', YES) ;
     }
   },
 
