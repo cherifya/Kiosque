@@ -38,7 +38,7 @@ Kiosque.ArticleView = SC.View.extend(
     
     tweetsButton: Kiosque.ImageButtonView.design({
       layout: {right:21, centerY: 0, height:40,width:40},
-      value: sc_static('images/settings'),
+      value: sc_static('images/twitter'),
       action: function() {
         Kiosque.statechart.sendEvent('tweets');
       }
@@ -110,7 +110,7 @@ Kiosque.ArticleView = SC.View.extend(
   
   tweetsView: SC.View.design({
     layout: {right:0,bottom:0,left:0, top:0},
-    isVisible: NO,
+    isVisible: YES,
     classNames: 'article-tweets'.w(),
     childViews: 'wrapper'.w(),
     
@@ -148,7 +148,7 @@ Kiosque.ArticleView = SC.View.extend(
 
         closeButton: Kiosque.ImageButtonView.design({
           layout: {right: 21, centerY: 0, height:40,width:40},
-          value: sc_static('images/settings'),
+          value: sc_static('images/twitter'),
           action: function() {
             Kiosque.statechart.sendEvent('closeTweets');
           }
