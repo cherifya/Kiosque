@@ -114,6 +114,22 @@ Kiosque.ArticleView = SC.View.extend(
     classNames: 'article-tweets'.w(),
     childViews: 'wrapper'.w(),
     
+    mouseDown: function() {
+      return YES;
+    },
+    
+    mouseUp: function() {
+      Kiosque.statechart.sendEvent('closeTweets');
+    },
+    
+    touchStart: function() {
+      return this.mouseDown() ;
+    },
+    
+    touchEnd: function() {
+      return this.mouseUp() ;
+    },
+    
     wrapper: SC.View.design({
       layout: {left:0, right: 0, height: 400, bottom: 0},
       classNames: 'article-tweets-wrapper'.w(),
@@ -127,14 +143,13 @@ Kiosque.ArticleView = SC.View.extend(
         titleView: SC.LabelView.design({
           layout: {left: 21, centerY: 0, height:21, right:60},
           classNames: 'article-tweets-title'.w(),
-          value: 'Tweets'
+          value: 'Reactions'
         }),
 
         closeButton: Kiosque.ImageButtonView.design({
           layout: {right: 21, centerY: 0, height:40,width:40},
           value: sc_static('images/settings'),
           action: function() {
-            SC.Logger.debug('close tweets') ;
             Kiosque.statechart.sendEvent('closeTweets');
           }
         })
@@ -142,18 +157,24 @@ Kiosque.ArticleView = SC.View.extend(
 
       tweetsContainer: SC.ScrollView.design({
         layout: {left:0, right: 0, top: 65, bottom: 0},
-        canScrollVertical: NO,
+        canScrollVertical: YES,
     	  hasVerticalScroller: NO,
     	  hasHorizontalScroller: NO,
     	  alwaysBounceHorizontal: NO,
-        alwaysBounceVertical: NO,
-        contentBinding: '*parentView.content',
+        alwaysBounceVertical: YES,
 
         contentView: SC.ListView.design({
           layout: {top:0,right:0,bottom:0,left:0},
           classNames: 'article-tweets-list'.w(),
           contentBinding: 'Kiosque.tweetsController.arrangedObjects',
-          selectionBinding: 'Kiosque.tweetsController.selection'
+          selectionBinding: 'Kiosque.tweetsController.selection',
+          rowHeight: 70,
+          exampleView: SC.LabelView.design({
+            classNames: 'tweet'.w(),
+
+            displayProperties: ['content'],
+            renderDelegateName: 'customTweetRenderDelegate'
+          })
         })
       })
       

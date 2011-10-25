@@ -201,6 +201,64 @@ $theme.article-container {
     .article-tweets-list {
       border-top: 1px solid #CCC;
       background: -webkit-gradient(linear, center top, center 20%, from(rgba(0, 0, 0, .15)), to(transparent)), -webkit-gradient(linear, center bottom, center 80%, from(rgba(0, 0, 0, .15)), to(transparent)), white;
+      
+      .tweet {
+        background: transparent;
+        font: 13px Georgia;
+        
+        &.sel {
+          color: black;
+        }
+        
+        .tweet-image {
+          background: white;
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          width: 52px;
+          height: 55px;
+          border: 1px solid #999;
+          -webkit-box-shadow: 0px 1px 5px #888;
+          
+          img {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+          }
+        }
+        
+        .tweet-info {
+          position: absolute;
+          top: 10px;
+          left: 80px;
+          width: 150px;
+          height: 40px;
+          
+          .user {
+            display:block;
+            
+            font-weight: bold;
+          }
+          
+          .date {
+            display: block;
+          }
+        }
+        .tweet-text {
+          position: absolute;
+          top: 10px;
+          left: 300px;
+          width: 400px;
+          height: 48px;
+          
+          font: 15px Georgia;
+          padding: 5px;
+          color: #111;
+          background: #f5f5f5;
+          border: 1px solid #DDD;
+          border-radius: 8px;
+        }
+      }
     }
   }
   
