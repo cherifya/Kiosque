@@ -39,6 +39,18 @@ Carrousel.mainPage = SC.Page.design({
   	  hasVerticalScroller: NO,
   	  alwaysBounceHorizontal: YES,
       alwaysBounceVertical: NO,
+      
+      _applyCSSTransforms: function(layer) {
+        var transform = "";
+        this.updateScale(this._scale);
+        transform += 'translate3d('+ -this._scroll_horizontalScrollOffset +'px, '+ -Math.round(this._scroll_verticalScrollOffset)+'px,0) ';
+        transform += this._scale_css;
+        if (layer) {
+          SC.Logger.debug('webkitTransform %@... %@'.fmt(transform,this));
+          //layer.style.webkitTransform = transform;
+          layer.style.webkitTransformOrigin = "top left";
+        }
+      },
   	  
   	  
   	  contentView: SC.GridView.design({

@@ -89,6 +89,10 @@ Kiosque.ArticlesPageView = SC.GridView.extend(
     ret.minWidth = itemsPerRow * columnWidth;
     this.calculatedWidth = ret.minWidth;
     return ret; 
+  },
+  
+  toString: function() {
+    return 'page %@'.fmt(this.get('content')) ;
   }
 
 });

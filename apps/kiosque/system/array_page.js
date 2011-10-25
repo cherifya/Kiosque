@@ -126,6 +126,10 @@ Kiosque.ArrayPage = SC.Object.extend(SC.Array,
   
   _masterDidChange: function() {
     this.allPropertiesDidChange() ;
-  }.observes('*masterArray.[]')
+  }.observes('*masterArray.[]'),
+  
+  toString: function() {
+    return 'index %@'.fmt(this.get('pageIndex')) ;
+  }
 
 });

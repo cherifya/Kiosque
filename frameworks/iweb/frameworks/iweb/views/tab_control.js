@@ -644,10 +644,12 @@ Iweb.TabControlView = SC.View.extend(
 	_deactivateCssTransitionForCurrentTabs: function() {
 	  var currentTabIndex = this.get('currentTabIndex') ;
 	  
+	  this.invokeLater('_flick', 90, 0) ;
+	  
 	  for(var i = currentTabIndex - 1; i < this._tabViews.length && i <= currentTabIndex + 1; i++) {
 	    if (i < 0) continue ;
 			var view = this._tabViews[i] ;
-			//view.set('isActive', YES) ;
+			view.set('isActive', YES) ;
 			view.$().css('-webkit-transition-property', 'none') ;
 		}
 	},
