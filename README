@@ -3,6 +3,8 @@ Project:   Kiosque
 Copyright: @2011 Strobe, Inc.
 ==========================================================================
 
-Kiosque is a general purpose RSS reader. It is designed with the iPad form factor in mind and features a beautiful grid like layout for articles. 
+Kiosque is a general purpose RSS reader demo app. It is designed with the iPad form factor in mind and features a beautiful grid like layout for articles. 
 The user can interact with the application by flicking between pages of articles.
+
+The goal of this demo app is to showcase Sproutcore's features. It is built on Sproutcore 1.7 .
 
