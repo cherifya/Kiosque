@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   Tab - mainPage
-// Copyright: ©2010 My Company, Inc.
+// Copyright: ©2010 Strobe, Inc.
 // ==========================================================================
 /*globals Kiosque Iweb */
 require('views/articles_grid_view');

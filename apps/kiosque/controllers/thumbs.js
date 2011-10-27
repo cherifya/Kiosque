@@ -6,7 +6,7 @@
 
 /** @class
 
-  Carrousel items controller
+  Carrousel items controller for managing page numbers.
 
   @author Cherif Yaya
   @extends SC.ArrayController
@@ -36,6 +36,11 @@ Kiosque.thumbsController = SC.ArrayController.create(
     }
   }.observes('selection'),
   
+  /**
+	 Creates a content array containing the page indexes of current pages of the artiles grid.
+	 
+	 @return {SC.Array} The array of page indexes
+	*/
   content: function() {
     var pages = [],
         nbPages = this.get('nbPages'),

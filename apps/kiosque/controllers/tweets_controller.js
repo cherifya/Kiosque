@@ -6,7 +6,7 @@
 
 /** @class
 
-  This controller class manages tweets items
+  This controller class manages tweets items.
 
   @extends SC.ArrayController
 */
@@ -19,6 +19,9 @@ Kiosque.tweetsController = SC.ArrayController.create(
   selectedUrl: null,
   maxTweets: 10,
   
+  /**
+	 Loads tweets related to the currently selected article.
+	*/
   loadTweets: function() {
     var query,
         tweets = this.get('content'),

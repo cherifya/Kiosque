@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   Kiosque.RssSource Unit Test
-// Copyright: @2011 My Company, Inc.
+// Copyright: @2011 Strobe, Inc.
 // ==========================================================================
 /*globals Kiosque module test ok equals same stop start */
 

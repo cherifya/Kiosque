@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   Kiosque.FixturesDataSource
-// Copyright: @2011 My Company, Inc.
+// Copyright: @2011 Strobe, Inc.
 // ==========================================================================
 /*globals Kiosque */
 

@@ -8,6 +8,9 @@
 /**
   @class
   Root statechart of the app.
+  There are essentially two states:
+  - the 'feeds' state : articles from feeds are displayed in a grid
+  - the 'articles' state: a single article is selected and displayed fullscreen
 
   @author Cherif Yaya
 */
@@ -26,6 +29,9 @@ Kiosque.statechart = SC.Statechart.create({
 		  }
 		},
 		
+		/**
+  	 Loads feeds and articles when app starts
+  	*/
 		initData: function() {
 		  this.showSpinner() ;
 		  
@@ -38,18 +44,29 @@ Kiosque.statechart = SC.Statechart.create({
 			//this.get('pane').remove();
 		},
 		
+		/**
+  	 Display the selected article full screen.
+  	 
+  	 @param {SC.Record} article The selected article record.
+  	*/
 		openArticle: function(article) {
 		  if (SC.none(article)) return ;
 		  Kiosque.articleController.set('content', article) ;
 			this.gotoState('articles');
 		},
 		
+		/**
+  	 Restrict displayed articles to a single source
+  	*/
 		filterSource: function(source) {
 		  if (!SC.none(source)) {
 		    Kiosque.articlesController.loadArticlesFromSource(source) ;
 		  }
 		},
 		
+		/**
+  	 Show a spinning wheel while loading data.
+  	*/
 		showSpinner: function() {
 		  var pane = this.get('loadingPane') ;
 		  
@@ -76,6 +93,9 @@ Kiosque.statechart = SC.Statechart.create({
       this.setIfChanged('loadingPane', pane);
 		},
 		
+		/**
+  	 Hides spinning wheel.
+  	*/
 		hideSpinner: function() {
 		  var pane = this.get('loadingPane') ;
 		  if (pane && pane.get('isPaneAttached')) {
@@ -108,10 +128,16 @@ Kiosque.statechart = SC.Statechart.create({
 			//view.set('isVisible', NO) ;
 		},
 		
+		/**
+  	 Close full screen article view and return to feeds state with articles laid out in a grid.
+  	*/
 		close: function() {
 			this.gotoState('feeds');
 		},
 		
+		/**
+  	 Loads tweets related to the currently displayed article.
+  	*/
 		tweets: function() {
 		  SC.Logger.debug('tweets') ;
 			var view = this.get('view') ;
@@ -128,6 +154,9 @@ Kiosque.statechart = SC.Statechart.create({
 		  jquery.addClass('tweets-visible') ;
 		},
 		
+		/**
+  	 Close tweets panel. 
+  	*/
 		closeTweets: function() {
 			var view = this.get('view') ;
 			var tweetsView = view.get('tweetsView') ;

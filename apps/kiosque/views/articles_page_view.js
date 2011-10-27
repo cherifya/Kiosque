@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   Kiosque.ArticlesPageView
-// Copyright: @2011 My Company, Inc.
+// Copyright: @2011 Strobe, Inc.
 // ==========================================================================
 /*globals Kiosque */
 require('views/article_thumbnail_view');

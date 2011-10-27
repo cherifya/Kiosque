@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   Kiosque.sourcesController
-// Copyright: @2011 My Company, Inc.
+// Copyright: @2011 Strobe, Inc.
 // ==========================================================================
 /*globals Kiosque */
 
@@ -16,6 +16,9 @@ Kiosque.sourcesController = SC.ArrayController.create(SC.CollectionViewDelegate,
   loadingData: NO,
   selection: null,
 
+  /**
+	 Loads all rss sources from the store.
+	*/
   loadSources: function() {
     this.set('loadingData', YES) ;
     var controller = this,
@@ -37,6 +40,9 @@ Kiosque.sourcesController = SC.ArrayController.create(SC.CollectionViewDelegate,
     else feeds.refresh() ;
   },
   
+  /**
+	 Restricts the displayed feeds to the selected source when the source changes.
+	*/
   selectionDidChange: function() {
     var selection = this.get('selection') ;
     if (selection && selection.get('length') > 0) {
@@ -46,6 +52,7 @@ Kiosque.sourcesController = SC.ArrayController.create(SC.CollectionViewDelegate,
       Kiosque.statechart.sendEvent('filterSource', source) ;
     }
   }.observes('selection'),
+  
   
   showPickerPane: function(sender) {
     var pane = SC.PickerPane.create({

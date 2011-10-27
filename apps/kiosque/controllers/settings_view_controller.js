@@ -1,12 +1,12 @@
 // ==========================================================================
 // Project:   Kiosque.settingsViewController
-// Copyright: @2011 My Company, Inc.
+// Copyright: @2011 Strobe, Inc.
 // ==========================================================================
 /*globals Kiosque */
 
 /** @class
 
-  (Document Your Controller Here)
+  Controller class for the settings panel.
 
   @extends SC.Object
 */

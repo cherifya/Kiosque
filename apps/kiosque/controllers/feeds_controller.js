@@ -21,6 +21,9 @@ Kiosque.feedsController = SC.ArrayController.create(
   maxEntriesPerFeed: 45,
   selection: null,
   
+  /**
+	 Loads all registered feeds from the store.
+	*/
   loadFeeds: function() {
     this.set('loadingData', YES) ;
     var controller = this,
@@ -45,6 +48,9 @@ Kiosque.feedsController = SC.ArrayController.create(
     else feeds.refresh() ;
   },
   
+  /**
+	 Displays a spinning wheel while loading feeds and articles data.
+	*/
   loadingDataDidChange: function() {
     var loadingData = this.get('loadingData') ;
     if (!loadingData) {
@@ -55,6 +61,9 @@ Kiosque.feedsController = SC.ArrayController.create(
     }
   }.observes('loadingData'),
   
+  /**
+	 Called when data loading is over to hide spinner.
+	*/
   hideSpinner: function() {
     Kiosque.statechart.sendEvent('hideSpinner') ;
   }

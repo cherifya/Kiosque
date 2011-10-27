@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   Tab.NavigationView Unit Test
-// Copyright: ©2010 My Company, Inc.
+// Copyright: ©2010 Strobe, Inc.
 // ==========================================================================
 /*globals Tab module test ok equals same stop start */
 

@@ -13,7 +13,11 @@
 */
 Kiosque.preferencesController = SC.ObjectController.create(
 /** @scope ZicTube.preferencesController.prototype */ {
-	
+	/**
+	 Reads saved feeds from the persistence storage (cookies at the moment)
+	 
+	 @return {SC.Array} Array containing all saved feeds
+	*/
 	feeds: function(key, value) {
     
 		//read value
@@ -27,6 +31,11 @@ Kiosque.preferencesController = SC.ObjectController.create(
 		return _feeds ;
 	}.property(),
 	
+	/**
+	 Add the passed feeds to the persistence storage.
+	 
+	 @param {SC.Array|Object} feeds List of feeds to save
+	*/
 	addFeed: function(feeds) {
 	  if(SC.none(feeds)) return ;
 	  if (SC.typeOf(feeds) !== SC.T_ARRAY) feeds = [feeds] ;
@@ -42,6 +51,11 @@ Kiosque.preferencesController = SC.ObjectController.create(
 	  this.setPreference('feeds', _feeds) ;
 	},
 	
+	/**
+	 Remove passed feed from the saved feeds.
+	 
+	 @param {Object} feed Feed to remove 
+	*/
 	removeFeed: function(feed) {
 	  if(SC.none(feed)) return ;
 	  
@@ -62,14 +76,31 @@ Kiosque.preferencesController = SC.ObjectController.create(
 	  this.setPreference('feeds', _feeds) ;
 	},
 	
+	/**
+	 Remove all saved feeds from the persistence storage.
+	 
+	 @param {SC.View} tab View to be added as a new tab 
+	*/
 	resetFeeds: function() {
 	  resetCookie('feeds') ;
 	},
 	
+	/**
+	 Save the passed key value pair as a browser cookie valid for 60 days.
+	 Offers a persistence layer for storing preferences.
+	 
+	 @param {String} prefName Preference name
+	 @param {Object} prefValue Preference value
+	*/
 	setPreference: function(prefName, prefValue) {
 		createCookie(prefName, serializeJSObject(prefValue), 60) ;
 	},
 	
+	/**
+	 Read the preference with the passed name.
+	 
+	 @param {String} prefName Name of preference to read 
+	*/
 	readPreference: function(prefName) {
 		var prefValue = readCookie(prefName) ;
 		prefValue = eval(prefValue) ;

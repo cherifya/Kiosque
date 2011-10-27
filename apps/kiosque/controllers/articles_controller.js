@@ -16,6 +16,10 @@ Kiosque.articlesController = SC.ArrayController.create(
   content: null,
   selection: null,
   
+  /**
+	 Load all articles for all sources
+   
+	*/
   loadArticles: function() {
     var query,
         articles = this.get('content') ;
@@ -30,6 +34,11 @@ Kiosque.articlesController = SC.ArrayController.create(
     else articles.refresh() ;
   },
   
+  /**
+	 Load articles for a specific source.
+	 
+	 @param {SC.Record} source Source record to load articles for 
+	*/
   loadArticlesFromSource: function(source) {
     var query, feed,
         articles = this.get('content') ;
@@ -37,23 +46,13 @@ Kiosque.articlesController = SC.ArrayController.create(
     feed = Kiosque.store.find(Kiosque.Feed, source.get('url')) ;
     
     this.set('content', feed.get('articles')) ;
-    /*
-    if (!SC.none(feed)) {
-      query = SC.Query.local(Kiosque.Article, {
-        orderBy: 'publishedDate DESC',
-        conditions: 'feeds = {selected}',
-        parameters: {
-          selected: feed
-        }
-      }) ;
-      articles = Kiosque.store.find(query) ;
-      Kiosque.articlesController.set('content', articles) ;
-    }
-    
-    */
     
   },
   
+  /**
+	 Open the article view when an article is selected.
+	  
+	*/
   selectionDidChange: function() {
     var selection = this.get('selection') ;
     if (selection && selection.get('length') > 0) {

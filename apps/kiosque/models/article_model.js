@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   Kiosque.Article
-// Copyright: @2011 My Company, Inc.
+// Copyright: @2011 Strobe, Inc.
 // ==========================================================================
 /*globals Kiosque */
 
@@ -24,6 +24,11 @@ Kiosque.Article = SC.Record.extend(
   feeds: SC.Record.toMany('Kiosque.Feed', {isMaster: NO, inverse:'articles'}),
   source: SC.Record.toOne('Kiosque.RssSource'),
   
+  /**
+	 Search the article content and use the first encountered image as the image cover.
+	 
+	 @return {String} tab Url to the cover image for this article
+	*/
   cover: function() {
     var content = this.get('content') ;
     var cover = null ;
