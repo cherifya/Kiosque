@@ -3,5 +3,6 @@ Project:   Kiosque
 Copyright: @2011 Strobe, Inc.
 ==========================================================================
 
-TODO: Describe Your Project
+Kiosque is a general purpose RSS reader. It is designed with the iPad form factor in mind and features a beautiful grid like layout for articles. 
+The user can interact with the application by flicking between pages of articles.
 
