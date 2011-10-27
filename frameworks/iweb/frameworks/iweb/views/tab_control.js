@@ -165,7 +165,7 @@ Iweb.TabControlView = SC.View.extend(
 		if (tab.isClass) {
 		  tab = container.createChildView(tab, {
   		  tabIndex: tabCount,
-  		  isActive: NO,
+  		  isActive: YES,
 
   		  render: function(context, firstTime) {
       		sc_super();
@@ -323,7 +323,6 @@ Iweb.TabControlView = SC.View.extend(
 	 @param {Number|String} index Index of tab to navigate to. 
 	*/
 	navigateToTab: function(index) {
-	  SC.Logger.info('navigateToTab(%@)'.fmt(index));
 	  //if name of tab passed, map to tab Index
 	  if (SC.typeOf(index) == SC.T_STRING) index  = this._tabNames[index] ;
 	  if (SC.none(index)) return ;
@@ -348,8 +347,8 @@ Iweb.TabControlView = SC.View.extend(
 			var delta = i - index ;
 			
 			//hide invisible tabs
-			if(delta !== 0) view.set('isActive', NO) ;
-			else view.set('isActive', YES) ;
+			//if(delta !== 0) view.set('isActive', NO) ;
+			//else view.set('isActive', YES) ;
 			
 			//notify view that it's about to become the front tab
 			if(delta === 0 && view.willBecomeFrontTab)	view.willBecomeFrontTab() ;
@@ -546,7 +545,7 @@ Iweb.TabControlView = SC.View.extend(
 			
 			//reset CSS transforms on view
 			var sTranslate = 'translateX(%@px)'.fmt(delta * frame.width) ;
-			view.$().css({'-webkit-transform': sTranslate, '-moz-transform': sTranslate}) ;
+			view.$().css({'-webkit-transform': sTranslate}) ;
 		}
 	},
 	
@@ -557,7 +556,7 @@ Iweb.TabControlView = SC.View.extend(
 	
 	/** @private */
 	touchStart: function(touch) {
-	  SC.Logger.info('TabControl touchStart()');
+	  SC.Logger.debug('TabControl touchStart()');
 	  this._touch = {
 	    start: {x: touch.pageX, y: touch.pageY}
 	  } ;
@@ -644,7 +643,7 @@ Iweb.TabControlView = SC.View.extend(
 	_deactivateCssTransitionForCurrentTabs: function() {
 	  var currentTabIndex = this.get('currentTabIndex') ;
 	  
-	  this.invokeLater('_flick', 90, 0) ;
+	  this.invokeLater('_flick', 30, 0) ;
 	  
 	  for(var i = currentTabIndex - 1; i < this._tabViews.length && i <= currentTabIndex + 1; i++) {
 	    if (i < 0) continue ;
